@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aura Coffee - 따뜻한 일상을 채우는 커피</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <!-- 메인 헤더 (상단 스티키) -->
+  <header class="main-header glass">
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">☕</span>
+        <span class="logo-text">Aura Coffee</span>
+      </a>
+      <div class="header-actions">
+        <!-- 관리자 바로가기 -->
+        <a href="admin/menus/list.html" class="admin-link-btn" title="관리자 모드">
+          <span class="icon">⚙️</span>
+          <span class="text">관리자</span>
+        </a>
+        <!-- 장바구니 바로가기 -->
+        <a href="basket/list.html" class="icon-btn header-cart" aria-label="장바구니">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-badge" id="cart-badge" data-count="0" style="display: none;">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 레이아웃 컨테이너 -->
+  <main class="main-container">
+    <!-- 히어로 배너 섹션 -->
+    <section class="hero-section">
+      <div class="hero-image-wrapper">
+        <img src="images/cafe_hero.jpg" alt="Aura Coffee Interior" class="hero-image" />
+        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-content">
+        <h2 class="hero-title">당신의 일상에<br>따뜻한 아우라를 더합니다</h2>
+        <p class="hero-subtitle">엄선된 원두로 내린 스페셜티 커피와 매일 아침 구워내는 디저트</p>
+        <a href="menus/list.html" class="btn-primary-hero">지금 바로 주문하기</a>
+      </div>
+    </section>
+
+    <!-- 퀵 네비게이션 카드 그리드 -->
+    <section class="quick-nav-section">
+      <div class="section-header">
+        <h3 class="section-title">빠른 서비스</h3>
+      </div>
+      <div class="quick-nav-grid">
+        <a href="menus/list.html" class="nav-card glass">
+          <div class="nav-icon-box">📋</div>
+          <div class="nav-info">
+            <h4>전체 메뉴판</h4>
+            <p>신선한 음료와 디저트</p>
+          </div>
+          <span class="nav-arrow">→</span>
+        </a>
+        <a href="basket/list.html" class="nav-card glass">
+          <div class="nav-icon-box">🛒</div>
+          <div class="nav-info">
+            <h4>장바구니</h4>
+            <p>담아둔 메뉴 주문하기</p>
+          </div>
+          <span class="nav-arrow">→</span>
+        </a>
+        <a href="orders/list.html" class="nav-card glass">
+          <div class="nav-icon-box">📜</div>
+          <div class="nav-info">
+            <h4>주문 내역</h4>
+            <p>내 주문 상태 및 영수증</p>
+          </div>
+          <span class="nav-arrow">→</span>
+        </a>
+        <a href="my/index.html" class="nav-card glass">
+          <div class="nav-icon-box">👤</div>
+          <div class="nav-info">
+            <h4>마이페이지</h4>
+            <p>회원 정보 및 설정</p>
+          </div>
+          <span class="nav-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 사장님 추천 / 인기 메뉴 쇼케이스 -->
+    <section class="popular-section">
+      <div class="section-header">
+        <div>
+          <h3 class="section-title">Aura 인기 메뉴</h3>
+          <p class="section-desc">많은 분들이 사랑하시는 베스트 메뉴입니다</p>
+        </div>
+        <a href="menus/list.html" class="view-all-link">전체보기 <span>&gt;</span></a>
+      </div>
+      <div class="popular-grid" id="popular-menu-grid">
+        <!-- JS에서 동적으로 로드 및 렌더링 -->
+        <div class="loading-state">인기 메뉴를 불러오는 중입니다...</div>
+      </div>
+    </section>
+
+    <!-- 브랜드 안내 배너 -->
+    <section class="brand-info-section glass">
+      <div class="info-content">
+        <span class="info-tag">Our Promise</span>
+        <h3>Aura Coffee의 특별함</h3>
+        <ul>
+          <li>
+            <span class="bullet">🌱</span>
+            <div class="li-text">
+              <strong>스페셜티 생두 사용</strong>
+              <p>친환경 공정으로 공수된 프리미엄 생두를 미디엄 로스팅하여 산미와 고소함의 밸런스를 맞췄습니다.</p>
+            </div>
+          </li>
+          <li>
+            <span class="bullet">🥛</span>
+            <div class="li-text">
+              <strong>신선한 로컬 우유</strong>
+              <p>모든 밀크 베리에이션 음료에는 국산 신선 1등급 우유만을 사용하여 부드러움을 극대화했습니다.</p>
+            </div>
+          </li>
+          <li>
+            <span class="bullet">🥐</span>
+            <div class="li-text">
+              <strong>당일 생산 디저트</strong>
+              <p>기성품을 쓰지 않고 오직 매일 아침 구워내는 바삭한 오가닉 베이커리만 제공합니다.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- 하단 네비게이션 바 (모바일 특화 플로팅 바) -->
+  <nav class="bottom-bar glass">
+    <a href="index.html" class="bottom-tab active">
+      <span class="icon">🏠</span>
+      <span class="label">홈</span>
+    </a>
+    <a href="menus/list.html" class="bottom-tab">
+      <span class="icon">📋</span>
+      <span class="label">메뉴</span>
+    </a>
+    <a href="basket/list.html" class="bottom-tab">
+      <span class="icon">🛒</span>
+      <span class="label">장바구니</span>
+    </a>
+    <a href="orders/list.html" class="bottom-tab">
+      <span class="icon">📜</span>
+      <span class="label">주문내역</span>
+    </a>
+    <a href="my/index.html" class="bottom-tab">
+      <span class="icon">👤</span>
+      <span class="label">MY</span>
+    </a>
+  </nav>
+
+  <!-- 푸터 -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <p class="copyright">© 2026 Aura Coffee. All Rights Reserved.</p>
+      <p class="address">서울특별시 마포구 백범로 31길 21 | 대표: 홍길동 | 고객센터: 1544-0000</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
