@@ -1,0 +1,1047 @@
+/* ==========================================================================
+   Cafe Isle 마이페이지 스타일
+   ========================================================================== */
+
+/* ---------------- 레이아웃 & 공통 ---------------- */
+
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  height: var(--header-height);
+  border-radius: 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.page-header h1 {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.page-header p {
+  font-size: 0.7rem;
+  color: var(--color-text-light);
+}
+
+.mypage-container {
+  max-width: var(--max-width-mobile);
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-md) calc(var(--spacing-2xl) + 80px); /* 하단 바 영역 패딩 */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* ---------------- 1. 프로필 카드 ---------------- */
+
+.profile-section {
+  padding: var(--spacing-lg);
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  position: relative;
+}
+
+.profile-avatar-container {
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
+}
+
+.avatar-edit-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.avatar-edit-btn:hover {
+  transform: scale(1.1);
+  background: var(--color-primary-dark);
+}
+
+.profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name-badge-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.profile-name {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.user-grade-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+.grade-bronze {
+  background: #cd7f32;
+  box-shadow: 0 2px 6px rgba(205, 127, 50, 0.4);
+}
+
+.grade-silver {
+  background: #bdc3c7;
+  box-shadow: 0 2px 6px rgba(189, 195, 199, 0.4);
+}
+
+.grade-gold {
+  background: #f1c40f;
+  color: #3b2a1e;
+  box-shadow: 0 2px 6px rgba(241, 196, 15, 0.4);
+}
+
+.profile-email {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+}
+
+.profile-phone {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+}
+
+.btn-edit-profile {
+  padding: 6px 12px;
+  border: 1px solid var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  background: rgba(111, 78, 55, 0.05);
+  transition: all var(--transition-fast);
+}
+
+.btn-edit-profile:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* ---------------- 1.5 최근 주문 내역 ---------------- */
+
+.recent-order-section {
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.recent-order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+#recent-order-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.all-orders-link {
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.all-orders-link:hover {
+  color: var(--color-primary-dark);
+}
+
+.recent-order-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.recent-order-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-md);
+}
+
+.order-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-date {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+  font-family: "Outfit", sans-serif;
+}
+
+.status-badge-recent {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+/* 완료 상태 */
+.status-badge-recent.status-completed {
+  background: rgba(107, 144, 128, 0.12);
+  color: var(--color-success);
+  border: 1px solid rgba(107, 144, 128, 0.25);
+}
+
+/* 진행중/준비중 상태 */
+.status-badge-recent.status-processing {
+  background: rgba(224, 169, 109, 0.12);
+  color: var(--color-accent);
+  border: 1px solid rgba(224, 169, 109, 0.25);
+}
+
+/* 취소 상태 */
+.status-badge-recent.status-cancelled {
+  background: rgba(186, 45, 37, 0.08);
+  color: #ba2d25;
+  border: 1px solid rgba(186, 45, 37, 0.15);
+}
+
+.order-card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.order-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.order-price {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  font-family: "Outfit", sans-serif;
+}
+
+.no-recent-order {
+  text-align: center;
+  padding: var(--spacing-lg) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.no-recent-order p {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+}
+
+.btn-shop-now {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-primary);
+  color: white;
+  text-decoration: none;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-shop-now:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+
+/* ---------------- 2. 스탬프 멤버십 카드 ---------------- */
+
+.membership-section {
+  padding: var(--spacing-lg);
+}
+
+.membership-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+.card-title {
+  font-family: "Outfit", sans-serif;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.stamp-count-text {
+  font-family: "Outfit", sans-serif;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text-light);
+}
+
+.stamp-count-text .highlight {
+  color: var(--color-accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.stamp-desc {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+  line-height: 1.4;
+  margin-bottom: var(--spacing-md);
+}
+
+.stamp-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.stamp-slot {
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  border: 2px dashed rgba(111, 78, 55, 0.25);
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  position: relative;
+  transition: all var(--transition-base);
+}
+
+.stamp-slot.stamped {
+  border-style: solid;
+  border-color: var(--color-accent);
+  background: var(--color-bg-secondary);
+  box-shadow: inset 0 2px 4px rgba(74, 44, 29, 0.08);
+  animation: stampPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stamp-slot.gift {
+  border-color: var(--color-primary-light);
+  background: rgba(217, 160, 91, 0.15);
+}
+
+.stamp-slot.gift::after {
+  content: "🎁";
+  font-size: 0.85rem;
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+}
+
+.stamp-slot.gift.stamped::after {
+  display: none;
+}
+
+.stamp-number {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(111, 78, 55, 0.35);
+  font-family: "Outfit", sans-serif;
+}
+
+.stamp-slot.stamped .stamp-number {
+  display: none;
+}
+
+.membership-coupon-alert {
+  background: rgba(107, 144, 128, 0.12);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-weight: 500;
+  margin-top: var(--spacing-sm);
+  animation: slideDown 0.3s ease;
+}
+
+/* ---------------- 3. 주문 통계 ---------------- */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+
+.stat-card {
+  padding: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.stat-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+}
+
+.stat-value {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+/* ---------------- 4. 쿠폰함 ---------------- */
+
+.coupons-section {
+  padding: var(--spacing-lg);
+}
+
+.coupon-count {
+  background: var(--color-accent);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-left: var(--spacing-xs);
+  vertical-align: middle;
+}
+
+.coupons-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.coupon-card {
+  display: flex;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+.coupon-card:hover {
+  transform: translateY(-2px);
+}
+
+/* 쿠폰 모양 점선 & 티켓 데코 */
+.coupon-card::before,
+.coupon-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  z-index: 2;
+}
+
+.coupon-card::before {
+  left: -8px;
+  transform: translateY(-50%);
+  border-left-color: transparent;
+}
+
+.coupon-card::after {
+  right: -8px;
+  transform: translateY(-50%);
+  border-right-color: transparent;
+}
+
+.coupon-left {
+  flex: 1.3;
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg-secondary) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px dashed var(--color-border);
+}
+
+.coupon-value {
+  font-family: "Outfit", sans-serif;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.coupon-value.highlight {
+  color: var(--color-accent);
+}
+
+.coupon-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 2px;
+}
+
+.coupon-right {
+  flex: 1;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  background: var(--color-surface);
+}
+
+.coupon-expiry {
+  font-size: 0.65rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-xs);
+}
+
+.coupon-btn {
+  padding: 4px 10px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  transition: background var(--transition-fast);
+}
+
+.coupon-btn:hover {
+  background: var(--color-primary-dark);
+}
+
+.no-coupons {
+  text-align: center;
+  color: var(--color-text-light);
+  padding: var(--spacing-lg) 0;
+  font-size: var(--font-size-sm);
+}
+
+/* 링크 가능한 통계 카드 스타일 */
+.stat-card.link-card {
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.stat-card.link-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-md);
+}
+
+/* ---------------- 4.5 나의 활동 ---------------- */
+.activity-section {
+  padding: var(--spacing-lg);
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.activity-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-md);
+}
+
+.activity-item-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.activity-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-secondary);
+  color: var(--color-primary);
+}
+
+.activity-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.activity-arrow {
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  transition: transform var(--transition-fast);
+}
+
+.activity-item:hover .activity-arrow {
+  transform: translateX(3px);
+  color: var(--color-primary);
+}
+
+/* ---------------- 5. 설정 ---------------- */
+
+.settings-section {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid rgba(111, 78, 55, 0.08);
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.setting-text strong {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.setting-text p {
+  font-size: 0.7rem;
+  color: var(--color-text-light);
+}
+
+
+
+/* ---------------- 6. 모달 ---------------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(74, 44, 29, 0.4);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-container {
+  width: calc(100% - var(--spacing-xl));
+  max-width: 360px;
+  padding: var(--spacing-lg);
+  transform: translateY(20px);
+  transition: transform var(--transition-base);
+}
+
+.modal-overlay.active .modal-container {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--spacing-sm);
+}
+
+.modal-header h3 {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.close-modal-btn {
+  font-size: 1.5rem;
+  color: var(--color-text-light);
+  line-height: 1;
+}
+
+.close-modal-btn:hover {
+  color: var(--color-primary);
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-group label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.form-group input {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  background: rgba(255, 255, 255, 0.6);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  transition: border-color var(--transition-fast);
+}
+
+.form-group input:focus {
+  border-color: var(--color-accent);
+  background: white;
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-align: center;
+}
+
+.btn-secondary {
+  border: 1px solid var(--color-border);
+  color: var(--color-text-light);
+  background: var(--color-surface);
+  transition: background var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background: var(--color-bg-secondary);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+  transition: background var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+/* 아바타 선택 모달 특화 */
+.avatar-modal {
+  max-width: 320px;
+}
+
+.avatar-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+}
+
+.avatar-option {
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--transition-fast);
+}
+
+.avatar-option:hover {
+  transform: scale(1.1);
+  background: var(--color-bg-secondary);
+  border-color: var(--color-accent);
+}
+
+/* ---------------- 다크 모드 (데모용 바디 클래스) ---------------- */
+body.dark-mode {
+  --color-bg: #1c1410;
+  --color-bg-secondary: #2c1d16;
+  --color-surface: #2d231e;
+  --color-text: #f0e6e0;
+  --color-text-light: #bca89f;
+  --color-text-inverse: #1c1410;
+  --glass-bg: rgba(45, 35, 30, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --color-border: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .icon-btn {
+  background: var(--color-surface);
+}
+
+body.dark-mode .stamp-slot {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .stamp-slot.stamped {
+  background: var(--color-primary-light);
+}
+
+body.dark-mode .coupon-left {
+  background: linear-gradient(135deg, var(--color-surface) 0%, #3d2f28 100%);
+}
+
+body.dark-mode .coupon-right {
+  background: var(--color-surface);
+}
+
+body.dark-mode .form-group input {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .form-group input:focus {
+  background: var(--color-surface);
+}
+
+/* ---------------- 애니메이션 정의 ---------------- */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes stampPop {
+  0% { transform: scale(0.6); opacity: 0.5; }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ---------------- 최근 주문 상세 아이템 목록 스타일 ---------------- */
+.recent-order-items-list {
+  display: none; /* 기본 모바일에서는 상세 내역을 가려 쾌적성 유지 */
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px dashed var(--color-border);
+}
+
+.recent-order-item-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+}
+
+.recent-order-item-name {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.recent-order-item-opt {
+  font-size: 0.65rem;
+  background: var(--color-bg-secondary);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  margin-left: var(--spacing-xs);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.recent-order-item-qty {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ---------------- 마이페이지 모바일/공통 래퍼 ---------------- */
+.mypage-columns-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.mypage-column-left,
+.mypage-column-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* ---------------- PC 환경 반응형 대응 ---------------- */
+@media (min-width: 768px) {
+  .mypage-container {
+    max-width: 960px;
+    display: block; /* 그리드를 해제하여 프로필이 100%를 차지하게 함 */
+    padding: var(--spacing-xl) var(--spacing-md) calc(var(--spacing-2xl) + 40px);
+  }
+
+  .profile-section {
+    margin-bottom: var(--spacing-lg); /* 아래 컬럼 래퍼와의 여백 확보 */
+  }
+  
+  .mypage-columns-wrapper {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: stretch; /* 좌우 컬럼 높이를 동일하게 확장 */
+  }
+
+  .mypage-column-left,
+  .mypage-column-right {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .recent-order-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #recent-order-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .coupons-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .coupons-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .recent-order-items-list {
+    display: flex; /* PC 화면에서는 풍성하게 보여서 빈공간을 채움 */
+  }
+}

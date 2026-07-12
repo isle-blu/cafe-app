@@ -9,15 +9,47 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/variables.css" />
   <link rel="stylesheet" href="detail.css" />
+  <script src="../js/theme.js"></script>
 </head>
 <body>
   <header class="page-header glass">
     <a href="list.html" class="icon-btn back-link" aria-label="목록으로">
-      <span aria-hidden="true">←</span>
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
     </a>
     <div class="header-text">
       <h1>주문 상세</h1>
       <p>주문 내역을 자세히 확인해보세요</p>
+    </div>
+    <!-- 테마 토글 스위치 -->
+    <div class="theme-toggle-wrapper">
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle-btn" aria-label="다크 모드 토글" />
+        <span class="slider round">
+          <span class="handle">
+            <span class="icon-sun">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </span>
+            <span class="icon-moon">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </span>
+          </span>
+        </span>
+      </label>
     </div>
   </header>
 

@@ -259,3 +259,53 @@
   color: var(--color-text-light);
   padding: var(--spacing-2xl) 0;
 }
+
+/* ---------------- PC 환경 반응형 대응 ---------------- */
+@media (min-width: 768px) {
+  .detail-container {
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .detail-image-container {
+    grid-column: 1;
+    grid-row: 1 / span 10;
+    aspect-ratio: 1 / 1;
+    margin-bottom: 0;
+  }
+
+  .detail-info {
+    grid-column: 2;
+  }
+
+  .option-group {
+    grid-column: 2;
+  }
+
+  .qty-selector {
+    grid-column: 2;
+  }
+
+  .action-bar {
+    grid-column: 2;
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: var(--spacing-sm) 0 0 0 !important;
+    background: transparent !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    margin-top: var(--spacing-md);
+  }
+
+  .action-bar-container {
+    padding: 0 !important;
+  }
+}

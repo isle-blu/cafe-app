@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마이페이지 - Cafe Isle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="index.css" />
+  <script src="../js/theme.js"></script>
+</head>
+<body>
+  <!-- 헤더 (상단 스티키) -->
+  <header class="page-header glass">
+    <a href="../index.html" class="icon-btn back-link" aria-label="메인으로">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+    </a>
+    <div class="header-text">
+      <h1>마이페이지</h1>
+      <p>회원 정보 및 스탬프 내역을 확인하세요</p>
+    </div>
+    <!-- 테마 토글 스위치 -->
+    <div class="theme-toggle-wrapper">
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle-btn" aria-label="다크 모드 토글" />
+        <span class="slider round">
+          <span class="handle">
+            <span class="icon-sun">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </span>
+            <span class="icon-moon">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </span>
+          </span>
+        </span>
+      </label>
+    </div>
+    <a href="../basket/list.html" class="icon-btn header-cart" aria-label="장바구니">
+      <span class="cart-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </span>
+      <span class="cart-badge" id="cart-badge" data-count="0" style="display: none;">0</span>
+    </a>
+  </header>
+
+  <!-- 메인 컨테이너 -->
+  <main class="mypage-container">
+    
+    <!-- 1. 프로필 카드 섹션 -->
+    <section class="profile-section glass">
+      <div class="profile-card">
+        <div class="profile-avatar-container">
+          <div class="profile-avatar" id="profile-avatar-display">☕</div>
+          <button class="avatar-edit-btn" id="avatar-edit-btn" title="아바타 변경">
+            <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="profile-info">
+          <div class="name-badge-wrapper">
+            <h2 class="profile-name" id="profile-name-display">홍길동</h2>
+            <span class="user-grade-badge grade-bronze" id="user-grade-badge">BRONZE</span>
+          </div>
+          <p class="profile-email" id="profile-email-display">hong@cafeisle.com</p>
+          <p class="profile-phone" id="profile-phone-display">010-1234-5678</p>
+        </div>
+        <button class="btn-edit-profile" id="open-edit-modal-btn">편집</button>
+      </div>
+    </section>
+
+    <div class="mypage-columns-wrapper">
+      <!-- 좌측 컬럼 (최근 주문 내역) -->
+      <div class="mypage-column-left">
+        <!-- 1.5 최근 주문 내역 바로가기 섹션 -->
+        <section class="recent-order-section glass">
+          <div class="recent-order-header">
+            <h3 class="card-title">최근 주문 내역</h3>
+            <a href="../orders/list.html" class="all-orders-link">전체보기 &gt;</a>
+          </div>
+          <div id="recent-order-container">
+            <!-- JS에서 동적으로 최신 주문을 렌더링 -->
+          </div>
+        </section>
+      </div>
+
+      <!-- 우측 컬럼 (스탬프 & 보유 쿠폰) -->
+      <div class="mypage-column-right">
+        <!-- 2. 스탬프 멤버십 카드 섹션 -->
+        <section class="membership-section glass">
+          <div class="membership-header">
+            <h3 class="card-title">Cafe Isle 스탬프</h3>
+            <p class="stamp-count-text"><span class="highlight" id="stamp-count">0</span> / 10</p>
+          </div>
+          <p class="stamp-desc">음료 및 디저트 1개당 1개의 스탬프가 적립됩니다. 10개를 모으면 무료 아메리카노 쿠폰이 발행됩니다!</p>
+          <div class="stamp-grid" id="stamp-grid">
+            <!-- 10개 스탬프 슬롯 동적 렌더링 -->
+          </div>
+          <div class="membership-coupon-alert" id="coupon-alert" style="display: none;">
+            🎉 스탬프 완성! 쿠폰이 발행되었습니다. 쿠폰함을 확인하세요!
+          </div>
+        </section>
+
+        <!-- 4. 쿠폰함 섹션 -->
+        <section class="coupons-section glass">
+          <h3 class="card-title">보유 쿠폰 <span class="coupon-count" id="coupon-count">0</span></h3>
+          <div class="coupons-list" id="coupons-list">
+            <!-- 동적으로 쿠폰 카드 렌더링 -->
+          </div>
+        </section>
+      </div>
+    </div>
+
+
+
+  </main>
+
+  <!-- 프로필 편집 모달 (팝업) -->
+  <div class="modal-overlay" id="edit-profile-modal">
+    <div class="modal-container glass">
+      <div class="modal-header">
+        <h3>프로필 편집</h3>
+        <button class="close-modal-btn" id="close-edit-modal-btn">&times;</button>
+      </div>
+      <form id="edit-profile-form" class="modal-form">
+        <div class="form-group">
+          <label for="input-name">이름</label>
+          <input type="text" id="input-name" required placeholder="이름을 입력하세요" />
+        </div>
+        <div class="form-group">
+          <label for="input-email">이메일</label>
+          <input type="email" id="input-email" required placeholder="email@example.com" />
+        </div>
+        <div class="form-group">
+          <label for="input-phone">연락처</label>
+          <input type="tel" id="input-phone" required placeholder="010-1234-5678" pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}" title="010-xxxx-xxxx 형식으로 입력해 주세요." />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancel-edit-btn">취소</button>
+          <button type="submit" class="btn-primary">저장하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 아바타 선택 모달 -->
+  <div class="modal-overlay" id="avatar-select-modal">
+    <div class="modal-container glass avatar-modal">
+      <div class="modal-header">
+        <h3>아바타 선택</h3>
+        <button class="close-modal-btn" id="close-avatar-modal-btn">&times;</button>
+      </div>
+      <div class="avatar-options">
+        <div class="avatar-option">☕</div>
+        <div class="avatar-option">🥐</div>
+        <div class="avatar-option">🥛</div>
+        <div class="avatar-option">🌱</div>
+        <div class="avatar-option">😺</div>
+        <div class="avatar-option">🌸</div>
+        <div class="avatar-option">🍩</div>
+        <div class="avatar-option">🥤</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 하단 네비게이션 바 (모바일 특화 플로팅 바) -->
+  <nav class="bottom-bar glass">
+    <a href="../index.html" class="bottom-tab">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </span>
+      <span class="label">홈</span>
+    </a>
+    <a href="../menus/list.html" class="bottom-tab">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3.01" y2="6"></line>
+          <line x1="3" y1="12" x2="3.01" y2="12"></line>
+          <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+      </span>
+      <span class="label">메뉴</span>
+    </a>
+    <a href="../basket/list.html" class="bottom-tab">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </span>
+      <span class="label">장바구니</span>
+    </a>
+    <a href="../orders/list.html" class="bottom-tab">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z"></path>
+          <path d="M6 6h12"></path>
+          <path d="M6 10h12"></path>
+          <path d="M6 14h8"></path>
+        </svg>
+      </span>
+      <span class="label">주문내역</span>
+    </a>
+    <a href="index.html" class="bottom-tab active">
+      <span class="icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </span>
+      <span class="label">MY</span>
+    </a>
+  </nav>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
