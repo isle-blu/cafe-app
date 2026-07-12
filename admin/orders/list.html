@@ -135,10 +135,18 @@
             <option value="주문취소">주문취소</option>
           </select>
         </div>
+
+        <div class="filter-group view-mode-box">
+          <label>보기 형식</label>
+          <div class="view-mode-tabs">
+            <button class="view-tab-btn active" id="btn-view-table" data-view="table">📋 테이블형</button>
+            <button class="view-tab-btn" id="btn-view-ticket" data-view="ticket">🎟️ 주문서형</button>
+          </div>
+        </div>
       </section>
 
-      <!-- 주문 내역 테이블 카드 -->
-      <section class="orders-list-card glass">
+      <!-- 1. 주문 내역 테이블 카드 (기존 테이블 뷰) -->
+      <section class="orders-list-card glass" id="orders-table-view">
         <div class="table-wrapper">
           <table class="orders-table">
             <thead>
@@ -156,6 +164,13 @@
               <!-- JS에서 동적 렌더링 -->
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- 2. 주문서 티켓형 보드 뷰 (신규 주방 주문서 뷰) -->
+      <section class="orders-board-view" id="orders-ticket-view" style="display: none;">
+        <div class="tickets-grid" id="orders-tickets-container">
+          <!-- JS에서 동적 렌더링 (영수증 모양 카드들) -->
         </div>
       </section>
     </main>
