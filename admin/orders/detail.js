@@ -127,7 +127,7 @@ function renderOrderDetail(order) {
               <option value="주문취소" ${order.status === "주문취소" ? "selected" : ""}>주문취소</option>
             </select>
           </div>
-          <button type="button" class="btn-update-status" id="btn-submit-status">상태 적용하기</button>
+          <button type="button" class="btn-update-status" id="btn-submit-status">적용하기</button>
         </div>
       </div>
     </div>
