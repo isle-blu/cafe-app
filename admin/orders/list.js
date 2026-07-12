@@ -53,6 +53,10 @@ function initOrdersList() {
 
   if (btnViewTable && btnViewTicket) {
     btnViewTable.addEventListener("click", () => {
+      // 로컬스토리지에서 최신 상태로 동기화
+      const rawOrders = localStorage.getItem("cafe-app-orders");
+      allOrders = rawOrders ? JSON.parse(rawOrders) : allOrders;
+
       currentViewMode = "table";
       btnViewTable.classList.add("active");
       btnViewTicket.classList.remove("active");
@@ -62,6 +66,10 @@ function initOrdersList() {
     });
 
     btnViewTicket.addEventListener("click", () => {
+      // 로컬스토리지에서 최신 상태로 동기화
+      const rawOrders = localStorage.getItem("cafe-app-orders");
+      allOrders = rawOrders ? JSON.parse(rawOrders) : allOrders;
+
       currentViewMode = "ticket";
       btnViewTicket.classList.add("active");
       btnViewTable.classList.remove("active");
@@ -296,6 +304,9 @@ function updateOrderStatusInList(orderId, newStatus, selectElement) {
     if (newStatus === "주문취소") selectColorClass = "cancelled";
     else if (newStatus === "준비중" || newStatus === "제조중") selectColorClass = "processing";
     selectElement.classList.add(selectColorClass);
+
+    // 전체 리스트 데이터 동기화를 위해 리렌더링 (그리드 뷰 등 동시 싱크)
+    performFiltering();
   }
 }
 
