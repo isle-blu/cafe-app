@@ -11,7 +11,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 3. 다크모드 동기화
   initAdminTheme();
+
+  // 4. 오늘 날짜 노출
+  displayTodayDate();
+
+  // 5. 새로고침 버튼 이벤트 바인딩
+  setupRefreshButton();
 });
+
+/**
+ * 오늘 날짜를 YYYY.MM.DD 요일 포맷으로 표시
+ */
+function displayTodayDate() {
+  const dateDisplay = document.getElementById("admin-date-display");
+  if (!dateDisplay) return;
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const date = String(now.getDate()).padStart(2, '0');
+  
+  const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const dayOfWeek = weekDays[now.getDay()];
+
+  dateDisplay.textContent = `${year}.${month}.${date} ${dayOfWeek}`;
+}
+
+/**
+ * 새로고침 버튼에 수동 리렌더링 이벤트 바인딩
+ */
+function setupRefreshButton() {
+  const refreshBtn = document.getElementById("btn-refresh");
+  if (!refreshBtn) return;
+
+  refreshBtn.addEventListener("click", () => {
+    // 회전 애니메이션 클래스 임시 추가
+    const svgIcon = refreshBtn.querySelector("svg");
+    if (svgIcon) {
+      svgIcon.style.transition = "transform 0.6s ease";
+      svgIcon.style.transform = "rotate(360deg)";
+      
+      // 애니메이션 복구
+      setTimeout(() => {
+        svgIcon.style.transition = "none";
+        svgIcon.style.transform = "rotate(0deg)";
+      }, 600);
+    }
+
+    // 대시보드 강제 리렌더링
+    renderDashboard();
+  });
+}
 
 /**
  * 첫 진입 시 더미 데이터를 최근 일주일 데이터로 변환하여 로컬스토리지에 저장
