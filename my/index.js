@@ -155,6 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 스탬프 쿠폰 발급 현황 점검
     checkAndIssueStampCoupons(totalCouponRewardCount);
+
+    // 4) 최근 주문 렌더링
+    renderRecentOrder(orders);
   }
 
   function renderStampGrid(count) {
@@ -371,6 +374,65 @@ document.addEventListener("DOMContentLoaded", () => {
     settings.pushEnabled = e.target.checked;
     setLocalData(SETTINGS_KEY, settings);
   });
+
+  /* ---------------- 7.5 최근 주문 렌더링 함수 ---------------- */
+
+  function renderRecentOrder(orders) {
+    const recentOrderContainer = document.getElementById("recent-order-container");
+    if (!recentOrderContainer) return;
+
+    if (orders && orders.length > 0) {
+      // id 기준 역순 정렬하여 가장 최신 주문 1건 추출
+      const sorted = [...orders].sort((a, b) => b.id - a.id);
+      const latestOrder = sorted[0];
+
+      // 주문 상품 요약 명칭 생성
+      let orderSummary = "";
+      if (latestOrder.items && latestOrder.items.length > 0) {
+        const firstItem = latestOrder.items[0];
+        if (latestOrder.items.length === 1) {
+          orderSummary = `${firstItem.name} ${firstItem.quantity}개`;
+        } else {
+          const totalQty = latestOrder.items.reduce((sum, item) => sum + item.quantity, 0);
+          orderSummary = `${firstItem.name} 외 ${latestOrder.items.length - 1}건 (총 ${totalQty}개)`;
+        }
+      }
+
+      // 총 결제 금액 계산
+      const totalAmount = latestOrder.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+      // 상태값 별 뱃지 클래스
+      let statusClass = "status-completed";
+      if (latestOrder.status === "주문취소") {
+        statusClass = "status-cancelled";
+      } else if (latestOrder.status === "준비중" || latestOrder.status === "주문완료" || latestOrder.status === "제조중") {
+        statusClass = "status-processing";
+      }
+
+      // 날짜 포맷팅
+      const orderDateStr = formatDate(latestOrder.orderDate);
+
+      recentOrderContainer.innerHTML = `
+        <a href="../orders/detail.html?id=${latestOrder.id}" class="recent-order-card">
+          <div class="order-card-top">
+            <span class="order-date">${orderDateStr}</span>
+            <span class="status-badge-recent ${statusClass}">${latestOrder.status}</span>
+          </div>
+          <div class="order-card-body">
+            <span class="order-title">${orderSummary}</span>
+            <span class="order-price">${formatPrice(totalAmount)}</span>
+          </div>
+        </a>
+      `;
+    } else {
+      recentOrderContainer.innerHTML = `
+        <div class="no-recent-order">
+          <p>최근 30일 내에 주문한 내역이 없습니다.</p>
+          <a href="../menus/list.html" class="btn-shop-now">첫 주문하러 가기</a>
+        </div>
+      `;
+    }
+  }
 
   /* ---------------- 8. 페이지 초기 로딩 실행 ---------------- */
 

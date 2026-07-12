@@ -172,6 +172,145 @@
   color: white;
 }
 
+/* ---------------- 1.5 최근 주문 내역 ---------------- */
+
+.recent-order-section {
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.recent-order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.all-orders-link {
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.all-orders-link:hover {
+  color: var(--color-primary-dark);
+}
+
+.recent-order-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.recent-order-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-md);
+}
+
+.order-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-date {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+  font-family: "Outfit", sans-serif;
+}
+
+.status-badge-recent {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+/* 완료 상태 */
+.status-badge-recent.status-completed {
+  background: rgba(107, 144, 128, 0.12);
+  color: var(--color-success);
+  border: 1px solid rgba(107, 144, 128, 0.25);
+}
+
+/* 진행중/준비중 상태 */
+.status-badge-recent.status-processing {
+  background: rgba(224, 169, 109, 0.12);
+  color: var(--color-accent);
+  border: 1px solid rgba(224, 169, 109, 0.25);
+}
+
+/* 취소 상태 */
+.status-badge-recent.status-cancelled {
+  background: rgba(186, 45, 37, 0.08);
+  color: #ba2d25;
+  border: 1px solid rgba(186, 45, 37, 0.15);
+}
+
+.order-card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.order-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.order-price {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  font-family: "Outfit", sans-serif;
+}
+
+.no-recent-order {
+  text-align: center;
+  padding: var(--spacing-lg) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.no-recent-order p {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+}
+
+.btn-shop-now {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-primary);
+  color: white;
+  text-decoration: none;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-shop-now:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+
 /* ---------------- 2. 스탬프 멤버십 카드 ---------------- */
 
 .membership-section {
