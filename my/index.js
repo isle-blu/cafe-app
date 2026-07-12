@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const statTotalOrdersEl = document.getElementById("stat-total-orders");
   const statTotalAmountEl = document.getElementById("stat-total-amount");
-  const statFavoriteMenuEl = document.getElementById("stat-favorite-menu");
 
   const couponCountEl = document.getElementById("coupon-count");
   const couponsListEl = document.getElementById("coupons-list");
@@ -91,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let totalCups = 0;
     let totalAmount = 0;
-    const menuCountMap = {};
 
     orders.forEach(order => {
       // 주문 내역 아이템 집계
@@ -101,11 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
           const price = Number(item.price) || 0;
           totalCups += qty;
           totalAmount += (price * qty);
-
-          // 최애 메뉴 카운트
-          if (item.name) {
-            menuCountMap[item.name] = (menuCountMap[item.name] || 0) + qty;
-          }
         });
       }
     });
@@ -114,20 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     statTotalOrdersEl.textContent = `${totalCups}잔`;
     statTotalAmountEl.textContent = formatPrice(totalAmount);
 
-    // 최애 메뉴 선정
-    let favoriteMenu = "";
-    let maxQty = 0;
-    for (const menuName in menuCountMap) {
-      if (menuCountMap[menuName] > maxQty) {
-        maxQty = menuCountMap[menuName];
-        favoriteMenu = menuName;
-      }
-    }
-    if (favoriteMenu) {
-      statFavoriteMenuEl.textContent = `${favoriteMenu} (${maxQty}잔 주문)`;
-    } else {
-      statFavoriteMenuEl.textContent = "최다 주문 메뉴 정보가 없습니다";
-    }
+
 
     // 2) 회원 등급 결정
     // 잔수 기준: 0-4 브론즈, 5-14 실버, 15이상 골드
