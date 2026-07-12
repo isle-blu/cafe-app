@@ -357,8 +357,56 @@ input:checked + .slider .handle .icon-moon {
   }
 }
 
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
 
+/* ==========================================================================
+   관리자 사이드바 로고 옆 미니 다크모드 토글 오버라이드
+   ========================================================================== */
+.sidebar-brand-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
 
+.sidebar-brand-row .theme-toggle-wrapper {
+  margin-left: auto;
+  align-self: center;
+}
 
+.sidebar-brand-row .switch {
+  width: 42px !important;
+  height: 22px !important;
+}
 
+.sidebar-brand-row .slider {
+  border-radius: 22px !important;
+}
 
+.sidebar-brand-row .slider .handle {
+  width: 16px !important;
+  height: 16px !important;
+  left: 2px !important;
+  bottom: 2px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 체크 시 미니 핸들 이동 오버라이드 */
+.sidebar-brand-row input:checked + .slider .handle {
+  transform: translateX(20px) !important;
+}
+
+/* 아이콘 크기 축소 */
+.sidebar-brand-row .sun-icon,
+.sidebar-brand-row .moon-icon,
+.sidebar-brand-row .icon-sun svg,
+.sidebar-brand-row .icon-moon svg {
+  width: 10px !important;
+  height: 10px !important;
+}

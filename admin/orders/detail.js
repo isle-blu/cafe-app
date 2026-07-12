@@ -176,7 +176,7 @@ function saveNewStatus(orderId, newStatus) {
  * 다크모드 테마 초기화
  */
 function initAdminTheme() {
-  const themeToggle = document.getElementById("checkbox");
+  const themeToggle = document.getElementById("theme-toggle-btn");
   const currentTheme = localStorage.getItem("theme") || "light";
   
   if (currentTheme === "dark") {

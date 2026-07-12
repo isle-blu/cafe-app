@@ -384,28 +384,26 @@ function renderPopularMenus(orders, menus) {
  * 5. 다크모드 테마 동기화 (js/theme.js 기반)
  */
 function initAdminTheme() {
-  const themeToggle = document.getElementById("checkbox");
-  if (!themeToggle) return;
-
-  // 로컬스토리지 또는 시스템 설정 기반 테마 설정
+  const themeToggle = document.getElementById("theme-toggle-btn");
   const currentTheme = localStorage.getItem("theme") || "light";
   
   if (currentTheme === "dark") {
-    themeToggle.checked = true;
     document.documentElement.setAttribute("data-theme", "dark");
+    if (themeToggle) themeToggle.checked = true;
   } else {
-    themeToggle.checked = false;
     document.documentElement.setAttribute("data-theme", "light");
+    if (themeToggle) themeToggle.checked = false;
   }
 
-  // 테마 스위칭 이벤트 리스너
-  themeToggle.addEventListener("change", (e) => {
-    if (e.target.checked) {
-      document.documentElement.setAttribute("data-theme", "dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-    }
-  });
+  if (themeToggle) {
+    themeToggle.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        document.documentElement.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        localStorage.setItem("theme", "light");
+      }
+    });
+  }
 }
