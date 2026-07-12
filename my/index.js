@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (favoriteMenu) {
       statFavoriteMenuEl.textContent = `${favoriteMenu} (${maxQty}잔 주문)`;
     } else {
-      statFavoriteMenuEl.textContent = "아직 주문 내역이 없습니다";
+      statFavoriteMenuEl.textContent = "최다 주문 메뉴 정보가 없습니다";
     }
 
     // 2) 회원 등급 결정

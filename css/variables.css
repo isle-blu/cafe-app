@@ -307,6 +307,34 @@ input:checked + .slider .handle .icon-moon {
   transform: rotate(0deg);
 }
 
+/* SVG 픽토그램 공통 정렬 및 스타일 */
+.bottom-tab .icon,
+.cart-icon,
+.nav-icon-box,
+.logo-icon,
+.stat-icon,
+.admin-link-btn .icon,
+.brand-emoji,
+.menu-icon,
+.bullet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.bottom-tab .icon svg,
+.cart-icon svg,
+.nav-icon-box svg,
+.logo-icon svg,
+.stat-icon svg,
+.admin-link-btn .icon svg,
+.brand-emoji svg,
+.menu-icon svg,
+.bullet svg {
+  display: block;
+}
+
 
 
 
