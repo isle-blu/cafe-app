@@ -589,7 +589,7 @@
 .section-divider {
   border: none;
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--color-border), transparent);
-  margin: var(--spacing-xxl) 0;
-  opacity: 0.8;
+  background: linear-gradient(to right, transparent, var(--color-border) 20%, var(--color-border) 80%, transparent);
+  margin: 48px 0;
+  opacity: 1;
 }
