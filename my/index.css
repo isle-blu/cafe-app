@@ -186,6 +186,12 @@
   margin-bottom: var(--spacing-md);
 }
 
+#recent-order-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
 .all-orders-link {
   font-size: var(--font-size-xs);
   color: var(--color-primary);
