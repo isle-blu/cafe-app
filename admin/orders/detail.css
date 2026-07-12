@@ -218,9 +218,9 @@
 }
 
 .item-name-col {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-text);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
 }
 
 .item-opt-col {
