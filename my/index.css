@@ -934,3 +934,36 @@ body.dark-mode .form-group input:focus {
   from { transform: translateY(-10px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+/* ---------------- PC 환경 반응형 대응 ---------------- */
+@media (min-width: 768px) {
+  .mypage-container {
+    max-width: 960px;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+    padding: var(--spacing-xl) var(--spacing-md) calc(var(--spacing-2xl) + 40px);
+  }
+  
+  .profile-section {
+    grid-column: 1;
+  }
+  
+  .recent-order-section {
+    grid-column: 1;
+  }
+  
+  .membership-section {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  
+  .coupons-section {
+    grid-column: 2;
+  }
+  
+  .settings-section {
+    grid-column: 1;
+  }
+}

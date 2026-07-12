@@ -614,10 +614,19 @@
   }
   
   .bottom-bar {
-    display: none; /* 데스크톱에서는 숨김 */
+    display: flex;
   }
   
   .main-footer {
     padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-xl);
+  }
+
+  .info-content ul {
+    flex-direction: row;
+    gap: var(--spacing-xl);
+  }
+  
+  .info-content li {
+    flex: 1;
   }
 }
