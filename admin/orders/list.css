@@ -174,7 +174,9 @@
 
 .filter-group input,
 .filter-group select {
-  padding: 8px 12px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 0 12px;
   font-size: var(--font-size-xs);
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
@@ -356,6 +358,9 @@
   padding: 3px;
   border-radius: var(--radius-full);
   border: 1px solid var(--color-border);
+  height: 40px;
+  box-sizing: border-box;
+  align-items: center;
 }
 
 /* 다크모드 시 뷰 토글 배경 대응 */
@@ -364,7 +369,12 @@
 }
 
 .toggle-btn {
-  padding: var(--spacing-xs) var(--spacing-md);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 var(--spacing-md);
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: 600;
@@ -373,8 +383,6 @@
   border: none;
   cursor: pointer;
   transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
   gap: 4px;
 }
 
