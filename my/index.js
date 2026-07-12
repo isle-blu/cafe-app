@@ -367,13 +367,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function applySettings() {
     pushToggle.checked = settings.pushEnabled;
-    darkModeToggle.checked = settings.darkMode;
-
-    if (settings.darkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
+    
+    // 현재 적용되어 있는 테마로 다크모드 스위치 상태 반영
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    darkModeToggle.checked = (currentTheme === "dark");
   }
 
   pushToggle.addEventListener("change", (e) => {
@@ -381,10 +378,15 @@ document.addEventListener("DOMContentLoaded", () => {
     setLocalData(SETTINGS_KEY, settings);
   });
 
+  // 다크모드 스위치 클릭 시 전역 테마 변경 호출
   darkModeToggle.addEventListener("change", (e) => {
-    settings.darkMode = e.target.checked;
-    setLocalData(SETTINGS_KEY, settings);
-    applySettings();
+    const nextTheme = e.target.checked ? "dark" : "light";
+    window.setGlobalTheme(nextTheme);
+  });
+
+  // 헤더 등 외부에서 테마가 변경될 때 스위치 상태도 자동 동기화
+  window.addEventListener("themechange", (e) => {
+    darkModeToggle.checked = (e.detail.theme === "dark");
   });
 
   /* ---------------- 8. 페이지 초기 로딩 실행 ---------------- */

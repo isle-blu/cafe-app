@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/variables.css" />
   <link rel="stylesheet" href="detail.css" />
+  <script src="../js/theme.js"></script>
 </head>
 <body>
   <header class="page-header glass">
@@ -16,6 +17,10 @@
       <span aria-hidden="true">←</span>
     </a>
     <h1>메뉴 상세</h1>
+    <!-- 테마 토글 버튼 -->
+    <button id="theme-toggle-btn" class="icon-btn theme-toggle" aria-label="테마 전환">
+      <span class="theme-icon">🌙</span>
+    </button>
     <a href="../basket/list.html" class="icon-btn header-cart" aria-label="장바구니">
       <span class="cart-icon">🛒</span>
       <span class="cart-badge" id="cart-badge" data-count="0">0</span>

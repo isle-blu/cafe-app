@@ -11,6 +11,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="../../css/variables.css">
   <link rel="stylesheet" href="list.css">
+  <script src="../../js/theme.js"></script>
 </head>
 <body>
   <div class="admin-container">
@@ -46,6 +47,10 @@
           <p>등록된 전체 메뉴를 조회하고 관리합니다.</p>
         </div>
         <div class="header-actions">
+          <!-- 테마 토글 버튼 -->
+          <button id="theme-toggle-btn" class="icon-btn theme-toggle" aria-label="테마 전환" style="margin-right: 12px;">
+            <span class="theme-icon">🌙</span>
+          </button>
           <a href="create.html" class="btn btn-primary">
             <span>✨</span> 새 메뉴 등록
           </a>
