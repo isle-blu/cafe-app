@@ -413,17 +413,14 @@ document.addEventListener("DOMContentLoaded", () => {
   initAdminSession();
 });
 
-/**
- * 관리자 세션 초기화 동작 바인딩
- */
 function initAdminSession() {
   const resetBtn = document.getElementById("btn-session-reset-action");
 
-  // 세션 초기화 (로그아웃 및 데이터 리셋) 동작
+  // 로그아웃 (관리자 모드 탈출 및 임시 데이터 리셋) 동작
   if (resetBtn) {
     resetBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      const confirmReset = confirm("관리자 세션 상태를 초기화하고 고객 모드로 로그아웃하시겠습니까?\n(주문 내역 및 임시 장바구니 데이터가 함께 리셋됩니다.)");
+      const confirmReset = confirm("관리자 모드에서 로그아웃하시겠습니까?\n(로그아웃 시 테스트용 주문 내역 및 임시 장바구니 데이터가 초기화됩니다.)");
       if (confirmReset) {
         // 테마 설정을 제외한 모든 서비스 데이터 삭제
         const theme = localStorage.getItem("theme");
@@ -432,7 +429,7 @@ function initAdminSession() {
           localStorage.setItem("theme", theme);
         }
         
-        alert("성공적으로 관리자 세션이 초기화되었습니다. 고객 페이지로 이동합니다.");
+        alert("성공적으로 로그아웃되었습니다. 고객 페이지로 이동합니다.");
         window.location.href = "../index.html";
       }
     });
