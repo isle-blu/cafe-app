@@ -107,68 +107,45 @@
 
     <!-- 메인 콘텐츠 -->
     <main class="admin-main">
-      <header class="main-header glass">
-        <div class="header-info">
-          <h2>대시보드</h2>
-          <p>Cafe Isle의 전반적인 매출 현황과 라이브 주문 상태를 모니터링합니다.</p>
-        </div>
-        <div class="header-actions">
-          <!-- 오늘의 날짜 배지 -->
-          <div class="admin-date-badge glass" id="admin-date-display">
-            2026.07.12
-          </div>
-
-          <!-- 새로고침 버튼 -->
-          <button class="btn-refresh-dashboard glass" id="btn-refresh" title="대시보드 새로고침">
-            <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="23 4 23 10 17 10"></polyline>
-              <polyline points="1 20 1 14 7 14"></polyline>
-              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-            </svg>
-            <span class="refresh-text">새로고침</span>
-          </button>
-
-
-
-          <!-- 관리자 프로필 카드 (클릭 시 세션 드롭다운 활성화) -->
-          <div class="admin-profile-card glass" id="admin-profile-trigger" style="cursor: pointer; position: relative;">
-            <div class="profile-card-avatar">👑</div>
-            <div class="profile-card-details">
-              <div class="profile-card-meta">
-                <span class="admin-nickname">admin</span>
-                <span class="admin-rank-badge">최고관리자</span>
-              </div>
-              <span class="admin-account-id">owner@cafeisle.com</span>
+      <header class="main-header glass" style="justify-content: flex-end; padding: var(--spacing-sm) var(--spacing-lg);">
+        <!-- 관리자 프로필 카드 (클릭 시 세션 드롭다운 활성화) -->
+        <div class="admin-profile-card glass" id="admin-profile-trigger" style="cursor: pointer; position: relative;">
+          <div class="profile-card-avatar">👑</div>
+          <div class="profile-card-details">
+            <div class="profile-card-meta">
+              <span class="admin-nickname">admin</span>
+              <span class="admin-rank-badge">최고관리자</span>
             </div>
-            
-            <!-- 프로필 세션 관리 드롭다운 -->
-            <div class="profile-dropdown glass" id="profile-dropdown">
-              <div class="dropdown-header">
-                <div class="dropdown-avatar">👑</div>
-                <div class="dropdown-user-info">
-                  <span class="dropdown-username">최고관리자 (사장님)</span>
-                  <span class="dropdown-email">owner@cafeisle.com</span>
-                </div>
+            <span class="admin-account-id">owner@cafeisle.com</span>
+          </div>
+          
+          <!-- 프로필 세션 관리 드롭다운 -->
+          <div class="profile-dropdown glass" id="profile-dropdown">
+            <div class="dropdown-header">
+              <div class="dropdown-avatar">👑</div>
+              <div class="dropdown-user-info">
+                <span class="dropdown-username">최고관리자 (사장님)</span>
+                <span class="dropdown-email">owner@cafeisle.com</span>
               </div>
-              <div class="dropdown-body">
-                <div class="session-info-row">
-                  <span class="info-label">권한 등급</span>
-                  <span class="info-value badge-owner">Full Access</span>
-                </div>
-                <div class="session-info-row">
-                  <span class="info-label">세션 상태</span>
-                  <span class="info-value active-status">연결됨</span>
-                </div>
+            </div>
+            <div class="dropdown-body">
+              <div class="session-info-row">
+                <span class="info-label">권한 등급</span>
+                <span class="info-value badge-owner">Full Access</span>
               </div>
-              <div class="dropdown-footer">
-                <button class="btn-session-reset" id="btn-session-reset-action">
-                  <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
-                    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
-                    <line x1="12" y1="2" x2="12" y2="12"></line>
-                  </svg>
-                  세션 초기화 (로그아웃)
-                </button>
+              <div class="session-info-row">
+                <span class="info-label">세션 상태</span>
+                <span class="info-value active-status">연결됨</span>
               </div>
+            </div>
+            <div class="dropdown-footer">
+              <button class="btn-session-reset" id="btn-session-reset-action">
+                <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                  <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                  <line x1="12" y1="2" x2="12" y2="12"></line>
+                </svg>
+                세션 초기화 (로그아웃)
+              </button>
             </div>
           </div>
         </div>
