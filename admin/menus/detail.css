@@ -26,11 +26,25 @@
   z-index: 10;
 }
 
+.sidebar-brand-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.sidebar-brand-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: var(--spacing-xs);
+}
+
 .sidebar-brand {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-2xl);
   padding: 0 var(--spacing-sm);
 }
 
@@ -44,6 +58,19 @@
   color: var(--color-primary-dark);
   font-family: 'Outfit', sans-serif;
   letter-spacing: -0.5px;
+}
+
+.admin-mode-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  background: rgba(224, 169, 109, 0.12);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  align-self: flex-start;
+  margin-left: var(--spacing-sm);
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(224, 169, 109, 0.2);
 }
 
 .sidebar-menu {
