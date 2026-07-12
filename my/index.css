@@ -956,14 +956,9 @@ body.dark-mode .form-group input:focus {
   
   .membership-section {
     grid-column: 2;
-    grid-row: 1 / span 2;
   }
   
   .coupons-section {
     grid-column: 2;
-  }
-  
-  .settings-section {
-    grid-column: 1;
   }
 }

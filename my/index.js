@@ -7,19 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const USER_KEY = "cafe-app-user";
   const ORDERS_KEY = "cafe-app-orders";
   const COUPONS_KEY = "cafe-app-coupons";
-  const SETTINGS_KEY = "cafe-app-settings";
-
   // 기본 사용자 데이터
   const defaultUser = {
     name: "홍길동",
     email: "hong@cafeisle.com",
     phone: "010-1234-5678",
     avatar: "☕"
-  };
-
-  // 기본 설정
-  const defaultSettings = {
-    pushEnabled: true
   };
 
   // DOM 엘리먼트 참조
@@ -33,12 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const stampGridEl = document.getElementById("stamp-grid");
   const couponAlertEl = document.getElementById("coupon-alert");
 
-
-
   const couponCountEl = document.getElementById("coupon-count");
   const couponsListEl = document.getElementById("coupons-list");
-
-  const pushToggle = document.getElementById("push-notification-toggle");
 
   // 모달 엘리먼트
   const editProfileModal = document.getElementById("edit-profile-modal");
@@ -339,18 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* ---------------- 7. 설정 (푸시 & 다크모드) ---------------- */
 
-  let settings = getLocalData(SETTINGS_KEY, defaultSettings);
-
-  function applySettings() {
-    pushToggle.checked = settings.pushEnabled;
-  }
-
-  pushToggle.addEventListener("change", (e) => {
-    settings.pushEnabled = e.target.checked;
-    setLocalData(SETTINGS_KEY, settings);
-  });
 
   /* ---------------- 7.5 최근 주문 렌더링 함수 ---------------- */
 
@@ -419,5 +397,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderProfile();
   analyzeOrdersAndStamp();
-  applySettings();
 });
