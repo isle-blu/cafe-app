@@ -1004,7 +1004,41 @@ body.dark-mode .form-group input:focus {
     display: grid;
     grid-template-columns: 1.15fr 1fr;
     gap: var(--spacing-lg);
-    align-items: start;
+    align-items: stretch; /* 좌우 컬럼 높이를 동일하게 확장 */
+  }
+
+  .mypage-column-left,
+  .mypage-column-right {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .recent-order-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #recent-order-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .coupons-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .coupons-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
   }
 
   .recent-order-items-list {
