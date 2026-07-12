@@ -368,6 +368,24 @@ document.addEventListener("DOMContentLoaded", () => {
         // 날짜 포맷팅
         const orderDateStr = formatDate(order.orderDate);
 
+        // 상세 주문 아이템 목록 마크업 생성
+        const itemsHtml = order.items ? `
+          <div class="recent-order-items-list">
+            ${order.items.map(item => {
+              const optionStr = (item.options && item.options.temp) ? `<span class="recent-order-item-opt">${item.options.temp}</span>` : "";
+              return `
+                <div class="recent-order-item-detail">
+                  <div>
+                    <span class="recent-order-item-name">${item.name}</span>
+                    ${optionStr}
+                  </div>
+                  <span class="recent-order-item-qty">${item.quantity}잔</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        ` : '';
+
         return `
           <a href="../orders/detail.html?id=${order.id}" class="recent-order-card">
             <div class="order-card-top">
@@ -378,6 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="order-title">${orderSummary}</span>
               <span class="order-price">${formatPrice(totalAmount)}</span>
             </div>
+            ${itemsHtml}
           </a>
         `;
       }).join('');

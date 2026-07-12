@@ -935,6 +935,45 @@ body.dark-mode .form-group input:focus {
   to { transform: translateY(0); opacity: 1; }
 }
 
+/* ---------------- 최근 주문 상세 아이템 목록 스타일 ---------------- */
+.recent-order-items-list {
+  display: none; /* 기본 모바일에서는 상세 내역을 가려 쾌적성 유지 */
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px dashed var(--color-border);
+}
+
+.recent-order-item-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+}
+
+.recent-order-item-name {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.recent-order-item-opt {
+  font-size: 0.65rem;
+  background: var(--color-bg-secondary);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  margin-left: var(--spacing-xs);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.recent-order-item-qty {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
 /* ---------------- PC 환경 반응형 대응 ---------------- */
 @media (min-width: 768px) {
   .mypage-container {
@@ -947,7 +986,7 @@ body.dark-mode .form-group input:focus {
   }
   
   .profile-section {
-    grid-column: 1;
+    grid-column: 1 / span 2; /* PC 화면에서 좌우 열을 다 걸치게 넓게 배치 */
   }
   
   .recent-order-section {
@@ -960,5 +999,9 @@ body.dark-mode .form-group input:focus {
   
   .coupons-section {
     grid-column: 2;
+  }
+
+  .recent-order-items-list {
+    display: flex; /* PC 화면에서는 풍성하게 보여서 빈공간을 채움 */
   }
 }
