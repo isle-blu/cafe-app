@@ -33,6 +33,14 @@
   margin-bottom: var(--spacing-2xl);
 }
 
+.sidebar-brand-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: var(--spacing-xs);
+}
+
 .sidebar-brand {
   display: flex;
   align-items: center;

@@ -177,25 +177,25 @@ function saveNewStatus(orderId, newStatus) {
  */
 function initAdminTheme() {
   const themeToggle = document.getElementById("checkbox");
-  if (!themeToggle) return;
-
   const currentTheme = localStorage.getItem("theme") || "light";
   
   if (currentTheme === "dark") {
-    themeToggle.checked = true;
     document.documentElement.setAttribute("data-theme", "dark");
+    if (themeToggle) themeToggle.checked = true;
   } else {
-    themeToggle.checked = false;
     document.documentElement.setAttribute("data-theme", "light");
+    if (themeToggle) themeToggle.checked = false;
   }
 
-  themeToggle.addEventListener("change", (e) => {
-    if (e.target.checked) {
-      document.documentElement.setAttribute("data-theme", "dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-    }
-  });
+  if (themeToggle) {
+    themeToggle.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        document.documentElement.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        localStorage.setItem("theme", "light");
+      }
+    });
+  }
 }
