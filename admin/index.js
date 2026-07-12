@@ -407,3 +407,54 @@ function initAdminTheme() {
     });
   }
 }
+
+// 프로필 드롭다운 및 세션 초기화 초기 바인딩
+document.addEventListener("DOMContentLoaded", () => {
+  initProfileDropdown();
+});
+
+/**
+ * 관리자 프로필 드롭다운 및 세션 초기화 동작 바인딩
+ */
+function initProfileDropdown() {
+  const trigger = document.getElementById("admin-profile-trigger");
+  const dropdown = document.getElementById("profile-dropdown");
+  const resetBtn = document.getElementById("btn-session-reset-action");
+
+  if (!trigger || !dropdown) return;
+
+  // 알약 버튼 클릭 시 드롭다운 토글
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle("active");
+  });
+
+  // 드롭다운 내부 클릭 시 전파 방지
+  dropdown.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  // 바깥 영역 클릭 시 닫기
+  document.addEventListener("click", () => {
+    dropdown.classList.remove("active");
+  });
+
+  // 세션 초기화 (로그아웃 및 데이터 리셋) 동작
+  if (resetBtn) {
+    resetBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const confirmReset = confirm("관리자 세션 상태를 초기화하고 고객 모드로 로그아웃하시겠습니까?\n(주문 내역 및 임시 장바구니 데이터가 함께 리셋됩니다.)");
+      if (confirmReset) {
+        // 테마 설정을 제외한 모든 서비스 데이터 삭제
+        const theme = localStorage.getItem("theme");
+        localStorage.clear();
+        if (theme) {
+          localStorage.setItem("theme", theme);
+        }
+        
+        alert("성공적으로 관리자 세션이 초기화되었습니다. 고객 페이지로 이동합니다.");
+        window.location.href = "../index.html";
+      }
+    });
+  }
+}

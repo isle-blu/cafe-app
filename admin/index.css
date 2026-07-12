@@ -186,29 +186,200 @@
   color: var(--color-primary);
 }
 
-.admin-profile-pill {
+.admin-profile-card {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  padding: 4px 12px 4px 6px;
-  border-radius: var(--radius-full);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  min-width: 220px;
+  transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
 }
 
-.admin-avatar {
-  font-size: var(--font-size-sm);
-  background: rgba(224, 169, 109, 0.15);
-  width: 24px;
-  height: 24px;
+.admin-profile-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-card-avatar {
+  font-size: var(--font-size-md);
+  background: rgba(224, 169, 109, 0.12);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(224, 169, 109, 0.2);
+}
+
+.profile-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.profile-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-nickname {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.admin-rank-badge {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--color-accent);
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  padding: 1px 5px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.admin-account-id {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  line-height: 1.2;
+}
+
+/* 프로필 드롭다운 컴포넌트 */
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 240px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  text-align: left;
+  transform-origin: top right;
+  animation: dropdownFadeIn var(--transition-fast) ease;
+}
+
+.profile-dropdown.active {
+  display: flex;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dropdown-avatar {
+  font-size: var(--font-size-md);
+  background: var(--color-bg-secondary);
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.admin-name {
+.dropdown-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-username {
   font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.dropdown-email {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+}
+
+.dropdown-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) 0;
+}
+
+.session-info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.session-info-row .info-label {
+  color: var(--color-text-secondary);
+}
+
+.session-info-row .info-value {
   font-weight: 600;
   color: var(--color-text);
+}
+
+.badge-owner {
+  color: var(--color-accent) !important;
+  background: rgba(212, 175, 55, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.active-status {
+  color: #2ec4b6 !important;
+}
+
+.dropdown-footer {
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+.btn-session-reset {
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(220, 53, 69, 0.08);
+  border: 1px solid rgba(220, 53, 69, 0.15);
+  color: #ff6b6b;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-session-reset:hover {
+  background: rgba(220, 53, 69, 0.15);
+  border-color: rgba(220, 53, 69, 0.3);
 }
 
 /* 현황 요약 카드 그리드 */
