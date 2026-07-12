@@ -974,31 +974,37 @@ body.dark-mode .form-group input:focus {
   color: var(--color-text);
 }
 
+/* ---------------- 마이페이지 모바일/공통 래퍼 ---------------- */
+.mypage-columns-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.mypage-column-left,
+.mypage-column-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
 /* ---------------- PC 환경 반응형 대응 ---------------- */
 @media (min-width: 768px) {
   .mypage-container {
     max-width: 960px;
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: var(--spacing-lg);
-    align-items: start;
+    display: block; /* 그리드를 해제하여 프로필이 100%를 차지하게 함 */
     padding: var(--spacing-xl) var(--spacing-md) calc(var(--spacing-2xl) + 40px);
   }
-  
+
   .profile-section {
-    grid-column: 1 / span 2; /* PC 화면에서 좌우 열을 다 걸치게 넓게 배치 */
+    margin-bottom: var(--spacing-lg); /* 아래 컬럼 래퍼와의 여백 확보 */
   }
   
-  .recent-order-section {
-    grid-column: 1;
-  }
-  
-  .membership-section {
-    grid-column: 2;
-  }
-  
-  .coupons-section {
-    grid-column: 2;
+  .mypage-columns-wrapper {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
   }
 
   .recent-order-items-list {

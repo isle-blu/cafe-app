@@ -91,41 +91,47 @@
       </div>
     </section>
 
-    <!-- 1.5 최근 주문 내역 바로가기 섹션 -->
-    <section class="recent-order-section glass">
-      <div class="recent-order-header">
-        <h3 class="card-title">최근 주문 내역</h3>
-        <a href="../orders/list.html" class="all-orders-link">전체보기 &gt;</a>
+    <div class="mypage-columns-wrapper">
+      <!-- 좌측 컬럼 (최근 주문 내역) -->
+      <div class="mypage-column-left">
+        <!-- 1.5 최근 주문 내역 바로가기 섹션 -->
+        <section class="recent-order-section glass">
+          <div class="recent-order-header">
+            <h3 class="card-title">최근 주문 내역</h3>
+            <a href="../orders/list.html" class="all-orders-link">전체보기 &gt;</a>
+          </div>
+          <div id="recent-order-container">
+            <!-- JS에서 동적으로 최신 주문을 렌더링 -->
+          </div>
+        </section>
       </div>
-      <div id="recent-order-container">
-        <!-- JS에서 동적으로 최신 주문을 렌더링 -->
-      </div>
-    </section>
 
-    <!-- 2. 스탬프 멤버십 카드 섹션 -->
-    <section class="membership-section glass">
-      <div class="membership-header">
-        <h3 class="card-title">Cafe Isle 스탬프</h3>
-        <p class="stamp-count-text"><span class="highlight" id="stamp-count">0</span> / 10</p>
-      </div>
-      <p class="stamp-desc">음료 및 디저트 1개당 1개의 스탬프가 적립됩니다. 10개를 모으면 무료 아메리카노 쿠폰이 발행됩니다!</p>
-      <div class="stamp-grid" id="stamp-grid">
-        <!-- 10개 스탬프 슬롯 동적 렌더링 -->
-      </div>
-      <div class="membership-coupon-alert" id="coupon-alert" style="display: none;">
-        🎉 스탬프 완성! 쿠폰이 발행되었습니다. 쿠폰함을 확인하세요!
-      </div>
-    </section>
+      <!-- 우측 컬럼 (스탬프 & 보유 쿠폰) -->
+      <div class="mypage-column-right">
+        <!-- 2. 스탬프 멤버십 카드 섹션 -->
+        <section class="membership-section glass">
+          <div class="membership-header">
+            <h3 class="card-title">Cafe Isle 스탬프</h3>
+            <p class="stamp-count-text"><span class="highlight" id="stamp-count">0</span> / 10</p>
+          </div>
+          <p class="stamp-desc">음료 및 디저트 1개당 1개의 스탬프가 적립됩니다. 10개를 모으면 무료 아메리카노 쿠폰이 발행됩니다!</p>
+          <div class="stamp-grid" id="stamp-grid">
+            <!-- 10개 스탬프 슬롯 동적 렌더링 -->
+          </div>
+          <div class="membership-coupon-alert" id="coupon-alert" style="display: none;">
+            🎉 스탬프 완성! 쿠폰이 발행되었습니다. 쿠폰함을 확인하세요!
+          </div>
+        </section>
 
-
-
-    <!-- 4. 쿠폰함 섹션 -->
-    <section class="coupons-section glass">
-      <h3 class="card-title">보유 쿠폰 <span class="coupon-count" id="coupon-count">0</span></h3>
-      <div class="coupons-list" id="coupons-list">
-        <!-- 동적으로 쿠폰 카드 렌더링 -->
+        <!-- 4. 쿠폰함 섹션 -->
+        <section class="coupons-section glass">
+          <h3 class="card-title">보유 쿠폰 <span class="coupon-count" id="coupon-count">0</span></h3>
+          <div class="coupons-list" id="coupons-list">
+            <!-- 동적으로 쿠폰 카드 렌더링 -->
+          </div>
+        </section>
       </div>
-    </section>
+    </div>
 
 
 
