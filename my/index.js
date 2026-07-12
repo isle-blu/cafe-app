@@ -33,8 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const stampGridEl = document.getElementById("stamp-grid");
   const couponAlertEl = document.getElementById("coupon-alert");
 
-  const statTotalOrdersEl = document.getElementById("stat-total-orders");
-  const statTotalAmountEl = document.getElementById("stat-total-amount");
+
 
   const couponCountEl = document.getElementById("coupon-count");
   const couponsListEl = document.getElementById("coupons-list");
@@ -103,9 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // 1) 주문 통계 렌더링
-    statTotalOrdersEl.textContent = `${totalCups}잔`;
-    statTotalAmountEl.textContent = formatPrice(totalAmount);
+
 
 
 
