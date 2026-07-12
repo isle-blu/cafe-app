@@ -317,9 +317,11 @@
 }
 
 .status-select-big {
-  padding: 10px 14px;
-  font-size: var(--font-size-xs);
-  font-weight: 600;
+  height: 48px;
+  box-sizing: border-box;
+  padding: 0 14px;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
   background-color: var(--color-surface);
@@ -339,13 +341,17 @@
 .status-select-big.cancelled { background: rgba(186, 45, 37, 0.08); color: #ba2d25; border-color: rgba(186, 45, 37, 0.15); }
 
 .btn-update-status {
-  padding: 10px;
+  height: 48px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--color-primary);
   color: white;
   border: none;
   border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: var(--font-size-xs);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
   cursor: pointer;
   transition: background var(--transition-fast);
 }
