@@ -408,36 +408,16 @@ function initAdminTheme() {
   }
 }
 
-// 프로필 드롭다운 및 세션 초기화 초기 바인딩
+// 관리자 세션 제어 초기 바인딩
 document.addEventListener("DOMContentLoaded", () => {
-  initProfileDropdown();
+  initAdminSession();
 });
 
 /**
- * 관리자 프로필 드롭다운 및 세션 초기화 동작 바인딩
+ * 관리자 세션 초기화 동작 바인딩
  */
-function initProfileDropdown() {
-  const trigger = document.getElementById("admin-profile-trigger");
-  const dropdown = document.getElementById("profile-dropdown");
+function initAdminSession() {
   const resetBtn = document.getElementById("btn-session-reset-action");
-
-  if (!trigger || !dropdown) return;
-
-  // 알약 버튼 클릭 시 드롭다운 토글
-  trigger.addEventListener("click", (e) => {
-    e.stopPropagation();
-    dropdown.classList.toggle("active");
-  });
-
-  // 드롭다운 내부 클릭 시 전파 방지
-  dropdown.addEventListener("click", (e) => {
-    e.stopPropagation();
-  });
-
-  // 바깥 영역 클릭 시 닫기
-  document.addEventListener("click", () => {
-    dropdown.classList.remove("active");
-  });
 
   // 세션 초기화 (로그아웃 및 데이터 리셋) 동작
   if (resetBtn) {

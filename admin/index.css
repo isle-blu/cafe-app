@@ -186,200 +186,97 @@
   color: var(--color-primary);
 }
 
-.admin-profile-card {
+/* ---------------- 1. 관리자 대형 프로필 카드 (마이페이지 스타일) ---------------- */
+.admin-profile-card-full {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-xs) var(--spacing-md);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  min-width: 220px;
-  transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+  gap: var(--spacing-md);
+  width: 100%;
 }
 
-.admin-profile-card:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+.admin-profile-card-full .profile-avatar-container {
+  position: relative;
+  width: 64px;
+  height: 64px;
 }
 
-.profile-card-avatar {
-  font-size: var(--font-size-md);
-  background: rgba(224, 169, 109, 0.12);
-  width: 36px;
-  height: 36px;
+.admin-profile-card-full .profile-avatar {
+  width: 100%;
+  height: 100%;
   border-radius: var(--radius-full);
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(224, 169, 109, 0.2);
+  font-size: 1.8rem;
+  box-shadow: var(--shadow-sm);
+  user-select: none;
 }
 
-.profile-card-details {
+.admin-profile-card-full .profile-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  flex: 1;
 }
 
-.profile-card-meta {
+.admin-profile-card-full .name-badge-wrapper {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-sm);
 }
 
-.admin-nickname {
-  font-size: var(--font-size-xs);
+.admin-profile-card-full .profile-name {
+  font-size: var(--font-size-md);
   font-weight: 700;
   color: var(--color-text);
   line-height: 1.2;
 }
 
-.admin-rank-badge {
+.admin-profile-card-full .user-grade-badge {
   font-size: 9px;
-  font-weight: 600;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
   color: var(--color-accent);
   background: rgba(212, 175, 55, 0.1);
   border: 1px solid rgba(212, 175, 55, 0.25);
-  padding: 1px 5px;
-  border-radius: 4px;
   line-height: 1;
 }
 
-.admin-account-id {
-  font-size: 10px;
+.admin-profile-card-full .profile-email {
+  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
   line-height: 1.2;
 }
 
-/* 프로필 드롭다운 컴포넌트 */
-.profile-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  width: 240px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(var(--glass-blur));
-  box-shadow: var(--glass-shadow);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-md);
-  z-index: 100;
-  display: none;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  text-align: left;
-  transform-origin: top right;
-  animation: dropdownFadeIn var(--transition-fast) ease;
-}
-
-.profile-dropdown.active {
-  display: flex;
-}
-
-@keyframes dropdownFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95) translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.dropdown-header {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding-bottom: var(--spacing-sm);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.dropdown-avatar {
-  font-size: var(--font-size-md);
-  background: var(--color-bg-secondary);
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dropdown-user-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.dropdown-username {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-.dropdown-email {
-  font-size: 10px;
-  color: var(--color-text-secondary);
-}
-
-.dropdown-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-xs) 0;
-}
-
-.session-info-row {
-  display: flex;
-  justify-content: space-between;
+.admin-profile-card-full .profile-phone {
   font-size: 11px;
-}
-
-.session-info-row .info-label {
   color: var(--color-text-secondary);
+  line-height: 1.2;
 }
 
-.session-info-row .info-value {
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.badge-owner {
-  color: var(--color-accent) !important;
-  background: rgba(212, 175, 55, 0.1);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.active-status {
-  color: #2ec4b6 !important;
-}
-
-.dropdown-footer {
-  padding-top: var(--spacing-sm);
-  border-top: 1px solid var(--color-border);
-}
-
-.btn-session-reset {
-  width: 100%;
+/* 직접 세션 초기화 버튼 스타일 */
+.btn-session-reset-direct {
   padding: var(--spacing-xs) var(--spacing-sm);
   background: rgba(220, 53, 69, 0.08);
   border: 1px solid rgba(220, 53, 69, 0.15);
   color: #ff6b6b;
   border-radius: var(--radius-sm);
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition-fast), border-color var(--transition-fast);
+  transition: background var(--transition-fast) ease, border-color var(--transition-fast) ease, transform var(--transition-fast) ease;
 }
 
-.btn-session-reset:hover {
+.btn-session-reset-direct:hover {
   background: rgba(220, 53, 69, 0.15);
   border-color: rgba(220, 53, 69, 0.3);
+  transform: translateY(-1px);
 }
 
 /* 현황 요약 카드 그리드 */
