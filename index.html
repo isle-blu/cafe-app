@@ -25,10 +25,15 @@
           <span class="icon">⚙️</span>
           <span class="text">관리자</span>
         </a>
-        <!-- 테마 토글 버튼 -->
-        <button id="theme-toggle-btn" class="icon-btn theme-toggle" aria-label="테마 전환">
-          <span class="theme-icon">🌙</span>
-        </button>
+        <!-- 테마 토글 스위치 -->
+        <div class="theme-toggle-wrapper">
+          <span class="toggle-icon">☀️</span>
+          <label class="switch">
+            <input type="checkbox" id="theme-toggle-btn" aria-label="다크 모드 토글" />
+            <span class="slider round"></span>
+          </label>
+          <span class="toggle-icon">🌙</span>
+        </div>
         <!-- 장바구니 바로가기 -->
         <a href="basket/list.html" class="icon-btn header-cart" aria-label="장바구니">
           <span class="cart-icon">🛒</span>

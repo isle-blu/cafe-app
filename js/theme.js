@@ -65,36 +65,22 @@
 
   // 6. 테마 토글 버튼 제어 및 전역 이벤트 동기화
   function initThemeToggleButton() {
-    const toggleBtn = document.getElementById("theme-toggle-btn");
-    if (!toggleBtn) return;
+    const toggleInput = document.getElementById("theme-toggle-btn");
+    if (!toggleInput) return;
 
-    const iconEl = toggleBtn.querySelector(".theme-icon") || toggleBtn;
-
-    // 아이콘 상태 업데이트 함수
-    function updateToggleIcon(theme) {
-      if (theme === "dark") {
-        iconEl.textContent = "☀️";
-        toggleBtn.setAttribute("title", "라이트 모드로 전환");
-      } else {
-        iconEl.textContent = "🌙";
-        toggleBtn.setAttribute("title", "다크 모드로 전환");
-      }
-    }
-
-    // 초기 상태 반영
+    // 초기 상태 반영 (다크 모드면 체크 처리)
     const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateToggleIcon(currentTheme);
+    toggleInput.checked = (currentTheme === "dark");
 
-    // 클릭 이벤트 바인딩
-    toggleBtn.addEventListener("click", () => {
-      const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-      const nextTheme = activeTheme === "dark" ? "light" : "dark";
+    // 체크 상태 변경 이벤트 바인딩
+    toggleInput.addEventListener("change", (e) => {
+      const nextTheme = e.target.checked ? "dark" : "light";
       window.setGlobalTheme(nextTheme);
     });
 
     // 테마 변경 이벤트 리스너 등록 (동기화)
     window.addEventListener("themechange", (e) => {
-      updateToggleIcon(e.detail.theme);
+      toggleInput.checked = (e.detail.theme === "dark");
     });
   }
 })();

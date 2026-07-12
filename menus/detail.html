@@ -17,10 +17,15 @@
       <span aria-hidden="true">←</span>
     </a>
     <h1>메뉴 상세</h1>
-    <!-- 테마 토글 버튼 -->
-    <button id="theme-toggle-btn" class="icon-btn theme-toggle" aria-label="테마 전환">
-      <span class="theme-icon">🌙</span>
-    </button>
+    <!-- 테마 토글 스위치 -->
+    <div class="theme-toggle-wrapper">
+      <span class="toggle-icon">☀️</span>
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle-btn" aria-label="다크 모드 토글" />
+        <span class="slider round"></span>
+      </label>
+      <span class="toggle-icon">🌙</span>
+    </div>
     <a href="../basket/list.html" class="icon-btn header-cart" aria-label="장바구니">
       <span class="cart-icon">🛒</span>
       <span class="cart-badge" id="cart-badge" data-count="0">0</span>
