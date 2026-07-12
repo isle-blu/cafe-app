@@ -349,36 +349,42 @@
   }
 }
 
-/* 보기 형식 탭 스위치 */
-.view-mode-tabs {
+/* 뷰 전환 버튼 (메뉴 관리와 동일한 알약형 스타일) */
+.view-toggle {
   display: flex;
-  background: var(--color-bg-secondary);
+  background: rgba(255, 255, 255, 0.4);
+  padding: 3px;
+  border-radius: var(--radius-full);
   border: 1px solid var(--color-border);
-  padding: 2px;
-  border-radius: var(--radius-md);
-  gap: 2px;
 }
 
-.view-tab-btn {
-  background: transparent;
-  border: none;
-  padding: 6px 14px;
-  font-size: 11px;
+/* 다크모드 시 뷰 토글 배경 대응 */
+[data-theme="dark"] .view-toggle {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.toggle-btn {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
   font-weight: 600;
   color: var(--color-text-light);
+  background: transparent;
+  border: none;
   cursor: pointer;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast) ease;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.view-tab-btn:hover {
+.toggle-btn:hover {
   color: var(--color-primary);
 }
 
-.view-tab-btn.active {
-  background: var(--color-surface);
-  color: var(--color-primary-dark);
-  box-shadow: var(--shadow-sm);
+.toggle-btn.active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 /* 주문서 티켓 보드 뷰 */
