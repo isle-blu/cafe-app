@@ -109,7 +109,7 @@
     <!-- 3. 주문 통계 섹션 -->
     <section class="stats-section">
       <div class="stats-grid">
-        <div class="stat-card glass">
+        <a href="../orders/list.html" class="stat-card glass link-card" title="주문 내역 보기">
           <span class="stat-icon">
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
@@ -123,8 +123,8 @@
             <span class="stat-label">총 주문 잔수</span>
             <strong class="stat-value" id="stat-total-orders">0잔</strong>
           </div>
-        </div>
-        <div class="stat-card glass">
+        </a>
+        <a href="../orders/list.html" class="stat-card glass link-card" title="주문 내역 보기">
           <span class="stat-icon">
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -135,8 +135,8 @@
             <span class="stat-label">누적 결제금액</span>
             <strong class="stat-value" id="stat-total-amount">0원</strong>
           </div>
-        </div>
-        <div class="stat-card glass full-width">
+        </a>
+        <a href="../orders/list.html" class="stat-card glass full-width link-card" title="주문 내역 보기">
           <span class="stat-icon">
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
@@ -150,7 +150,7 @@
             <span class="stat-label">최다 주문 메뉴</span>
             <strong class="stat-value" id="stat-favorite-menu">최다 주문 메뉴 정보가 없습니다</strong>
           </div>
-        </div>
+        </a>
       </div>
     </section>
 
@@ -159,6 +159,32 @@
       <h3 class="card-title">보유 쿠폰 <span class="coupon-count" id="coupon-count">0</span></h3>
       <div class="coupons-list" id="coupons-list">
         <!-- 동적으로 쿠폰 카드 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 4.5 나의 활동 바로가기 섹션 -->
+    <section class="activity-section glass">
+      <h3 class="card-title">나의 쇼핑 활동</h3>
+      <div class="activity-list">
+        <a href="../orders/list.html" class="activity-item">
+          <div class="activity-item-left">
+            <span class="activity-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </span>
+            <span class="activity-title">상세 주문 내역 / 영수증 보기</span>
+          </div>
+          <span class="activity-arrow">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </span>
+        </a>
       </div>
     </section>
 
