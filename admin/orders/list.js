@@ -21,6 +21,18 @@ function initOrdersList() {
   const rawOrders = localStorage.getItem("cafe-app-orders");
   allOrders = rawOrders ? JSON.parse(rawOrders) : (typeof ORDERS !== "undefined" ? ORDERS : []);
 
+  // 레거시 '주문완료' 상태 마이그레이션
+  let hasLegacyStatus = false;
+  allOrders.forEach(order => {
+    if (order.status === "주문완료") {
+      order.status = "준비중";
+      hasLegacyStatus = true;
+    }
+  });
+  if (hasLegacyStatus) {
+    localStorage.setItem("cafe-app-orders", JSON.stringify(allOrders));
+  }
+
   // 초기 렌더링
   performFiltering();
 
@@ -128,7 +140,7 @@ function renderOrdersTable(ordersList) {
     // 셀렉트 박스 색상 클래스
     let selectColorClass = "completed";
     if (order.status === "주문취소") selectColorClass = "cancelled";
-    else if (order.status === "준비중" || order.status === "주문완료" || order.status === "제조중") selectColorClass = "processing";
+    else if (order.status === "준비중" || order.status === "제조중") selectColorClass = "processing";
 
     return `
       <tr>
@@ -139,7 +151,6 @@ function renderOrdersTable(ordersList) {
         <td><span class="order-sum-price">${formatPrice(totalAmount)}</span></td>
         <td>
           <select class="status-select ${selectColorClass}" data-order-id="${order.id}">
-            <option value="주문완료" ${order.status === "주문완료" ? "selected" : ""}>주문완료</option>
             <option value="준비중" ${order.status === "준비중" ? "selected" : ""}>준비중</option>
             <option value="제조중" ${order.status === "제조중" ? "selected" : ""}>제조중</option>
             <option value="수령완료" ${order.status === "수령완료" ? "selected" : ""}>수령완료</option>
@@ -212,9 +223,7 @@ function renderTicketView(ordersList) {
 
     // 상태에 따른 간편 주방 제어 버튼 구성
     let actionBtnHtml = "";
-    if (order.status === "주문완료") {
-      actionBtnHtml = `<button class="btn-status-advance" data-order-id="${order.id}" data-next-status="준비중">📋 접수하기 (준비중)</button>`;
-    } else if (order.status === "준비중") {
+    if (order.status === "준비중") {
       actionBtnHtml = `<button class="btn-status-advance" data-order-id="${order.id}" data-next-status="제조중">☕ 제조시작</button>`;
     } else if (order.status === "제조중") {
       actionBtnHtml = `<button class="btn-status-advance completed" data-order-id="${order.id}" data-next-status="수령완료">✅ 제조완료 (수령대기)</button>`;
@@ -285,7 +294,7 @@ function updateOrderStatusInList(orderId, newStatus, selectElement) {
     selectElement.className = "status-select"; // 초기화
     let selectColorClass = "completed";
     if (newStatus === "주문취소") selectColorClass = "cancelled";
-    else if (newStatus === "준비중" || newStatus === "주문완료" || newStatus === "제조중") selectColorClass = "processing";
+    else if (newStatus === "준비중" || newStatus === "제조중") selectColorClass = "processing";
     selectElement.classList.add(selectColorClass);
   }
 }

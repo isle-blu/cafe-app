@@ -199,7 +199,7 @@ function checkoutCart() {
   const newOrder = {
     id: nextId,
     orderDate: new Date().toISOString(),
-    status: "주문완료",
+    status: "준비중",
     items: [...cart]
   };
 

@@ -84,7 +84,7 @@ function initSimulatedOrders() {
 
       // 상태도 현실감 있게 배분
       let status = "수령완료";
-      if (index === 0) status = "주문완료";
+      if (index === 0) status = "준비중";
       else if (index === 1) status = "준비중";
       else if (index === 2) status = "주문취소";
       else if (index === 5) status = "제조중";
@@ -106,6 +106,18 @@ function initSimulatedOrders() {
 function renderDashboard() {
   const rawOrders = localStorage.getItem("cafe-app-orders");
   const orders = rawOrders ? JSON.parse(rawOrders) : [];
+
+  // 레거시 '주문완료' 상태 마이그레이션
+  let hasLegacyStatus = false;
+  orders.forEach(order => {
+    if (order.status === "주문완료") {
+      order.status = "준비중";
+      hasLegacyStatus = true;
+    }
+  });
+  if (hasLegacyStatus) {
+    localStorage.setItem("cafe-app-orders", JSON.stringify(orders));
+  }
   
   // 등록된 메뉴 정보 가져오기 (js/utils.js 내 getStoredMenus)
   const menus = typeof getStoredMenus === "function" ? getStoredMenus() : [];
@@ -145,8 +157,8 @@ function calculateSummaryCards(orders, menus) {
       }
     }
 
-    // 제조 및 준비 대기 중인 주문 집계 (주문완료, 준비중, 제조중 등)
-    if (order.status === "주문완료" || order.status === "준비중" || order.status === "제조중") {
+    // 제조 및 준비 대기 중인 주문 집계 (준비중, 제조중 등)
+    if (order.status === "준비중" || order.status === "제조중") {
       waitingOrdersCount++;
     }
   });
@@ -197,7 +209,7 @@ function renderLiveOrdersTable(orders) {
     // 상태 제어 콤보박스 색상 클래스 정의
     let selectColorClass = "completed";
     if (order.status === "주문취소") selectColorClass = "cancelled";
-    else if (order.status === "준비중" || order.status === "주문완료" || order.status === "제조중") selectColorClass = "processing";
+    else if (order.status === "준비중" || order.status === "제조중") selectColorClass = "processing";
 
     return `
       <tr>
@@ -207,7 +219,6 @@ function renderLiveOrdersTable(orders) {
         <td><span class="order-price-val">${formatPrice(totalAmount)}</span></td>
         <td>
           <select class="status-select ${selectColorClass}" data-order-id="${order.id}">
-            <option value="주문완료" ${order.status === "주문완료" ? "selected" : ""}>주문완료</option>
             <option value="준비중" ${order.status === "준비중" ? "selected" : ""}>준비중</option>
             <option value="제조중" ${order.status === "제조중" ? "selected" : ""}>제조중</option>
             <option value="수령완료" ${order.status === "수령완료" ? "selected" : ""}>수령완료</option>
