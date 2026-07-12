@@ -166,6 +166,11 @@
   min-width: 200px;
 }
 
+.filter-group.view-mode-box {
+  flex: none;
+  min-width: auto;
+}
+
 .filter-group label {
   font-size: var(--font-size-xs);
   font-weight: 600;
