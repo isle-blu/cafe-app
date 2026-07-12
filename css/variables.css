@@ -211,8 +211,8 @@ body.dark-mode {
 .switch {
   position: relative;
   display: inline-block;
-  width: 44px;
-  height: 24px;
+  width: 60px;
+  height: 32px;
 }
 
 .switch input {
@@ -230,17 +230,22 @@ body.dark-mode {
   transition: var(--transition-base);
 }
 
-.slider::before {
+/* 움직이는 실제 핸들 */
+.slider .handle {
   position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
+  height: 24px;
+  width: 24px;
   left: 3px;
   bottom: 3px;
   background-color: var(--color-surface);
-  transition: var(--transition-base);
+  transition: transform var(--transition-base), background-color var(--transition-base);
   box-shadow: var(--shadow-sm);
+  border-radius: 50%;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 input:checked + .slider {
@@ -251,56 +256,49 @@ input:focus + .slider {
   box-shadow: 0 0 1px var(--color-accent);
 }
 
-input:checked + .slider::before {
-  transform: translateX(20px);
-  background-color: var(--color-surface);
+/* 체크 시 핸들을 오른쪽으로 28px 이동 */
+input:checked + .slider .handle {
+  transform: translateX(28px);
 }
 
 .slider.round {
-  border-radius: 24px;
+  border-radius: 32px;
 }
 
-.slider.round::before {
-  border-radius: 50%;
-}
-
-/* 슬라이더 내 해/달 평면 아이콘 */
-.slider .icon-sun,
-.slider .icon-moon {
+/* 핸들 내 해/달 평면 아이콘 회전 애니메이션 */
+.slider .handle .icon-sun,
+.slider .handle .icon-moon {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity var(--transition-fast), transform var(--transition-base);
+  transition: opacity var(--transition-base), transform var(--transition-base);
   width: 14px;
   height: 14px;
 }
 
-.slider .icon-sun {
-  right: 5px;
+.slider .handle .icon-sun {
   color: var(--color-accent);
   opacity: 1;
+  transform: rotate(0deg);
 }
 
-.slider .icon-moon {
-  left: 5px;
-  color: var(--color-primary-light);
+.slider .handle .icon-moon {
+  color: var(--color-accent-light);
   opacity: 0;
-  transform: translateY(-50%) scale(0.7);
+  transform: rotate(-90deg);
 }
 
-input:checked + .slider .icon-sun {
+input:checked + .slider .handle .icon-sun {
   opacity: 0;
-  transform: translateY(-50%) scale(0.7);
+  transform: rotate(90deg);
 }
 
-input:checked + .slider .icon-moon {
+input:checked + .slider .handle .icon-moon {
   opacity: 1;
-  transform: translateY(-50%) scale(1);
+  transform: rotate(0deg);
 }
+
 
 
 
