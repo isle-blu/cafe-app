@@ -73,10 +73,9 @@ function renderOrderDetail(order) {
     `;
   }).join('');
 
-  // 상태값 별 뱃지 클래스
   let selectColorClass = "completed";
   if (order.status === "주문취소") selectColorClass = "cancelled";
-  else if (order.status === "준비중" || order.status === "주문완료" || order.status === "제조중") selectColorClass = "processing";
+  else if (order.status === "준비중" || order.status === "제조중") selectColorClass = "processing";
 
   container.innerHTML = `
     <!-- 1열: 영수증 품목 리스트 -->
@@ -122,7 +121,6 @@ function renderOrderDetail(order) {
           <div class="status-group">
             <label class="status-label" for="status-control-select">현재 처리 상태</label>
             <select id="status-control-select" class="status-select-big ${selectColorClass}">
-              <option value="주문완료" ${order.status === "주문완료" ? "selected" : ""}>주문완료</option>
               <option value="준비중" ${order.status === "준비중" ? "selected" : ""}>준비중</option>
               <option value="제조중" ${order.status === "제조중" ? "selected" : ""}>제조중</option>
               <option value="수령완료" ${order.status === "수령완료" ? "selected" : ""}>수령완료</option>
@@ -145,7 +143,7 @@ function renderOrderDetail(order) {
       selectBig.className = "status-select-big"; // 초기화
       let nextColor = "completed";
       if (e.target.value === "주문취소") nextColor = "cancelled";
-      else if (e.target.value === "준비중" || e.target.value === "주문완료" || e.target.value === "제조중") nextColor = "processing";
+      else if (e.target.value === "준비중" || e.target.value === "제조중") nextColor = "processing";
       selectBig.classList.add(nextColor);
     });
   }

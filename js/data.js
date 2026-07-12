@@ -126,7 +126,7 @@ const ORDERS = [
   {
     id: 1001,
     orderDate: "2026-07-05T14:32:00",
-    status: "주문완료",
+    status: "준비중",
     items: [
       { menuId: 1, name: "아메리카노", price: 4500, temperature: "ICE", quantity: 2 },
       { menuId: 9, name: "크로플", price: 6500, temperature: null, quantity: 1 },
@@ -135,7 +135,7 @@ const ORDERS = [
   {
     id: 1002,
     orderDate: "2026-07-03T09:12:00",
-    status: "주문완료",
+    status: "준비중",
     items: [
       { menuId: 2, name: "카페라떼", price: 5000, temperature: "HOT", quantity: 1 },
     ],

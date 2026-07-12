@@ -125,37 +125,106 @@
         </div>
         
         <div class="filter-group select-box">
-          <label for="filter-status">주문 상태 필터</label>
+          <label for="filter-status">필터</label>
           <select id="filter-status">
             <option value="ALL">전체 보기</option>
-            <option value="주문완료">주문완료</option>
             <option value="준비중">준비중</option>
             <option value="제조중">제조중</option>
             <option value="수령완료">수령완료</option>
             <option value="주문취소">주문취소</option>
           </select>
         </div>
+
+        <div class="filter-group view-mode-box">
+          <label>보기 형식</label>
+          <div class="view-toggle" id="viewToggle">
+            <button class="toggle-btn active" id="btn-view-table" data-view="list" title="리스트 뷰">📝 리스트</button>
+            <button class="toggle-btn" id="btn-view-ticket" data-view="grid" title="그리드 뷰">📱 그리드</button>
+          </div>
+        </div>
       </section>
 
-      <!-- 주문 내역 테이블 카드 -->
-      <section class="orders-list-card glass">
-        <div class="table-wrapper">
-          <table class="orders-table">
-            <thead>
-              <tr>
-                <th>주문번호</th>
-                <th>주문일시</th>
-                <th>주문 내역 요약</th>
-                <th>총 수량</th>
-                <th>결제금액</th>
-                <th>상태 제어</th>
-                <th>액션</th>
-              </tr>
-            </thead>
-            <tbody id="orders-list-tbody">
-              <!-- JS에서 동적 렌더링 -->
-            </tbody>
-          </table>
+      <!-- 1. 주문 내역 테이블 카드 (기존 테이블 뷰) -->
+      <section class="orders-table-view-container" id="orders-table-view">
+        <!-- 진행 중인 주문 -->
+        <div class="orders-list-card glass">
+          <div class="card-header-simple" style="padding: var(--spacing-md) var(--spacing-lg) 0 var(--spacing-lg);">
+            <h3 class="section-subtitle" style="font-size: var(--font-size-sm); font-weight: 700; color: var(--color-primary-dark); display: flex; align-items: center; gap: 6px;">
+              <span>🔥</span> 진행 중인 주문
+            </h3>
+          </div>
+          <div class="table-wrapper">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>주문번호</th>
+                  <th>주문일시</th>
+                  <th>주문 내역 요약</th>
+                  <th>총 수량</th>
+                  <th>결제금액</th>
+                  <th>상태 제어</th>
+                  <th>액션</th>
+                </tr>
+              </thead>
+              <tbody id="orders-list-tbody-active">
+                <!-- JS에서 동적 렌더링 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 구분선 -->
+        <hr class="section-divider">
+
+        <!-- 완료/취소된 주문 -->
+        <div class="orders-list-card glass" style="opacity: 0.8;">
+          <div class="card-header-simple" style="padding: var(--spacing-md) var(--spacing-lg) 0 var(--spacing-lg);">
+            <h3 class="section-subtitle" style="font-size: var(--font-size-sm); font-weight: 700; color: var(--color-text-light); display: flex; align-items: center; gap: 6px;">
+              <span>✅</span> 완료 및 취소된 주문
+            </h3>
+          </div>
+          <div class="table-wrapper">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>주문번호</th>
+                  <th>주문일시</th>
+                  <th>주문 내역 요약</th>
+                  <th>총 수량</th>
+                  <th>결제금액</th>
+                  <th>상태 제어</th>
+                  <th>액션</th>
+                </tr>
+              </thead>
+              <tbody id="orders-list-tbody-history">
+                <!-- JS에서 동적 렌더링 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. 주문서 티켓형 보드 뷰 (신규 주방 주문서 뷰) -->
+      <section class="orders-board-view" id="orders-ticket-view" style="display: none;">
+        <div class="board-section-group">
+          <h3 class="section-subtitle" style="font-size: var(--font-size-sm); font-weight: 700; color: var(--color-primary-dark); margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: 6px;">
+            <span>🔥</span> 진행 중인 주방 주문서
+          </h3>
+          <div class="tickets-grid" id="orders-tickets-container-active">
+            <!-- JS에서 동적 렌더링 (영수증 모양 카드들) -->
+          </div>
+        </div>
+
+        <!-- 구분선 -->
+        <hr class="section-divider">
+
+        <div class="board-section-group">
+          <h3 class="section-subtitle" style="font-size: var(--font-size-sm); font-weight: 700; color: var(--color-text-light); margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: 6px;">
+            <span>✅</span> 완료 및 취소된 주문서
+          </h3>
+          <div class="tickets-grid" id="orders-tickets-container-history" style="opacity: 0.75;">
+            <!-- JS에서 동적 렌더링 (영수증 모양 카드들) -->
+          </div>
         </div>
       </section>
     </main>
