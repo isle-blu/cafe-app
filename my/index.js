@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 기본 설정
   const defaultSettings = {
-    pushEnabled: true,
-    darkMode: false
+    pushEnabled: true
   };
 
   // DOM 엘리먼트 참조
@@ -42,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const couponsListEl = document.getElementById("coupons-list");
 
   const pushToggle = document.getElementById("push-notification-toggle");
-  const darkModeToggle = document.getElementById("dark-mode-toggle");
 
   // 모달 엘리먼트
   const editProfileModal = document.getElementById("edit-profile-modal");
@@ -367,24 +365,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function applySettings() {
     pushToggle.checked = settings.pushEnabled;
-    darkModeToggle.checked = settings.darkMode;
-
-    if (settings.darkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
   }
 
   pushToggle.addEventListener("change", (e) => {
     settings.pushEnabled = e.target.checked;
     setLocalData(SETTINGS_KEY, settings);
-  });
-
-  darkModeToggle.addEventListener("change", (e) => {
-    settings.darkMode = e.target.checked;
-    setLocalData(SETTINGS_KEY, settings);
-    applySettings();
   });
 
   /* ---------------- 8. 페이지 초기 로딩 실행 ---------------- */

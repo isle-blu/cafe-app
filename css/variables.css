@@ -135,3 +135,179 @@ img {
   box-shadow: var(--glass-shadow);
   border-radius: var(--radius-md);
 }
+
+/* ==========================================================================
+   전역 다크 모드 테마 변수 정의
+   ========================================================================== */
+
+:root[data-theme="dark"],
+body.dark-mode {
+  /* Color - Base */
+  --color-bg: #1c1410;
+  --color-bg-secondary: #2c1d16;
+  --color-surface: #2d231e;
+
+  /* Color - Brand (Brown/Cream) */
+  --color-primary: #a67b5b;
+  --color-primary-light: #ecdcc4;
+  --color-primary-dark: #faf3e8;
+  --color-accent: #e5b07a;
+  --color-accent-light: #f5d4a7;
+
+  /* Color - Text */
+  --color-text: #f0e6e0;
+  --color-text-light: #bca89f;
+  --color-text-inverse: #1c1410;
+
+  /* Color - State */
+  --color-border: rgba(255, 255, 255, 0.12);
+
+  /* Glass morphism */
+  --glass-bg: rgba(45, 35, 30, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  /* Shadow Override */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   공통 테마 토글 버튼 및 아이콘 버튼 스타일
+   ========================================================================== */
+
+.icon-btn.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-size: 1.1rem;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.icon-btn.theme-toggle:hover {
+  background: var(--color-bg-secondary);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   전역 스위치(Toggle Switch) & 헤더 테마 토글 스위치 스타일
+   ========================================================================== */
+
+.theme-toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  transition: var(--transition-base);
+}
+
+/* 개별 페이지 CSS에 남아있을 수 있는 가상 요소 핸들 무력화 */
+.slider::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* 움직이는 실제 핸들 */
+.slider .handle {
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--color-surface);
+  transition: transform var(--transition-base), background-color var(--transition-base);
+  box-shadow: var(--shadow-sm);
+  border-radius: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+input:checked + .slider {
+  background-color: var(--color-primary-dark);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--color-accent);
+}
+
+/* 체크 시 핸들을 오른쪽으로 28px 이동 */
+input:checked + .slider .handle {
+  transform: translateX(28px);
+}
+
+.slider.round {
+  border-radius: 32px;
+}
+
+/* 핸들 내 해/달 평면 아이콘 회전 애니메이션 */
+.slider .handle .icon-sun,
+.slider .handle .icon-moon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--transition-base), transform var(--transition-base);
+  width: 14px;
+  height: 14px;
+}
+
+.slider .handle .icon-sun {
+  color: var(--color-accent);
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.slider .handle .icon-moon {
+  color: var(--color-accent-light);
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+input:checked + .slider .handle .icon-sun {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+input:checked + .slider .handle .icon-moon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+
+
+
+
