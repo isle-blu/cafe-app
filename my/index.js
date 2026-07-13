@@ -210,7 +210,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderCoupons(coupons) {
-    couponCountEl.textContent = coupons.length;
+    const validCount = coupons.filter(c => new Date(c.expiryDate) >= new Date()).length;
+    couponCountEl.textContent = validCount;
     couponsListEl.innerHTML = "";
 
     if (coupons.length === 0) {
@@ -246,30 +247,43 @@ document.addEventListener("DOMContentLoaded", () => {
       expiry.className = "coupon-expiry";
       expiry.textContent = `${formatDate(coupon.expiryDate)} 까지`;
 
-      const useBtn = document.createElement("button");
-      useBtn.className = "coupon-btn";
-      useBtn.textContent = "사용하기";
-      useBtn.addEventListener("click", () => {
-        useCoupon(coupon.id, coupon.name);
-      });
+      // 남은 기간 계산 (D-day)
+      const now = new Date();
+      const expiryDate = new Date(coupon.expiryDate);
+      const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const targetDate = new Date(expiryDate.getFullYear(), expiryDate.getMonth(), expiryDate.getDate());
+      const diffTime = targetDate - todayDate;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      let ddayText = "";
+      let isUrgent = false;
+      if (diffDays < 0) {
+        ddayText = "만료";
+        isUrgent = true;
+      } else if (diffDays === 0) {
+        ddayText = "D-Day";
+        isUrgent = true;
+      } else {
+        ddayText = `D-${diffDays}`;
+        if (diffDays <= 7) { // 7일 이내 만료 예정이면 강조
+          isUrgent = true;
+        }
+      }
+
+      const ddaySpan = document.createElement("span");
+      ddaySpan.className = "coupon-dday";
+      if (isUrgent) {
+        ddaySpan.classList.add("urgent");
+      }
+      ddaySpan.textContent = ddayText;
 
       right.appendChild(expiry);
-      right.appendChild(useBtn);
+      right.appendChild(ddaySpan);
 
       card.appendChild(left);
       card.appendChild(right);
       couponsListEl.appendChild(card);
     });
-  }
-
-  function useCoupon(couponId, couponName) {
-    if (confirm(`'${couponName}' 쿠폰을 사용하시겠습니까?\n(사용 후에는 복구할 수 없습니다.)`)) {
-      let coupons = getLocalData(COUPONS_KEY, []);
-      coupons = coupons.filter(c => c.id !== couponId);
-      setLocalData(COUPONS_KEY, coupons);
-      renderCoupons(coupons);
-      alert("쿠폰 사용이 완료되었습니다.");
-    }
   }
 
   /* ---------------- 5. 프로필 수정 모달 인터랙션 ---------------- */
@@ -361,7 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // 총 결제 금액 계산
-        const totalAmount = order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const totalAmount = order.finalPrice !== undefined ? order.finalPrice : order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
         // 상태값 별 뱃지 클래스
         let statusClass = "status-completed";
