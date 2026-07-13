@@ -81,7 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let threeMonthsAmount = 0;
 
     const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    const currentMonth = threeMonthsAgo.getMonth();
+    threeMonthsAgo.setMonth(currentMonth - 3);
+    // 월말 날짜 오버플로우 방어
+    if (threeMonthsAgo.getMonth() !== (currentMonth - 3 + 12) % 12) {
+      threeMonthsAgo.setDate(0);
+    }
 
     orders.forEach(order => {
       // 취소된 주문은 집계에서 제외
@@ -89,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const orderPrice = order.finalPrice !== undefined 
         ? Number(order.finalPrice) 
-        : (order.items ? order.items.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0) : 0);
+        : getOrderTotal(order);
 
       // 최근 3개월 이내 주문만 누적 결제 금액에 산입
       const orderDate = new Date(order.orderDate);
@@ -138,8 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
       nextGradeText = `다음 등급(GOLD)까지 ${needed.toLocaleString()}원 남음`;
       progressPct = ((threeMonthsAmount - 30000) / 50000) * 100;
     } else {
-      grade = "BASIC";
-      gradeClass = "grade-basic";
       const needed = 30000 - threeMonthsAmount;
       nextGradeText = `다음 등급(REGULAR)까지 ${needed.toLocaleString()}원 남음`;
       progressPct = (threeMonthsAmount / 30000) * 100;

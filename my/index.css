@@ -136,7 +136,7 @@
 }
 
 .grade-regular {
-  background: var(--color-text-light);
+  background: #8c7361; /* REGULAR 등급 전용 세련된 미디엄 브라운 */
   box-shadow: 0 2px 6px rgba(140, 115, 97, 0.4);
 }
 
