@@ -174,6 +174,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 스탬프 쿠폰 발급 현황 점검
     checkAndIssueStampCoupons(totalCouponRewardCount);
 
+    // 등급별 월간 혜택 쿠폰 발급 점검
+    checkAndIssueGradeCoupons(grade);
+
     // 4) 최근 주문 렌더링
     renderRecentOrder(orders);
   }
@@ -253,6 +256,112 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     renderCoupons(coupons);
+  }
+
+  function checkAndIssueGradeCoupons(currentGrade) {
+    const now = new Date();
+    const currentYearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    const LAST_GRADE_COUPON_KEY = "cafe-app-last-grade-coupon-month";
+    const lastIssuedMonth = localStorage.getItem(LAST_GRADE_COUPON_KEY);
+
+    // 이미 이번 달에 등급 쿠폰을 받았다면 패스
+    if (lastIssuedMonth === currentYearMonth) {
+      return;
+    }
+
+    let coupons = getLocalData(COUPONS_KEY, []);
+    const expiry = new Date();
+    expiry.setMonth(expiry.getMonth() + 1); // 1달 후 만료
+
+    const newIssuedCoupons = [];
+
+    // 등급별 혜택 쿠폰 생성
+    if (currentGrade === "BASIC") {
+      // 5% 할인 쿠폰 2장
+      for (let i = 0; i < 2; i++) {
+        newIssuedCoupons.push({
+          id: `grade-monthly-5pct-${Date.now()}-${i}`,
+          name: `[BASIC 혜택] 월간 5% 할인 쿠폰`,
+          valueText: "5% 할인",
+          isPercent: true,
+          discountRate: 0.05,
+          expiryDate: expiry.toISOString(),
+          type: "grade-monthly"
+        });
+      }
+    } else if (currentGrade === "REGULAR") {
+      // 10% 할인 쿠폰 2장
+      for (let i = 0; i < 2; i++) {
+        newIssuedCoupons.push({
+          id: `grade-monthly-10pct-${Date.now()}-${i}`,
+          name: `[REGULAR 혜택] 월간 10% 할인 쿠폰`,
+          valueText: "10% 할인",
+          isPercent: true,
+          discountRate: 0.1,
+          expiryDate: expiry.toISOString(),
+          type: "grade-monthly"
+        });
+      }
+    } else if (currentGrade === "GOLD") {
+      // 15% 할인 쿠폰 2장 + 아메리카노 1잔 무료 쿠폰 1장
+      for (let i = 0; i < 2; i++) {
+        newIssuedCoupons.push({
+          id: `grade-monthly-15pct-${Date.now()}-${i}`,
+          name: `[GOLD 혜택] 월간 15% 할인 쿠폰`,
+          valueText: "15% 할인",
+          isPercent: true,
+          discountRate: 0.15,
+          expiryDate: expiry.toISOString(),
+          type: "grade-monthly"
+        });
+      }
+      newIssuedCoupons.push({
+        id: `grade-monthly-free-americano-${Date.now()}-0`,
+        name: `[GOLD 혜택] 아메리카노 1잔 무료 쿠폰`,
+        valueText: "FREE DRINK",
+        isPercent: false,
+        expiryDate: expiry.toISOString(),
+        type: "grade-monthly"
+      });
+    } else if (currentGrade === "VIP") {
+      // 20% 할인 쿠폰 2장 + 아메리카노 1잔 무료 쿠폰 1장
+      for (let i = 0; i < 2; i++) {
+        newIssuedCoupons.push({
+          id: `grade-monthly-20pct-${Date.now()}-${i}`,
+          name: `[VIP 혜택] 월간 20% 할인 쿠폰`,
+          valueText: "20% 할인",
+          isPercent: true,
+          discountRate: 0.2,
+          expiryDate: expiry.toISOString(),
+          type: "grade-monthly"
+        });
+      }
+      newIssuedCoupons.push({
+        id: `grade-monthly-free-americano-${Date.now()}-0`,
+        name: `[VIP 혜택] 아메리카노 1잔 무료 쿠폰`,
+        valueText: "FREE DRINK",
+        isPercent: false,
+        expiryDate: expiry.toISOString(),
+        type: "grade-monthly"
+      });
+    }
+
+    if (newIssuedCoupons.length > 0) {
+      coupons = coupons.concat(newIssuedCoupons);
+      setLocalData(COUPONS_KEY, coupons);
+      localStorage.setItem(LAST_GRADE_COUPON_KEY, currentYearMonth);
+
+      // 알림 배너 노출
+      if (couponAlertEl) {
+        couponAlertEl.textContent = `🎉 이번 달 [${currentGrade}] 등급 혜택 쿠폰이 발급되었습니다!`;
+        couponAlertEl.style.display = "block";
+        setTimeout(() => {
+          couponAlertEl.style.display = "none";
+        }, 6000);
+      }
+
+      renderCoupons(coupons);
+    }
   }
 
   function renderCoupons(coupons) {

@@ -28,14 +28,15 @@ function calculateDiscount(coupon, totalCartPrice) {
   if (!coupon) return { discountAmount: 0, finalPrice: totalCartPrice };
 
   if (coupon.isPercent) {
-    // 10% 할인
-    const discountAmount = Math.floor(totalCartPrice * 0.1);
+    // 쿠폰에 discountRate가 명시되어 있으면 그 값을 사용하고, 없으면 기본값인 0.1(10%) 적용
+    const rate = coupon.discountRate !== undefined ? Number(coupon.discountRate) : 0.1;
+    const discountAmount = Math.floor(totalCartPrice * rate);
     return {
       discountAmount,
       finalPrice: Math.max(0, totalCartPrice - discountAmount)
     };
   } else {
-    // 스탬프 쿠폰: FREE DRINK (무료 음료 1개 쿠폰)
+    // 스탬프 쿠폰 & 무료 음료 혜택: FREE DRINK (무료 음료 1개 쿠폰)
     // 음료 메뉴(디저트 제외)가 포함되어 있는지 확인하고, 아메리카노 가격(4,500원)만큼 고정 할인
     const cart = getCart();
     let hasDrink = false;
