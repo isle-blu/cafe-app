@@ -174,8 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // 스탬프 쿠폰 발급 현황 점검
     checkAndIssueStampCoupons(totalCouponRewardCount);
 
-    // 등급별 월간 혜택 쿠폰 발급 점검
-    checkAndIssueGradeCoupons(grade);
+    // 등급별 월간 혜택 쿠폰 발급 점검 (최근 3개월 결제액도 같이 판단)
+    checkAndIssueGradeCoupons(grade, threeMonthsAmount);
 
     // 4) 최근 주문 렌더링
     renderRecentOrder(orders);
@@ -258,7 +258,12 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCoupons(coupons);
   }
 
-  function checkAndIssueGradeCoupons(currentGrade) {
+  function checkAndIssueGradeCoupons(currentGrade, threeMonthsAmount) {
+    // 최근 3개월 누적 결제 이력이 전혀 없는 무지출 유저는 월간 쿠폰 지급 대상에서 제외
+    if (threeMonthsAmount <= 0) {
+      return;
+    }
+
     const now = new Date();
     const currentYearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
     const LAST_GRADE_COUPON_KEY = "cafe-app-last-grade-coupon-month";
