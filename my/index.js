@@ -78,19 +78,30 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let totalCups = 0;
     let totalStamps = 0;
-    let totalAmount = 0;
+    let threeMonthsAmount = 0;
+
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
     orders.forEach(order => {
       // 취소된 주문은 집계에서 제외
       if (order.status === "주문취소") return;
 
-      // 주문 내역 아이템 집계
+      const orderPrice = order.finalPrice !== undefined 
+        ? Number(order.finalPrice) 
+        : (order.items ? order.items.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0) : 0);
+
+      // 최근 3개월 이내 주문만 누적 결제 금액에 산입
+      const orderDate = new Date(order.orderDate);
+      if (orderDate >= threeMonthsAgo) {
+        threeMonthsAmount += orderPrice;
+      }
+
+      // 주문 내역 아이템 집계 (전체 기간에 대해 컵 수 및 스탬프 계산)
       if (order.items && Array.isArray(order.items)) {
         order.items.forEach(item => {
           const qty = Number(item.quantity) || 0;
-          const price = Number(item.price) || 0;
           totalCups += qty;
-          totalAmount += (price * qty);
 
           // 시즌 메뉴 여부 확인하여 스탬프 적립 수 결정
           const menu = getStoredMenuById(item.menuId);
@@ -102,20 +113,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // 2) 회원 등급 결정
-    // 잔수 기준: 0-4 브론즈, 5-14 실버, 15이상 골드
-    let grade = "BRONZE";
-    let gradeClass = "grade-bronze";
+    // 최근 3개월 누적 결제 금액 기준: 
+    // 0 ~ 29,999 BASIC / 30,000 ~ 79,999 REGULAR / 80,000 ~ 179,999 GOLD / 180,000 이상 VIP
+    let grade = "BASIC";
+    let gradeClass = "grade-basic";
+    let nextGradeText = "";
+    let progressPct = 0;
 
-    if (totalCups >= 15) {
+    if (threeMonthsAmount >= 180000) {
+      grade = "VIP";
+      gradeClass = "grade-vip";
+      nextGradeText = "최상위 VIP 등급입니다! 🎉";
+      progressPct = 100;
+    } else if (threeMonthsAmount >= 80000) {
       grade = "GOLD";
       gradeClass = "grade-gold";
-    } else if (totalCups >= 5) {
-      grade = "SILVER";
-      gradeClass = "grade-silver";
+      const needed = 180000 - threeMonthsAmount;
+      nextGradeText = `다음 등급(VIP)까지 ${needed.toLocaleString()}원 남음`;
+      progressPct = ((threeMonthsAmount - 80000) / 100000) * 100;
+    } else if (threeMonthsAmount >= 30000) {
+      grade = "REGULAR";
+      gradeClass = "grade-regular";
+      const needed = 80000 - threeMonthsAmount;
+      nextGradeText = `다음 등급(GOLD)까지 ${needed.toLocaleString()}원 남음`;
+      progressPct = ((threeMonthsAmount - 30000) / 50000) * 100;
+    } else {
+      grade = "BASIC";
+      gradeClass = "grade-basic";
+      const needed = 30000 - threeMonthsAmount;
+      nextGradeText = `다음 등급(REGULAR)까지 ${needed.toLocaleString()}원 남음`;
+      progressPct = (threeMonthsAmount / 30000) * 100;
     }
 
     userGradeBadgeEl.textContent = grade;
     userGradeBadgeEl.className = `user-grade-badge ${gradeClass}`;
+
+    // 3개월 누적 금액 및 안내 바 UI 렌더링
+    const amountDisplayEl = document.getElementById("three-months-amount-display");
+    const nextGradeInfoEl = document.getElementById("next-grade-info-display");
+    const progressBarEl = document.getElementById("grade-progress-bar");
+
+    if (amountDisplayEl) {
+      amountDisplayEl.textContent = formatPrice(threeMonthsAmount);
+    }
+    if (nextGradeInfoEl) {
+      nextGradeInfoEl.textContent = nextGradeText;
+    }
+    if (progressBarEl) {
+      progressBarEl.style.width = `${Math.min(100, Math.max(0, progressPct))}%`;
+    }
 
     // 3) 스탬프 및 쿠폰 발급 계산
     // 10개 스탬프당 쿠폰 1장씩 자동 발급
