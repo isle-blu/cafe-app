@@ -144,9 +144,20 @@ function getStoredMenus() {
   
   menus.forEach(menu => {
     const defaultMenu = MENUS.find(m => m.id === menu.id);
-    if (defaultMenu && (menu.image !== defaultMenu.image || !menu.image)) {
-      menu.image = defaultMenu.image;
-      updated = true;
+    if (defaultMenu) {
+      if (menu.image !== defaultMenu.image || !menu.image) {
+        menu.image = defaultMenu.image;
+        updated = true;
+      }
+      if (menu.isSeason === undefined) {
+        menu.isSeason = defaultMenu.isSeason || false;
+        updated = true;
+      }
+    } else {
+      if (menu.isSeason === undefined) {
+        menu.isSeason = false;
+        updated = true;
+      }
     }
   });
   

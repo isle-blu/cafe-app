@@ -44,6 +44,7 @@ function renderMenuGrid() {
       const badgesHtml = `
         ${menu.isPopular ? `<span class="badge badge-popular">인기</span>` : ""}
         ${menu.isNew ? `<span class="badge badge-new">신규</span>` : ""}
+        ${menu.isSeason ? `<span class="badge badge-season">시즌</span>` : ""}
       `;
 
       return `

@@ -604,6 +604,10 @@ input:checked + .slider .handle .icon-moon {
   background: #1b7a43 !important; /* 짙고 산뜻한 포레스트 에메랄드 그린 컬러 (흰색 글씨 가독성 향상) */
 }
 
+.badge-season {
+  background: #2b5c8f !important; /* 차분하고 고급스러운 클래식 딥 블루 (시즌용) */
+}
+
 /* 로그인/로그아웃 텍스트 버튼 스타일 */
 .auth-text-btn {
   display: inline-flex !important;

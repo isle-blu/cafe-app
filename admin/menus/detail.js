@@ -66,6 +66,9 @@ function renderMenuDetail() {
   if (currentMenu.isNew) {
     badgesHtml += `<span class="badge badge-new">신규</span>`;
   }
+  if (currentMenu.isSeason) {
+    badgesHtml += `<span class="badge badge-season">시즌</span>`;
+  }
 
   detailCard.innerHTML = `
     <div class="detail-image-box">
@@ -98,6 +101,10 @@ function renderMenuDetail() {
         <div class="meta-item">
           <span class="meta-label">신규 상품 설정</span>
           <span class="meta-value">${currentMenu.isNew ? `설정됨 <i class="fa-solid fa-star" style="color: #fca311; margin-left: 4px;"></i>` : "일반"}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">시즌 상품 설정</span>
+          <span class="meta-value">${currentMenu.isSeason ? `설정됨 <i class="fa-solid fa-leaf" style="color: #2b5c8f; margin-left: 4px;"></i> (스탬프 2개 적립)` : "일반"}</span>
         </div>
       </div>
 
