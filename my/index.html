@@ -68,12 +68,24 @@
         <div class="profile-info">
           <div class="name-badge-wrapper">
             <h2 class="profile-name" id="profile-name-display">홍길동</h2>
-            <span class="user-grade-badge grade-bronze" id="user-grade-badge">BRONZE</span>
+            <span class="user-grade-badge grade-basic" id="user-grade-badge">BASIC</span>
           </div>
           <p class="profile-email" id="profile-email-display">hong@cafeisle.com</p>
           <p class="profile-phone" id="profile-phone-display">010-1234-5678</p>
         </div>
         <button class="btn-edit-profile" id="open-edit-modal-btn">편집</button>
+      </div>
+      
+      <!-- 회원 등급 기준 및 누적 금액 안내 추가 -->
+      <div class="grade-status-bar">
+        <div class="grade-status-text">
+          <span>최근 3개월 결제: <strong id="three-months-amount-display">0원</strong></span>
+          <span class="next-grade-info" id="next-grade-info-display">다음 등급까지 30,000원 남음</span>
+        </div>
+        <div class="grade-progress-track">
+          <div class="grade-progress-bar" id="grade-progress-bar" style="width: 0%;"></div>
+        </div>
+        <p class="grade-limit-desc">※ 등급 기준 (최근 3개월): BASIC (~3만) &bull; REGULAR (~8만) &bull; GOLD (~18만) &bull; VIP (18만~)</p>
       </div>
     </section>
 
