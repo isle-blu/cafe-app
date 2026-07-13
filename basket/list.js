@@ -4,9 +4,13 @@ const COUPONS_KEY = "cafe-app-coupons";
 function getCoupons() {
   let coupons = localStorage.getItem(COUPONS_KEY);
   if (!coupons) {
-    // 신규 가입 웰컴 쿠폰 자동 발급
+    // 신규 가입 웰컴 쿠폰 및 테스트용 스탬프 쿠폰 1장 자동 발급
     const expiry = new Date();
     expiry.setMonth(expiry.getMonth() + 1);
+
+    const stampExpiry = new Date();
+    stampExpiry.setMonth(stampExpiry.getMonth() + 3);
+
     coupons = [
       {
         id: "welcome-10pct",
@@ -15,11 +19,27 @@ function getCoupons() {
         isPercent: true,
         expiryDate: expiry.toISOString(),
         type: "welcome"
+      },
+      {
+        id: "stamp-free-drink-test",
+        name: "스탬프 완성! 무료 음료 쿠폰",
+        valueText: "FREE DRINK",
+        isPercent: false,
+        expiryDate: stampExpiry.toISOString(),
+        type: "stamp"
       }
     ];
     localStorage.setItem(COUPONS_KEY, JSON.stringify(coupons));
   } else {
     coupons = JSON.parse(coupons);
+  }
+
+  // (테스트용 강제 조정) 기존 스토리지에 스탬프 쿠폰이 여러 개 있으면 일단 하나만 남기기
+  const stampCoupons = coupons.filter(c => c.type === "stamp");
+  if (stampCoupons.length > 1) {
+    const otherCoupons = coupons.filter(c => c.type !== "stamp");
+    coupons = [...otherCoupons, stampCoupons[0]];
+    localStorage.setItem(COUPONS_KEY, JSON.stringify(coupons));
   }
   return coupons;
 }

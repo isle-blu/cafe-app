@@ -536,6 +536,58 @@
   padding: var(--spacing-lg);
 }
 
+.coupons-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.all-coupons-link {
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.all-coupons-link:hover {
+  color: var(--color-primary-dark);
+  transform: translateX(2px);
+}
+
+.coupons-modal {
+  max-width: 500px !important;
+}
+
+.coupons-modal-body {
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+}
+
+.coupons-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.coupons-modal-body::-webkit-scrollbar-track {
+  background: rgba(111, 78, 55, 0.05);
+  border-radius: var(--radius-full);
+}
+
+.coupons-modal-body::-webkit-scrollbar-thumb {
+  background: var(--color-accent); /* 스크롤바 썸을 밝고 선명한 브랜드 골드 컬러로 지정 */
+  border-radius: var(--radius-full);
+}
+
+.coupons-modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-light);
+}
+
 .coupon-count {
   background: var(--color-accent);
   color: var(--color-text);
@@ -595,8 +647,8 @@
 }
 
 .coupon-left {
-  flex: 1.3;
-  padding: var(--spacing-md);
+  flex: 1.7;
+  padding: var(--spacing-md) 12px;
   background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-bg-secondary) 100%);
   display: flex;
   flex-direction: column;
@@ -623,8 +675,8 @@
 }
 
 .coupon-right {
-  flex: 1;
-  padding: var(--spacing-md);
+  flex: 0.8;
+  padding: var(--spacing-md) 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -785,8 +837,8 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(74, 44, 29, 0.4);
-  backdrop-filter: blur(6px);
+  background: rgba(15, 10, 8, 0.85); /* 한층 더 어두운 85% 불투명도의 다크 브라운-블랙 */
+  backdrop-filter: blur(8px); /* 블러 강도도 약간 높여 뒷배경 차단 효과 강화 */
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -807,6 +859,9 @@
   padding: var(--spacing-lg);
   transform: translateY(20px);
   transition: transform var(--transition-base);
+  background: var(--color-surface) !important; /* 뒷배경 혼선을 막기 위해 투명한 Glassmorphism 대신 불투명한 솔리드 배경 적용 */
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-md) !important;
 }
 
 .modal-overlay.active .modal-container {
