@@ -1,8 +1,9 @@
 let activeCategoryId = "all";
+let categoriesForNav = [];
 
-function renderCategoryNav(containerId, tabClass) {
+async function renderCategoryNav(containerId, tabClass) {
   const containerEl = document.getElementById(containerId);
-  const allTabs = [{ id: "all", name: "전체" }, ...CATEGORIES];
+  const allTabs = [{ id: "all", name: "전체" }, ...categoriesForNav];
 
   containerEl.innerHTML = allTabs
     .map(
@@ -16,31 +17,34 @@ function renderCategoryNav(containerId, tabClass) {
     .join("");
 
   containerEl.querySelectorAll(`.${tabClass}`).forEach((tab) => {
-    tab.addEventListener("click", () => {
+    tab.addEventListener("click", async () => {
       activeCategoryId = tab.dataset.categoryId;
-      renderCategoryNavs();
-      renderMenuGrid();
+      await renderCategoryNavs();
+      await renderMenuGrid();
     });
   });
 }
 
-function renderCategoryNavs() {
-  renderCategoryNav("category-tabs", "category-tab");
-  renderCategoryNav("category-sidebar", "sidebar-category");
+async function renderCategoryNavs() {
+  await renderCategoryNav("category-tabs", "category-tab");
+  await renderCategoryNav("category-sidebar", "sidebar-category");
 }
 
-function renderMenuGrid() {
+async function renderMenuGrid() {
   const gridEl = document.getElementById("menu-grid");
-  const menus = getMenusByCategory(activeCategoryId);
+  const menus = await getMenusByCategory(activeCategoryId);
 
   if (menus.length === 0) {
     gridEl.innerHTML = `<p class="empty-state">등록된 메뉴가 없습니다.</p>`;
     return;
   }
 
+  const categories = await getCategories();
+  const categoryById = new Map(categories.map((c) => [c.id, c]));
+
   gridEl.innerHTML = menus
     .map((menu) => {
-      const category = getCategoryById(menu.categoryId);
+      const category = categoryById.get(menu.categoryId);
       const badgesHtml = `
         ${menu.isPopular ? `<span class="badge badge-popular">인기</span>` : ""}
         ${menu.isNew ? `<span class="badge badge-new">신규</span>` : ""}
@@ -79,5 +83,10 @@ function renderMenuGrid() {
   });
 }
 
-renderCategoryNavs();
-renderMenuGrid();
+async function init() {
+  categoriesForNav = await getCategories();
+  await renderCategoryNavs();
+  await renderMenuGrid();
+}
+
+init();

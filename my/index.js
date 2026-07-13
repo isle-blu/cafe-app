@@ -2,11 +2,9 @@
    Cafe Isle 마이페이지 로직
    ========================================================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // 상태 관리 상수 및 키
   const USER_KEY = "cafe-app-user";
-  const ORDERS_KEY = "cafe-app-orders";
-  const COUPONS_KEY = "cafe-app-coupons";
   // 기본 사용자 데이터
   const defaultUser = {
     name: "홍길동",
@@ -76,9 +74,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------------- 3. 주문 내역 분석 & 통계 & 스탬프 & 등급 ---------------- */
 
-  function analyzeOrdersAndStamp() {
-    const orders = getLocalData(ORDERS_KEY, []);
-    
+  async function analyzeOrdersAndStamp() {
+    const userId = await ensureProfileId();
+    const orders = await getOrders(userId);
+    const menus = await getStoredMenus();
+    const menuById = new Map(menus.map((menu) => [menu.id, menu]));
+
     let totalCups = 0;
     let totalStamps = 0;
     let threeMonthsAmount = 0;
@@ -95,8 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // 취소된 주문은 집계에서 제외
       if (order.status === "주문취소") return;
 
-      const orderPrice = order.finalPrice !== undefined 
-        ? Number(order.finalPrice) 
+      const orderPrice = order.finalPrice !== undefined
+        ? Number(order.finalPrice)
         : getOrderTotal(order);
 
       // 최근 3개월 이내 주문만 누적 결제 금액에 산입
@@ -112,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
           totalCups += qty;
 
           // 시즌 메뉴 여부 확인하여 스탬프 적립 수 결정
-          const menu = getStoredMenuById(item.menuId);
+          const menu = menuById.get(item.menuId);
           const isSeason = menu && menu.isSeason;
           const stampsPerUnit = isSeason ? 2 : 1;
           totalStamps += (qty * stampsPerUnit);
@@ -177,11 +178,14 @@ document.addEventListener("DOMContentLoaded", () => {
     stampCountEl.textContent = currentStamps;
     renderStampGrid(currentStamps);
 
+    // 계산된 스탬프 현황을 profiles에 미러링 (orders가 원본, 이 값은 조회 편의용 캐시)
+    await updateStampCounts(userId, currentStamps, totalStamps);
+
     // 스탬프 쿠폰 발급 현황 점검
-    checkAndIssueStampCoupons(totalCouponRewardCount);
+    await checkAndIssueStampCoupons(userId, totalCouponRewardCount);
 
     // 등급별 월간 혜택 쿠폰 발급 점검 (최근 3개월 결제액도 같이 판단)
-    checkAndIssueGradeCoupons(grade, threeMonthsAmount);
+    await checkAndIssueGradeCoupons(userId, grade, threeMonthsAmount);
 
     // 4) 최근 주문 렌더링
     renderRecentOrder(orders);
@@ -212,21 +216,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------------- 4. 쿠폰함 로직 ---------------- */
 
-  function checkAndIssueStampCoupons(targetCount) {
-    let coupons = getStoredCoupons();
-
-    // 이미 발급받은 스탬프 완성 쿠폰 수 계산
-    const currentStampCoupons = coupons.filter(c => c.type === "stamp");
-    const diff = targetCount - currentStampCoupons.length;
+  async function checkAndIssueStampCoupons(userId, targetCount) {
+    // 이미 발급받은(사용 여부 무관) 스탬프 완성 쿠폰 수 계산
+    const issuedStampCount = await countIssuedCouponsByType(userId, "stamp");
+    const diff = targetCount - issuedStampCount;
 
     if (diff > 0) {
       // 새로운 스탬프 쿠폰 추가 발급
+      const newCoupons = [];
       for (let i = 0; i < diff; i++) {
         const expiry = new Date();
         expiry.setMonth(expiry.getMonth() + 3); // 3달 후 만료
-        
-        coupons.push({
-          id: `stamp-free-drink-${Date.now()}-${i}`,
+
+        newCoupons.push({
           name: "스탬프 완성! 무료 음료 쿠폰",
           valueText: "FREE DRINK",
           isPercent: false,
@@ -234,8 +236,8 @@ document.addEventListener("DOMContentLoaded", () => {
           type: "stamp"
         });
       }
-      saveStoredCoupons(coupons);
-      
+      await issueCoupons(userId, newCoupons);
+
       // 알림 배너 노출
       couponAlertEl.style.display = "block";
       setTimeout(() => {
@@ -243,10 +245,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 5000);
     }
 
+    const coupons = await getStoredCoupons(userId);
     renderCoupons(coupons);
   }
 
-  function checkAndIssueGradeCoupons(currentGrade, threeMonthsAmount) {
+  async function checkAndIssueGradeCoupons(userId, currentGrade, threeMonthsAmount) {
     // 최근 3개월 누적 결제 이력이 전혀 없는 무지출 유저는 월간 쿠폰 지급 대상에서 제외
     if (threeMonthsAmount <= 0) {
       return;
@@ -254,15 +257,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const now = new Date();
     const currentYearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-    const LAST_GRADE_COUPON_KEY = "cafe-app-last-grade-coupon-month";
-    const lastIssuedMonth = localStorage.getItem(LAST_GRADE_COUPON_KEY);
+    const lastIssuedMonth = await getLastGradeCouponMonth(userId);
 
     // 이미 이번 달에 등급 쿠폰을 받았다면 패스
     if (lastIssuedMonth === currentYearMonth) {
       return;
     }
 
-    let coupons = getStoredCoupons();
     const expiry = new Date();
     expiry.setMonth(expiry.getMonth() + 1); // 1달 후 만료
 
@@ -273,7 +274,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // 5% 할인 쿠폰 2장
       for (let i = 0; i < 2; i++) {
         newIssuedCoupons.push({
-          id: `grade-monthly-5pct-${Date.now()}-${i}`,
           name: `[BASIC 혜택] 월간 5% 할인 쿠폰`,
           valueText: "5% 할인",
           isPercent: true,
@@ -286,7 +286,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // 10% 할인 쿠폰 2장
       for (let i = 0; i < 2; i++) {
         newIssuedCoupons.push({
-          id: `grade-monthly-10pct-${Date.now()}-${i}`,
           name: `[REGULAR 혜택] 월간 10% 할인 쿠폰`,
           valueText: "10% 할인",
           isPercent: true,
@@ -299,7 +298,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // 15% 할인 쿠폰 2장 + 아메리카노 1잔 무료 쿠폰 1장
       for (let i = 0; i < 2; i++) {
         newIssuedCoupons.push({
-          id: `grade-monthly-15pct-${Date.now()}-${i}`,
           name: `[GOLD 혜택] 월간 15% 할인 쿠폰`,
           valueText: "15% 할인",
           isPercent: true,
@@ -309,7 +307,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
       newIssuedCoupons.push({
-        id: `grade-monthly-free-americano-${Date.now()}-0`,
         name: `[GOLD 혜택] 아메리카노 1잔 무료 쿠폰`,
         valueText: "FREE DRINK",
         isPercent: false,
@@ -320,7 +317,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // 20% 할인 쿠폰 2장 + 아메리카노 1잔 무료 쿠폰 1장
       for (let i = 0; i < 2; i++) {
         newIssuedCoupons.push({
-          id: `grade-monthly-20pct-${Date.now()}-${i}`,
           name: `[VIP 혜택] 월간 20% 할인 쿠폰`,
           valueText: "20% 할인",
           isPercent: true,
@@ -330,7 +326,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
       newIssuedCoupons.push({
-        id: `grade-monthly-free-americano-${Date.now()}-0`,
         name: `[VIP 혜택] 아메리카노 1잔 무료 쿠폰`,
         valueText: "FREE DRINK",
         isPercent: false,
@@ -340,9 +335,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (newIssuedCoupons.length > 0) {
-      coupons = coupons.concat(newIssuedCoupons);
-      saveStoredCoupons(coupons);
-      localStorage.setItem(LAST_GRADE_COUPON_KEY, currentYearMonth);
+      await issueCoupons(userId, newIssuedCoupons);
+      await setLastGradeCouponMonth(userId, currentYearMonth);
 
       // 알림 배너 노출
       if (couponAlertEl) {
@@ -353,6 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 6000);
       }
 
+      const coupons = await getStoredCoupons(userId);
       renderCoupons(coupons);
     }
   }
@@ -500,8 +495,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------------- 6.5 쿠폰 전체보기 모달 인터랙션 ---------------- */
 
   if (openCouponsModalBtn) {
-    openCouponsModalBtn.addEventListener("click", () => {
-      const coupons = getStoredCoupons();
+    openCouponsModalBtn.addEventListener("click", async () => {
+      const userId = await ensureProfileId();
+      const coupons = await getStoredCoupons(userId);
       renderAllCouponsModal(coupons);
       allCouponsModal.classList.add("active");
     });
@@ -608,5 +604,5 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------------- 8. 페이지 초기 로딩 실행 ---------------- */
 
   renderProfile();
-  analyzeOrdersAndStamp();
+  await analyzeOrdersAndStamp();
 });

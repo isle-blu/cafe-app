@@ -13,21 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * 로컬 스토리지 또는 data.js에서 메뉴 데이터를 가져와 인기 메뉴 목록을 렌더링합니다.
+ * Supabase에서 메뉴 데이터를 가져와 인기 메뉴 목록을 렌더링합니다.
  */
-function renderPopularMenus() {
+async function renderPopularMenus() {
   const popularGrid = document.getElementById("popular-menu-grid");
   if (!popularGrid) return;
 
-  // utils.js의 getStoredMenus 함수 사용
-  let menus = [];
-  if (typeof getStoredMenus === "function") {
-    menus = getStoredMenus();
-  } else if (typeof getStoredMenusRaw === "function") {
-    menus = getStoredMenusRaw();
-  } else {
-    menus = typeof MENUS !== "undefined" ? MENUS : [];
-  }
+  const menus = await getStoredMenus();
 
   // 인기 메뉴 필터링 (isPopular === true)
   let popularItems = menus.filter(menu => menu.isPopular);
@@ -48,25 +40,17 @@ function renderPopularMenus() {
     return;
   }
 
+  const categories = await getCategories();
+  const categoryById = new Map(categories.map((c) => [c.id, c]));
+
   // 메뉴 카드 엘리먼트 생성 및 추가
   popularItems.forEach(menu => {
     const card = document.createElement("div");
     card.className = "menu-card glass";
-    
+
     // 카테고리 이름 가져오기
-    let categoryName = "";
-    if (typeof getCategoryById === "function") {
-      const category = getCategoryById(menu.categoryId);
-      categoryName = category ? category.name : "";
-    } else {
-      const categoryMap = {
-        coffee: "커피",
-        "non-coffee": "논커피",
-        tea: "티",
-        dessert: "디저트"
-      };
-      categoryName = categoryMap[menu.categoryId] || "";
-    }
+    const category = categoryById.get(menu.categoryId);
+    const categoryName = category ? category.name : "";
 
     // 뱃지 HTML 생성
     let badgesHtml = "";

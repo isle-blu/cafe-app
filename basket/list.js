@@ -1,11 +1,8 @@
 let selectedCouponId = "";
-const COUPONS_KEY = "cafe-app-coupons";
+let currentUserId = null;
+let cachedCoupons = [];
 
-function getCoupons() {
-  return getStoredCoupons();
-}
-
-function calculateDiscount(coupon, totalCartPrice) {
+async function calculateDiscount(coupon, totalCartPrice) {
   if (!coupon) return { discountAmount: 0, finalPrice: totalCartPrice };
 
   if (coupon.isPercent) {
@@ -22,13 +19,14 @@ function calculateDiscount(coupon, totalCartPrice) {
     const cart = getCart();
     let hasDrink = false;
 
-    cart.forEach(item => {
-      const menu = getMenuById(item.menuId);
+    for (const item of cart) {
+      const menu = await getMenuById(item.menuId);
       // 디저트가 아니면 음료로 취급
       if (menu && menu.categoryId !== "dessert") {
         hasDrink = true;
+        break;
       }
-    });
+    }
 
     if (!hasDrink) {
       // 음료가 장바구니에 없으면 쿠폰 적용 불가능
@@ -45,7 +43,7 @@ function calculateDiscount(coupon, totalCartPrice) {
   }
 }
 
-function renderBasket() {
+async function renderBasket() {
   const listEl = document.getElementById("basket-list");
   const emptyEl = document.getElementById("empty-state");
   const checkoutEl = document.getElementById("checkout-section");
@@ -70,10 +68,16 @@ function renderBasket() {
   if (contentCardEl) contentCardEl.style.display = "";
   emptyEl.style.display = "none";
 
+  const menusById = new Map(
+    (await Promise.all(cart.map((item) => getMenuById(item.menuId)))).map(
+      (menu) => [menu ? menu.id : null, menu]
+    )
+  );
+
   listEl.innerHTML = cart
     .map((item) => {
       // Find full menu details to get the image
-      const menu = getMenuById(item.menuId);
+      const menu = menusById.get(item.menuId);
       const defaultImage = "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500&auto=format&fit=crop&q=60";
       const imageSrc = menu ? menu.image : defaultImage;
 
@@ -116,15 +120,16 @@ function renderBasket() {
 
   // 쿠폰 렌더링 및 가격 연산
   const totalCartPrice = getCartTotal();
-  const coupons = getCoupons();
+  const coupons = await getStoredCoupons(currentUserId);
+  cachedCoupons = coupons;
   const couponSelect = document.getElementById("coupon-select");
 
   if (couponSelect) {
     couponSelect.innerHTML = '<option value="">적용할 쿠폰을 선택하세요</option>';
-    
+
     // 유효한 쿠폰들만 옵션으로 노출
     const validCoupons = coupons.filter(coupon => new Date(coupon.expiryDate) >= new Date());
-    
+
     if (validCoupons.length === 0) {
       couponSelect.innerHTML = '<option value="">적용 가능한 쿠폰이 없습니다</option>';
     } else {
@@ -142,13 +147,13 @@ function renderBasket() {
 
   // 할인 계산 및 무효화 체크
   let currentCoupon = coupons.find(c => c.id === selectedCouponId);
-  let discountInfo = calculateDiscount(currentCoupon, totalCartPrice);
+  let discountInfo = await calculateDiscount(currentCoupon, totalCartPrice);
 
   if (selectedCouponId && currentCoupon && discountInfo.isInvalid) {
     alert("무료 음료 쿠폰은 음료 메뉴가 포함되어 있어야 적용할 수 있습니다.");
     selectedCouponId = "";
     if (couponSelect) couponSelect.value = "";
-    discountInfo = calculateDiscount(null, totalCartPrice);
+    discountInfo = await calculateDiscount(null, totalCartPrice);
   }
 
   const discountRow = document.getElementById("coupon-discount-row");
@@ -174,19 +179,19 @@ function bindBasketEvents() {
     const temperature = itemEl.dataset.temperature || null;
 
     // Decrease
-    itemEl.querySelector(".btn-decrease").addEventListener("click", () => {
+    itemEl.querySelector(".btn-decrease").addEventListener("click", async () => {
       const cart = getCart();
       const current = cart.find(
         (item) => item.menuId === menuId && item.temperature === temperature
       );
       if (current && current.quantity > 1) {
         updateCartQuantity(menuId, temperature, current.quantity - 1);
-        renderBasket();
+        await renderBasket();
       }
     });
 
     // Increase
-    itemEl.querySelector(".btn-increase").addEventListener("click", () => {
+    itemEl.querySelector(".btn-increase").addEventListener("click", async () => {
       const cart = getCart();
       const current = cart.find(
         (item) => item.menuId === menuId && item.temperature === temperature
@@ -197,43 +202,40 @@ function bindBasketEvents() {
           return;
         }
         updateCartQuantity(menuId, temperature, current.quantity + 1);
-        renderBasket();
+        await renderBasket();
       }
     });
 
     // Remove
-    itemEl.querySelector(".btn-remove").addEventListener("click", () => {
+    itemEl.querySelector(".btn-remove").addEventListener("click", async () => {
       removeFromCart(menuId, temperature);
-      renderBasket();
+      await renderBasket();
     });
   });
 }
 
-function init() {
-  renderBasket();
-
-  // Coupon change event
+async function init() {
+  // 정적 이벤트 리스너는 장바구니 렌더링(Supabase 조회) 완료를 기다리지 않고 먼저 바인딩한다.
+  // (렌더링 중 카트 아이템 DOM은 먼저 그려지므로, 바인딩을 뒤로 미루면 그 사이의 클릭이 무시된다.)
   const couponSelect = document.getElementById("coupon-select");
   if (couponSelect) {
-    couponSelect.addEventListener("change", (e) => {
+    couponSelect.addEventListener("change", async (e) => {
       selectedCouponId = e.target.value;
-      renderBasket();
+      await renderBasket();
     });
   }
 
-  // Order click
   const btnOrder = document.getElementById("btn-order");
   const modal = document.getElementById("order-success-modal");
   const btnModalClose = document.getElementById("btn-modal-close");
 
   if (btnOrder) {
-    btnOrder.addEventListener("click", () => {
+    btnOrder.addEventListener("click", async () => {
       let couponInfo = null;
       if (selectedCouponId) {
-        const coupons = getCoupons();
-        const coupon = coupons.find(c => c.id === selectedCouponId && new Date(c.expiryDate) >= new Date());
+        const coupon = cachedCoupons.find(c => c.id === selectedCouponId && new Date(c.expiryDate) >= new Date());
         if (coupon) {
-          const discountInfo = calculateDiscount(coupon, getCartTotal());
+          const discountInfo = await calculateDiscount(coupon, getCartTotal());
           couponInfo = {
             id: coupon.id,
             name: coupon.name,
@@ -246,18 +248,14 @@ function init() {
         }
       }
 
-      const newOrder = checkoutCart(couponInfo);
+      const newOrder = await checkoutCart(couponInfo, currentUserId);
       if (newOrder) {
-        // 쿠폰 소모 처리
-        if (selectedCouponId) {
-          let coupons = getCoupons();
-          coupons = coupons.filter(c => c.id !== selectedCouponId);
-          localStorage.setItem(COUPONS_KEY, JSON.stringify(coupons));
-          selectedCouponId = ""; // 초기화
-        }
+        selectedCouponId = ""; // 초기화 (쿠폰 소모 처리는 checkoutCart 내부에서 수행)
 
         // Show success modal
         modal.style.display = "flex";
+      } else {
+        alert("주문 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
       }
     });
   }
@@ -268,6 +266,9 @@ function init() {
       window.location.href = "../orders/list.html";
     });
   }
+
+  currentUserId = await ensureProfileId();
+  await renderBasket();
 }
 
 init();

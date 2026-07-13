@@ -8,7 +8,7 @@ const deleteModal = document.getElementById("deleteModal");
 const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 
 // 초기화 실행
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // URL에서 id 파라미터 파싱
   const urlParams = new URLSearchParams(window.location.search);
   menuId = urlParams.get("id");
@@ -19,14 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 데이터 로드
-  currentMenu = getStoredMenuById(menuId);
+  currentMenu = await getStoredMenuById(menuId);
 
   if (!currentMenu) {
     renderError("메뉴를 찾을 수 없습니다.", `ID: ${menuId}에 해당하는 메뉴 정보가 존재하지 않습니다.`);
     return;
   }
 
-  renderMenuDetail();
+  await renderMenuDetail();
   setupEventListeners();
 });
 
@@ -43,9 +43,9 @@ function renderError(title, message) {
 
 // 이벤트 리스너 설정
 function setupEventListeners() {
-  confirmDeleteBtn.addEventListener("click", () => {
+  confirmDeleteBtn.addEventListener("click", async () => {
     if (menuId) {
-      deleteMenu(menuId);
+      await deleteMenu(menuId);
       closeDeleteModal();
       // 삭제 성공 후 목록 페이지로 이동
       window.location.href = "list.html";
@@ -54,8 +54,8 @@ function setupEventListeners() {
 }
 
 // 상세 정보 렌더링
-function renderMenuDetail() {
-  const category = getCategoryById(currentMenu.categoryId);
+async function renderMenuDetail() {
+  const category = await getCategoryById(currentMenu.categoryId);
   const categoryName = category ? category.name : "미지정";
 
   // 배지 HTML 생성
