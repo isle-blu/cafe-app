@@ -210,44 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------------- 4. 쿠폰함 로직 ---------------- */
 
   function checkAndIssueStampCoupons(targetCount) {
-    let coupons = getLocalData(COUPONS_KEY, null);
-    
-    // 최초 실행 시 웰컴 쿠폰 및 테스트용 스탬프 쿠폰 1장 발급
-    if (!coupons) {
-      const expiry = new Date();
-      expiry.setMonth(expiry.getMonth() + 1); // 1달 후 만료
-      
-      const stampExpiry = new Date();
-      stampExpiry.setMonth(stampExpiry.getMonth() + 3); // 3달 후 만료
-
-      coupons = [
-        {
-          id: "welcome-10pct",
-          name: "신규 가입 감사 10% 할인 쿠폰",
-          valueText: "10% 할인",
-          isPercent: true,
-          expiryDate: expiry.toISOString(),
-          type: "welcome"
-        },
-        {
-          id: "stamp-free-drink-test",
-          name: "스탬프 완성! 무료 음료 쿠폰",
-          valueText: "FREE DRINK",
-          isPercent: false,
-          expiryDate: stampExpiry.toISOString(),
-          type: "stamp"
-        }
-      ];
-      setLocalData(COUPONS_KEY, coupons);
-    }
-
-    // (테스트용 강제 조정) 기존 스토리지에 스탬프 쿠폰이 여러 개 있으면 일단 하나만 남기기
-    const stampCoupons = coupons.filter(c => c.type === "stamp");
-    if (stampCoupons.length > 1) {
-      const otherCoupons = coupons.filter(c => c.type !== "stamp");
-      coupons = [...otherCoupons, stampCoupons[0]];
-      setLocalData(COUPONS_KEY, coupons);
-    }
+    let coupons = getStoredCoupons();
 
     // 이미 발급받은 스탬프 완성 쿠폰 수 계산
     const currentStampCoupons = coupons.filter(c => c.type === "stamp");
@@ -268,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
           type: "stamp"
         });
       }
-      setLocalData(COUPONS_KEY, coupons);
+      saveStoredCoupons(coupons);
       
       // 알림 배너 노출
       couponAlertEl.style.display = "block";
@@ -291,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    let coupons = getLocalData(COUPONS_KEY, []);
+    let coupons = getStoredCoupons();
     const expiry = new Date();
     expiry.setMonth(expiry.getMonth() + 1); // 1달 후 만료
 
@@ -370,7 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (newIssuedCoupons.length > 0) {
       coupons = coupons.concat(newIssuedCoupons);
-      setLocalData(COUPONS_KEY, coupons);
+      saveStoredCoupons(coupons);
       localStorage.setItem(LAST_GRADE_COUPON_KEY, currentYearMonth);
 
       // 알림 배너 노출
@@ -429,22 +392,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderCoupons(coupons) {
-    const validCount = coupons.filter(c => new Date(c.expiryDate) >= new Date()).length;
+    const sortedCoupons = sortCoupons(coupons);
+    const validCount = sortedCoupons.filter(c => new Date(c.expiryDate) >= new Date()).length;
     couponCountEl.textContent = validCount;
     couponsListEl.innerHTML = "";
 
     // 쿠폰이 있을 때만 전체보기 버튼 노출
     if (openCouponsModalBtn) {
-      openCouponsModalBtn.style.display = coupons.length > 0 ? "block" : "none";
+      openCouponsModalBtn.style.display = sortedCoupons.length > 0 ? "block" : "none";
     }
 
-    if (coupons.length === 0) {
+    if (sortedCoupons.length === 0) {
       couponsListEl.innerHTML = '<div class="no-coupons">보유하고 계신 쿠폰이 없습니다.</div>';
       return;
     }
 
-    // 마이페이지 메인 본문에는 최대 3개만 표시
-    const displayedCoupons = coupons.slice(0, 3);
+    // 마이페이지 메인 본문에는 최대 3개만 표시 (유효하고 정렬된 순)
+    const displayedCoupons = sortedCoupons.slice(0, 3);
     couponsListEl.innerHTML = displayedCoupons.map(createCouponCardMarkup).join('');
   }
 
@@ -453,13 +417,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!couponsListAllEl) return;
 
     couponsListAllEl.innerHTML = "";
-    if (coupons.length === 0) {
+    const sortedCoupons = sortCoupons(coupons);
+    if (sortedCoupons.length === 0) {
       couponsListAllEl.innerHTML = '<div class="no-coupons">보유하고 계신 쿠폰이 없습니다.</div>';
       return;
     }
 
-    // 전체 쿠폰 렌더링
-    couponsListAllEl.innerHTML = coupons.map(createCouponCardMarkup).join('');
+    // 전체 쿠폰 렌더링 (유효하고 정렬된 순)
+    couponsListAllEl.innerHTML = sortedCoupons.map(createCouponCardMarkup).join('');
   }
 
   /* ---------------- 5. 프로필 수정 모달 인터랙션 ---------------- */
@@ -528,7 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (openCouponsModalBtn) {
     openCouponsModalBtn.addEventListener("click", () => {
-      const coupons = getLocalData(COUPONS_KEY, []);
+      const coupons = getStoredCoupons();
       renderAllCouponsModal(coupons);
       allCouponsModal.classList.add("active");
     });
