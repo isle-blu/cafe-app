@@ -16,20 +16,20 @@ const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 const viewToggle = document.getElementById("viewToggle");
 
 // 초기화 실행
-document.addEventListener("DOMContentLoaded", () => {
-  // LocalStorage로부터 메뉴 데이터를 불러옴 (없다면 js/data.js 데이터 활용)
-  currentMenus = getStoredMenus();
-  
-  initCategoryFilters();
+document.addEventListener("DOMContentLoaded", async () => {
+  // Supabase로부터 메뉴 데이터를 불러옴
+  currentMenus = await getStoredMenus();
+
+  await initCategoryFilters();
   initViewMode();
   renderMenus();
   setupEventListeners();
 });
 
 // 카테고리 필터 버튼 렌더링
-function initCategoryFilters() {
-  // CATEGORIES는 js/data.js에 정의된 전역 배열
-  CATEGORIES.forEach(category => {
+async function initCategoryFilters() {
+  const categories = await getCategories();
+  categories.forEach(category => {
     const btn = document.createElement("button");
     btn.className = "filter-btn";
     btn.setAttribute("data-category", category.id);
@@ -61,10 +61,10 @@ function setupEventListeners() {
   });
 
   // 삭제 확정 버튼 클릭
-  confirmDeleteBtn.addEventListener("click", () => {
+  confirmDeleteBtn.addEventListener("click", async () => {
     if (deleteTargetId !== null) {
-      deleteMenu(deleteTargetId);
-      currentMenus = getStoredMenus(); // 데이터 갱신
+      await deleteMenu(deleteTargetId);
+      currentMenus = await getStoredMenus(); // 데이터 갱신
       closeDeleteModal();
       renderMenus();
     }
@@ -116,7 +116,7 @@ function applyViewModeClass() {
 }
 
 // 메뉴 목록 렌더링
-function renderMenus() {
+async function renderMenus() {
   // 필터링 적용
   const filteredMenus = currentMenus.filter(menu => {
     const matchCategory = activeCategory === "all" || menu.categoryId === activeCategory;
@@ -136,10 +136,13 @@ function renderMenus() {
   menuGrid.style.display = "";
   emptyState.style.display = "none";
 
+  const categories = await getCategories();
+  const categoryById = new Map(categories.map((c) => [c.id, c]));
+
   filteredMenus.forEach(menu => {
-    const category = getCategoryById(menu.categoryId);
+    const category = categoryById.get(menu.categoryId);
     const categoryName = category ? category.name : "미지정";
-    
+
     // 카드 엘리먼트 생성
     const card = document.createElement("div");
     card.className = "menu-card glass";

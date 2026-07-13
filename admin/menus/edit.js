@@ -24,7 +24,7 @@ const categoryError = document.getElementById("categoryError");
 const priceError = document.getElementById("priceError");
 
 // 초기화
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // URL에서 id 파라미터 파싱
   const urlParams = new URLSearchParams(window.location.search);
   menuId = urlParams.get("id");
@@ -35,14 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 기존 데이터 로드
-  currentMenu = getStoredMenuById(menuId);
+  currentMenu = await getStoredMenuById(menuId);
 
   if (!currentMenu) {
     renderError("메뉴를 찾을 수 없습니다.", `ID: ${menuId}에 해당하는 메뉴 정보가 존재하지 않습니다.`);
     return;
   }
 
-  initCategorySelect();
+  await initCategorySelect();
   fillFormValues();
   setupEventListeners();
 });
@@ -59,9 +59,9 @@ function renderError(title, message) {
 }
 
 // 카테고리 선택 옵션 로드
-function initCategorySelect() {
-  // CATEGORIES는 js/data.js에 정의된 전역 배열
-  CATEGORIES.forEach(category => {
+async function initCategorySelect() {
+  const categories = await getCategories();
+  categories.forEach(category => {
     const option = document.createElement("option");
     option.value = category.id;
     option.textContent = category.name;
@@ -89,9 +89,9 @@ function fillFormValues() {
 
 // 이벤트 리스너 설정
 function setupEventListeners() {
-  menuForm.addEventListener("submit", (e) => {
+  menuForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     // 에러 리셋
     resetErrors();
 
@@ -112,8 +112,8 @@ function setupEventListeners() {
       isSeason: isSeasonInput.checked
     };
 
-    // 로컬 스토리지 데이터 업데이트
-    updateMenu(menuId, formData);
+    // Supabase 데이터 업데이트
+    await updateMenu(menuId, formData);
 
     // 성공 안내 후 상세 정보 페이지로 이동
     alert("메뉴 정보가 성공적으로 수정되었습니다! ✏️");

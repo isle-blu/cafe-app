@@ -12,19 +12,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // 상태 변수
 let currentOrder = null;
-let allOrders = [];
 
 /**
  * URL 파라미터로부터 id를 추출하여 주문 상세 정보 바인딩
  */
-function initOrderDetail() {
+async function initOrderDetail() {
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = Number(urlParams.get("id"));
 
-  const rawOrders = localStorage.getItem("cafe-app-orders");
-  allOrders = rawOrders ? JSON.parse(rawOrders) : (typeof ORDERS !== "undefined" ? ORDERS : []);
-  
-  currentOrder = allOrders.find(o => o.id === orderId);
+  currentOrder = await getOrderById(orderId);
 
   renderOrderDetail(currentOrder);
 }
@@ -157,17 +153,12 @@ function renderOrderDetail(order) {
 }
 
 /**
- * 변경된 주문 상태를 로컬스토리지에 저장하고 피드백 제공
+ * 변경된 주문 상태를 Supabase에 저장하고 피드백 제공
  */
-function saveNewStatus(orderId, newStatus) {
-  const targetIndex = allOrders.findIndex(o => o.id === orderId);
-  if (targetIndex !== -1) {
-    allOrders[targetIndex].status = newStatus;
-    localStorage.setItem("cafe-app-orders", JSON.stringify(allOrders));
-    
-    alert(`주문 #${orderId}의 상태가 [${newStatus}]로 정상 변경되었습니다.`);
-    window.location.href = "list.html";
-  }
+async function saveNewStatus(orderId, newStatus) {
+  await updateOrderStatus(orderId, newStatus);
+  alert(`주문 #${orderId}의 상태가 [${newStatus}]로 정상 변경되었습니다.`);
+  window.location.href = "list.html";
 }
 
 /**

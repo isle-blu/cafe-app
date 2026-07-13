@@ -9,7 +9,7 @@ let state = {
   quantity: 1,
 };
 
-function renderDetail() {
+async function renderDetail() {
   const container = document.getElementById("menu-detail");
   const menu = state.menu;
 
@@ -18,7 +18,7 @@ function renderDetail() {
     return;
   }
 
-  const category = getCategoryById(menu.categoryId);
+  const category = await getCategoryById(menu.categoryId);
   const totalPrice = menu.price * state.quantity;
   const badgesHtml = `
     ${menu.isPopular ? `<span class="badge badge-popular">인기</span>` : ""}
@@ -125,10 +125,10 @@ function bindDetailEvents() {
   }
 }
 
-function init() {
+async function init() {
   const menuId = getMenuIdFromUrl();
-  state.menu = getMenuById(menuId);
-  renderDetail();
+  state.menu = await getMenuById(menuId);
+  await renderDetail();
 }
 
 init();

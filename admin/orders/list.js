@@ -15,23 +15,10 @@ let allOrders = [];
 let currentViewMode = "table"; // 기본 보기 모드: 테이블
 
 /**
- * 로컬스토리지 주문 데이터 로드 및 렌더링
+ * Supabase 주문 데이터 로드 및 렌더링
  */
-function initOrdersList() {
-  const rawOrders = localStorage.getItem("cafe-app-orders");
-  allOrders = rawOrders ? JSON.parse(rawOrders) : (typeof ORDERS !== "undefined" ? ORDERS : []);
-
-  // 레거시 '주문완료' 상태 마이그레이션
-  let hasLegacyStatus = false;
-  allOrders.forEach(order => {
-    if (order.status === "주문완료") {
-      order.status = "준비중";
-      hasLegacyStatus = true;
-    }
-  });
-  if (hasLegacyStatus) {
-    localStorage.setItem("cafe-app-orders", JSON.stringify(allOrders));
-  }
+async function initOrdersList() {
+  allOrders = await getOrders();
 
   // 초기 렌더링
   performFiltering();
@@ -52,10 +39,9 @@ function initOrdersList() {
   const btnViewTicket = document.getElementById("btn-view-ticket");
 
   if (btnViewTable && btnViewTicket) {
-    btnViewTable.addEventListener("click", () => {
-      // 로컬스토리지에서 최신 상태로 동기화
-      const rawOrders = localStorage.getItem("cafe-app-orders");
-      allOrders = rawOrders ? JSON.parse(rawOrders) : allOrders;
+    btnViewTable.addEventListener("click", async () => {
+      // Supabase에서 최신 상태로 동기화
+      allOrders = await getOrders();
 
       currentViewMode = "table";
       btnViewTable.classList.add("active");
@@ -65,10 +51,9 @@ function initOrdersList() {
       performFiltering();
     });
 
-    btnViewTicket.addEventListener("click", () => {
-      // 로컬스토리지에서 최신 상태로 동기화
-      const rawOrders = localStorage.getItem("cafe-app-orders");
-      allOrders = rawOrders ? JSON.parse(rawOrders) : allOrders;
+    btnViewTicket.addEventListener("click", async () => {
+      // Supabase에서 최신 상태로 동기화
+      allOrders = await getOrders();
 
       currentViewMode = "ticket";
       btnViewTicket.classList.add("active");
@@ -304,17 +289,17 @@ function renderTicketView(ordersList) {
   // 상태 전진 이벤트 바인딩
   const bindAdvanceEvents = (targetContainer) => {
     targetContainer.querySelectorAll(".btn-status-advance").forEach(btn => {
-      btn.addEventListener("click", (e) => {
+      btn.addEventListener("click", async (e) => {
         const orderId = Number(e.currentTarget.getAttribute("data-order-id"));
         const nextStatus = e.currentTarget.getAttribute("data-next-status");
         if (!orderId || !nextStatus) return;
 
-        // 로컬스토리지 업데이트 실행
+        // Supabase 업데이트 실행
         const targetIndex = allOrders.findIndex(o => o.id === orderId);
         if (targetIndex !== -1) {
           allOrders[targetIndex].status = nextStatus;
-          localStorage.setItem("cafe-app-orders", JSON.stringify(allOrders));
-          
+          await updateOrderStatus(orderId, nextStatus);
+
           // 실시간 화면 업데이트(필터 재호출)
           performFiltering();
         }
@@ -326,13 +311,13 @@ function renderTicketView(ordersList) {
 }
 
 /**
- * 개별 주문의 상태를 로컬스토리지에 실시간 업데이트하고 셀렉트 박스 스타일 리프레시
+ * 개별 주문의 상태를 Supabase에 실시간 업데이트하고 셀렉트 박스 스타일 리프레시
  */
-function updateOrderStatusInList(orderId, newStatus, selectElement) {
+async function updateOrderStatusInList(orderId, newStatus, selectElement) {
   const targetIndex = allOrders.findIndex(o => o.id === orderId);
   if (targetIndex !== -1) {
     allOrders[targetIndex].status = newStatus;
-    localStorage.setItem("cafe-app-orders", JSON.stringify(allOrders));
+    await updateOrderStatus(orderId, newStatus);
 
     // 색상 클래스 오버라이드
     selectElement.className = "status-select"; // 초기화

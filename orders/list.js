@@ -10,9 +10,10 @@ function getOrderItemQuantity(order) {
   return order.items.reduce((total, item) => total + item.quantity, 0);
 }
 
-function renderOrderList() {
+async function renderOrderList() {
   const listEl = document.getElementById("order-list");
-  const orders = getOrders();
+  const userId = await ensureProfileId();
+  const orders = await getOrders(userId);
 
   if (orders.length === 0) {
     listEl.innerHTML = `<p class="empty-state">주문 내역이 없습니다.</p>`;
@@ -58,3 +59,4 @@ function renderOrderList() {
 }
 
 renderOrderList();
+

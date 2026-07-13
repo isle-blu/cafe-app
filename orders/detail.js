@@ -3,10 +3,10 @@ function getOrderIdFromUrl() {
   return params.get("id");
 }
 
-function renderOrderDetail() {
+async function renderOrderDetail() {
   const container = document.getElementById("order-detail");
   const orderId = getOrderIdFromUrl();
-  const order = getOrderById(orderId);
+  const order = await getOrderById(orderId);
 
   if (!order) {
     container.innerHTML = `<p class="empty-state">주문을 찾을 수 없습니다.</p>`;

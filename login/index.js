@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 2. 통합 로그인 처리
-  unifiedForm.addEventListener("submit", (e) => {
+  unifiedForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const id = loginIdInput.value.trim();
     const credential = loginCredentialInput.value.trim();
@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
           avatar: "👑"
         };
         localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(adminUser));
+        await getOrCreateProfile(adminUser);
         // 모달/얼럿 대기 없이 즉시 리다이렉트
         handleLoginRedirect("admin");
       } else {
@@ -82,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
           phone: testUser.phone,
           avatar: testUser.avatar
         }));
+        await getOrCreateProfile(testUser);
         // 테스트 계정도 확인창 없이 즉각 로그인/이동
         handleLoginRedirect("member");
       } else {
@@ -118,6 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(newProfile));
     }
+
+    await getOrCreateProfile(loggedInUser);
 
     alert(`${id}님, 성공적으로 로그인되었습니다.`);
     handleLoginRedirect("member");

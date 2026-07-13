@@ -12,15 +12,15 @@ const categoryError = document.getElementById("categoryError");
 const priceError = document.getElementById("priceError");
 
 // 초기화
-document.addEventListener("DOMContentLoaded", () => {
-  initCategorySelect();
+document.addEventListener("DOMContentLoaded", async () => {
+  await initCategorySelect();
   setupEventListeners();
 });
 
 // 카테고리 선택 옵션 로드
-function initCategorySelect() {
-  // CATEGORIES는 js/data.js에 정의된 전역 배열
-  CATEGORIES.forEach(category => {
+async function initCategorySelect() {
+  const categories = await getCategories();
+  categories.forEach(category => {
     const option = document.createElement("option");
     option.value = category.id;
     option.textContent = category.name;
@@ -30,9 +30,9 @@ function initCategorySelect() {
 
 // 이벤트 리스너 설정
 function setupEventListeners() {
-  menuForm.addEventListener("submit", (e) => {
+  menuForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     // 에러 리셋
     resetErrors();
 
@@ -53,8 +53,8 @@ function setupEventListeners() {
       isSeason: document.getElementById("isSeason").checked
     };
 
-    // 로컬 스토리지에 새 메뉴 저장
-    createMenu(formData);
+    // Supabase에 새 메뉴 저장
+    await createMenu(formData);
 
     // 성공 메시지 후 리다이렉트
     alert("새 메뉴가 정상적으로 등록되었습니다! ✨");

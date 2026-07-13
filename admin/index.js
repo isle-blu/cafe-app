@@ -3,19 +3,16 @@
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. 주문 데이터 최근 7일 시뮬레이터 (데이터가 없거나 처음 진입 시 차트를 풍성하게 보여주기 위함)
-  initSimulatedOrders();
-
-  // 2. 대시보드 렌더링 초기화
+  // 1. 대시보드 렌더링 초기화
   renderDashboard();
 
-  // 3. 다크모드 동기화
+  // 2. 다크모드 동기화
   initAdminTheme();
 
-  // 4. 오늘 날짜 노출
+  // 3. 오늘 날짜 노출
   displayTodayDate();
 
-  // 5. 새로고침 버튼 이벤트 바인딩
+  // 4. 새로고침 버튼 이벤트 바인딩
   setupRefreshButton();
 });
 
@@ -64,63 +61,13 @@ function setupRefreshButton() {
 }
 
 /**
- * 첫 진입 시 더미 데이터를 최근 일주일 데이터로 변환하여 로컬스토리지에 저장
- */
-function initSimulatedOrders() {
-  const rawOrders = localStorage.getItem("cafe-app-orders");
-  
-  // 이미 사용자가 커스텀 주문을 생성해 쌓여있다면 시뮬레이션을 건너뜀
-  if (!rawOrders) {
-    const baseOrders = typeof ORDERS !== "undefined" ? ORDERS : [];
-    const now = new Date();
-    
-    const simulated = baseOrders.map((order, index) => {
-      // 인덱스를 기준으로 오늘부터 6일 전까지의 날짜로 고르게 분포
-      const dayOffset = index % 7;
-      const orderDate = new Date(now.getTime() - (dayOffset * 24 * 60 * 60 * 1000));
-      
-      // 시간대도 다양하게 설정
-      orderDate.setHours(9 + (index * 2) % 12, (index * 15) % 60, 0);
-
-      // 상태도 현실감 있게 배분
-      let status = "수령완료";
-      if (index === 0) status = "준비중";
-      else if (index === 1) status = "준비중";
-      else if (index === 2) status = "주문취소";
-      else if (index === 5) status = "제조중";
-
-      return {
-        ...order,
-        orderDate: orderDate.toISOString(),
-        status: status
-      };
-    });
-
-    localStorage.setItem("cafe-app-orders", JSON.stringify(simulated));
-  }
-}
-
-/**
  * 대시보드 데이터 연산 및 화면 렌더링 메인 함수
  */
-function renderDashboard() {
-  const rawOrders = localStorage.getItem("cafe-app-orders");
-  const orders = rawOrders ? JSON.parse(rawOrders) : [];
+async function renderDashboard() {
+  const orders = await getOrders();
 
-  // 레거시 '주문완료' 상태 마이그레이션
-  let hasLegacyStatus = false;
-  orders.forEach(order => {
-    if (order.status === "주문완료") {
-      order.status = "준비중";
-      hasLegacyStatus = true;
-    }
-  });
-  if (hasLegacyStatus) {
-    localStorage.setItem("cafe-app-orders", JSON.stringify(orders));
-  }
-  
-  // 등록된 메뉴 정보 가져오기 (js/utils.js 내 getStoredMenus)
-  const menus = typeof getStoredMenus === "function" ? getStoredMenus() : [];
+  // 등록된 메뉴 정보 가져오기
+  const menus = await getStoredMenus();
 
   // 1. 상단 요약 카드 집계
   calculateSummaryCards(orders, menus);
@@ -235,29 +182,19 @@ function renderLiveOrdersTable(orders) {
     select.addEventListener("change", (e) => {
       const orderId = Number(e.target.getAttribute("data-order-id"));
       const newStatus = e.target.value;
-      
-      updateOrderStatus(orderId, newStatus);
+
+      updateOrderStatusFromDashboard(orderId, newStatus);
     });
   });
 }
 
 /**
- * 드롭다운 제어로 주문 상태를 로컬스토리지에 저장하고 갱신
+ * 드롭다운 제어로 주문 상태를 Supabase에 저장하고 대시보드 갱신
  */
-function updateOrderStatus(orderId, newStatus) {
-  const rawOrders = localStorage.getItem("cafe-app-orders");
-  if (!rawOrders) return;
-
-  const orders = JSON.parse(rawOrders);
-  const targetOrder = orders.find(o => o.id === orderId);
-
-  if (targetOrder) {
-    targetOrder.status = newStatus;
-    localStorage.setItem("cafe-app-orders", JSON.stringify(orders));
-    
-    // 화면 정보 실시간 리프레시 (리렌더링)
-    renderDashboard();
-  }
+async function updateOrderStatusFromDashboard(orderId, newStatus) {
+  await updateOrderStatus(orderId, newStatus);
+  // 화면 정보 실시간 리프레시 (리렌더링)
+  await renderDashboard();
 }
 
 /**
