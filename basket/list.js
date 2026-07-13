@@ -2,26 +2,7 @@ let selectedCouponId = "";
 const COUPONS_KEY = "cafe-app-coupons";
 
 function getCoupons() {
-  let coupons = localStorage.getItem(COUPONS_KEY);
-  if (!coupons) {
-    // 신규 가입 웰컴 쿠폰 자동 발급
-    const expiry = new Date();
-    expiry.setMonth(expiry.getMonth() + 1);
-    coupons = [
-      {
-        id: "welcome-10pct",
-        name: "신규 가입 감사 10% 할인 쿠폰",
-        valueText: "10% 할인",
-        isPercent: true,
-        expiryDate: expiry.toISOString(),
-        type: "welcome"
-      }
-    ];
-    localStorage.setItem(COUPONS_KEY, JSON.stringify(coupons));
-  } else {
-    coupons = JSON.parse(coupons);
-  }
-  return coupons;
+  return getStoredCoupons();
 }
 
 function calculateDiscount(coupon, totalCartPrice) {

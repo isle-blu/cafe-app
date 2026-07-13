@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 모달 엘리먼트
   const editProfileModal = document.getElementById("edit-profile-modal");
+  const allCouponsModal = document.getElementById("all-coupons-modal");
+  const openCouponsModalBtn = document.getElementById("open-coupons-modal-btn");
+  const closeCouponsModalBtn = document.getElementById("close-coupons-modal-btn");
   const openEditModalBtn = document.getElementById("open-edit-modal-btn");
   const closeEditModalBtn = document.getElementById("close-edit-modal-btn");
   const cancelEditBtn = document.getElementById("cancel-edit-btn");
@@ -207,25 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------------- 4. 쿠폰함 로직 ---------------- */
 
   function checkAndIssueStampCoupons(targetCount) {
-    let coupons = getLocalData(COUPONS_KEY, null);
-    
-    // 최초 실행 시 웰컴 쿠폰 발급
-    if (!coupons) {
-      const expiry = new Date();
-      expiry.setMonth(expiry.getMonth() + 1); // 1달 후 만료
-      
-      coupons = [
-        {
-          id: "welcome-10pct",
-          name: "신규 가입 감사 10% 할인 쿠폰",
-          valueText: "10% 할인",
-          isPercent: true,
-          expiryDate: expiry.toISOString(),
-          type: "welcome"
-        }
-      ];
-      setLocalData(COUPONS_KEY, coupons);
-    }
+    let coupons = getStoredCoupons();
 
     // 이미 발급받은 스탬프 완성 쿠폰 수 계산
     const currentStampCoupons = coupons.filter(c => c.type === "stamp");
@@ -246,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
           type: "stamp"
         });
       }
-      setLocalData(COUPONS_KEY, coupons);
+      saveStoredCoupons(coupons);
       
       // 알림 배너 노출
       couponAlertEl.style.display = "block";
@@ -274,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    let coupons = getLocalData(COUPONS_KEY, []);
+    let coupons = getStoredCoupons();
     const expiry = new Date();
     expiry.setMonth(expiry.getMonth() + 1); // 1달 후 만료
 
@@ -353,7 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (newIssuedCoupons.length > 0) {
       coupons = coupons.concat(newIssuedCoupons);
-      setLocalData(COUPONS_KEY, coupons);
+      saveStoredCoupons(coupons);
       localStorage.setItem(LAST_GRADE_COUPON_KEY, currentYearMonth);
 
       // 알림 배너 노출
@@ -369,81 +354,82 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function createCouponCardMarkup(coupon) {
+    const expiryText = `${formatDate(coupon.expiryDate)} 까지`;
+
+    const now = new Date();
+    const expiryDate = new Date(coupon.expiryDate);
+    const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const targetDate = new Date(expiryDate.getFullYear(), expiryDate.getMonth(), expiryDate.getDate());
+    const diffTime = targetDate - todayDate;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    let ddayText = "";
+    let isUrgent = false;
+    if (diffDays < 0) {
+      ddayText = "만료";
+      isUrgent = true;
+    } else if (diffDays === 0) {
+      ddayText = "D-Day";
+      isUrgent = true;
+    } else {
+      ddayText = `D-${diffDays}`;
+      if (diffDays <= 7) {
+        isUrgent = true;
+      }
+    }
+
+    const valueHighlightClass = coupon.valueText === "FREE DRINK" ? " highlight" : "";
+    const urgentClass = isUrgent ? " urgent" : "";
+
+    return `
+      <div class="coupon-card glass">
+        <div class="coupon-left">
+          <span class="coupon-value${valueHighlightClass}">${coupon.valueText}</span>
+          <span class="coupon-name">${coupon.name}</span>
+        </div>
+        <div class="coupon-right">
+          <span class="coupon-expiry">${expiryText}</span>
+          <span class="coupon-dday${urgentClass}">${ddayText}</span>
+        </div>
+      </div>
+    `;
+  }
+
   function renderCoupons(coupons) {
-    const validCount = coupons.filter(c => new Date(c.expiryDate) >= new Date()).length;
+    const sortedCoupons = sortCoupons(coupons);
+    const validCount = sortedCoupons.filter(c => new Date(c.expiryDate) >= new Date()).length;
     couponCountEl.textContent = validCount;
     couponsListEl.innerHTML = "";
 
-    if (coupons.length === 0) {
+    // 쿠폰이 있을 때만 전체보기 버튼 노출
+    if (openCouponsModalBtn) {
+      openCouponsModalBtn.style.display = sortedCoupons.length > 0 ? "block" : "none";
+    }
+
+    if (sortedCoupons.length === 0) {
       couponsListEl.innerHTML = '<div class="no-coupons">보유하고 계신 쿠폰이 없습니다.</div>';
       return;
     }
 
-    coupons.forEach(coupon => {
-      const card = document.createElement("div");
-      card.className = "coupon-card glass";
+    // 마이페이지 메인 본문에는 최대 3개만 표시 (유효하고 정렬된 순)
+    const displayedCoupons = sortedCoupons.slice(0, 3);
+    couponsListEl.innerHTML = displayedCoupons.map(createCouponCardMarkup).join('');
+  }
 
-      const left = document.createElement("div");
-      left.className = "coupon-left";
+  function renderAllCouponsModal(coupons) {
+    const couponsListAllEl = document.getElementById("coupons-list-all");
+    if (!couponsListAllEl) return;
 
-      const value = document.createElement("span");
-      value.className = "coupon-value";
-      if (coupon.valueText === "FREE DRINK") {
-        value.classList.add("highlight");
-      }
-      value.textContent = coupon.valueText;
+    couponsListAllEl.innerHTML = "";
+    const sortedCoupons = sortCoupons(coupons);
+    if (sortedCoupons.length === 0) {
+      couponsListAllEl.innerHTML = '<div class="no-coupons">보유하고 계신 쿠폰이 없습니다.</div>';
+      return;
+    }
 
-      const name = document.createElement("span");
-      name.className = "coupon-name";
-      name.textContent = coupon.name;
-
-      left.appendChild(value);
-      left.appendChild(name);
-
-      const right = document.createElement("div");
-      right.className = "coupon-right";
-
-      const expiry = document.createElement("span");
-      expiry.className = "coupon-expiry";
-      expiry.textContent = `${formatDate(coupon.expiryDate)} 까지`;
-
-      // 남은 기간 계산 (D-day)
-      const now = new Date();
-      const expiryDate = new Date(coupon.expiryDate);
-      const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const targetDate = new Date(expiryDate.getFullYear(), expiryDate.getMonth(), expiryDate.getDate());
-      const diffTime = targetDate - todayDate;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      let ddayText = "";
-      let isUrgent = false;
-      if (diffDays < 0) {
-        ddayText = "만료";
-        isUrgent = true;
-      } else if (diffDays === 0) {
-        ddayText = "D-Day";
-        isUrgent = true;
-      } else {
-        ddayText = `D-${diffDays}`;
-        if (diffDays <= 7) { // 7일 이내 만료 예정이면 강조
-          isUrgent = true;
-        }
-      }
-
-      const ddaySpan = document.createElement("span");
-      ddaySpan.className = "coupon-dday";
-      if (isUrgent) {
-        ddaySpan.classList.add("urgent");
-      }
-      ddaySpan.textContent = ddayText;
-
-      right.appendChild(expiry);
-      right.appendChild(ddaySpan);
-
-      card.appendChild(left);
-      card.appendChild(right);
-      couponsListEl.appendChild(card);
-    });
+    // 전체 쿠폰 렌더링 (유효하고 정렬된 순)
+    couponsListAllEl.innerHTML = sortedCoupons.map(createCouponCardMarkup).join('');
   }
 
   /* ---------------- 5. 프로필 수정 모달 인터랙션 ---------------- */
@@ -508,7 +494,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  /* ---------------- 6.5 쿠폰 전체보기 모달 인터랙션 ---------------- */
 
+  if (openCouponsModalBtn) {
+    openCouponsModalBtn.addEventListener("click", () => {
+      const coupons = getStoredCoupons();
+      renderAllCouponsModal(coupons);
+      allCouponsModal.classList.add("active");
+    });
+  }
+
+  function closeCouponsModal() {
+    allCouponsModal.classList.remove("active");
+  }
+
+  if (closeCouponsModalBtn) {
+    closeCouponsModalBtn.addEventListener("click", closeCouponsModal);
+  }
+
+  if (allCouponsModal) {
+    allCouponsModal.addEventListener("click", (e) => {
+      if (e.target === allCouponsModal) {
+        closeCouponsModal();
+      }
+    });
+  }
 
   /* ---------------- 7.5 최근 주문 렌더링 함수 ---------------- */
 
