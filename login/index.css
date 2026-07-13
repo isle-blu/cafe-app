@@ -1,0 +1,330 @@
+/* ==========================================================================
+   Cafe Isle 로그인 페이지 스타일
+   ========================================================================== */
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-height) - 80px);
+  padding: var(--spacing-xl) var(--spacing-md);
+  box-sizing: border-box;
+}
+
+.login-card-wrapper {
+  width: 100%;
+  max-width: 440px;
+  perspective: 1000px;
+}
+
+.login-card {
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  width: 100%;
+  animation: cardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 브랜드 로고 영역 */
+.login-brand {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.brand-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base);
+}
+
+.brand-logo:hover {
+  transform: rotate(15deg) scale(1.05);
+}
+
+.login-brand h2 {
+  font-family: "Outfit", sans-serif;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.login-brand p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+}
+
+/* 탭 컨트롤 */
+.tabs-container {
+  display: flex;
+  background: rgba(111, 78, 55, 0.08);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  gap: 4px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: calc(var(--radius-md) - 2px);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+
+.tab-btn:hover {
+  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.tab-btn.active {
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 폼 컨테이너 */
+.forms-container {
+  position: relative;
+}
+
+.login-form {
+  display: none;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.login-form.active {
+  display: flex;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.form-group label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-light);
+  letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(111, 78, 55, 0.3); /* 선명한 테두리선 */
+  background: #ffffff !important; /* 밝고 화사한 흰색 배경 */
+  color: #3b2a1e !important; /* 가독성 높은 어두운 갈색 글자 */
+  outline: none;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-base);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.input-wrapper input::placeholder {
+  color: #8c7361 !important; /* 선명하고 차분한 플레이스홀더 색상 */
+  opacity: 0.85;
+}
+
+.input-wrapper input:focus {
+  border-color: var(--color-primary);
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(111, 78, 55, 0.2);
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-light);
+  font-size: 1rem;
+  pointer-events: none;
+  transition: color var(--transition-base);
+}
+
+.input-wrapper input:focus + .input-icon {
+  color: var(--color-primary);
+}
+
+/* 버튼 스타일 */
+.btn-login-submit {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-weight: 600;
+  font-size: var(--font-size-md);
+  text-align: center;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid transparent;
+}
+
+.btn-login-submit:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 44, 29, 0.2);
+}
+
+.btn-login-submit:active {
+  transform: translateY(0);
+}
+
+.btn-login-submit.admin {
+  background: var(--color-primary-dark);
+}
+
+.btn-login-submit.admin:hover {
+  background: #361f14;
+}
+
+/* 구분선 */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--color-text-light);
+  font-size: var(--font-size-xs);
+  margin: var(--spacing-xs) 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.divider span {
+  padding: 0 var(--spacing-sm);
+  font-weight: 500;
+}
+
+/* 2차 버튼 (테스트 계정 로그인 등) */
+.btn-secondary-login {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-secondary);
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-base);
+}
+
+.btn-secondary-login:hover {
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 관리자 안내 박스 */
+.login-hint-box {
+  background: rgba(217, 160, 91, 0.1);
+  border: 1px solid rgba(217, 160, 91, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.hint-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.login-hint-box p {
+  font-size: var(--font-size-xs);
+  color: var(--color-text);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.login-hint-box strong {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  background: var(--color-surface);
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+}
+
+/* 푸터 고정 */
+.main-footer {
+  padding: var(--spacing-xl) 0;
+  text-align: center;
+}
+
+.copyright {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+}
+
+/* 다크모드 추가 오버라이드 (variables.css 대응 외 추가 디테일) */
+:root[data-theme="dark"] .tabs-container {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+:root[data-theme="dark"] .tab-btn.active {
+  background: var(--color-surface);
+  color: var(--color-primary);
+}
+
+:root[data-theme="dark"] .login-hint-box {
+  background: rgba(229, 176, 122, 0.05);
+  border-color: rgba(229, 176, 122, 0.2);
+}
+
+:root[data-theme="dark"] .login-hint-box strong {
+  background: rgba(255, 255, 255, 0.05);
+}

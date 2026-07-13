@@ -48,11 +48,63 @@
   
   // DOM 로딩 완료 전 <html> 속성 조작
   document.documentElement.setAttribute("data-theme", initialTheme);
+
+  // 4.5 관리자 페이지 및 고객 전용 서비스 접근 제어 (Auth Guard)
+  function runAuthGuard() {
+    const pathname = window.location.pathname;
+    if (pathname.includes("/login/")) return;
+
+    const rawUser = localStorage.getItem("cafe-app-logged-in-user");
+    const loggedInUser = rawUser ? JSON.parse(rawUser) : null;
+    
+    const isAdminPage = pathname.includes("/admin/");
+    const isMyPage = pathname.includes("/my/");
+    const isOrdersPage = pathname.includes("/orders/");
+
+    function getRelativeLoginPath() {
+      if (pathname.includes("/admin/menus/") || pathname.includes("/admin/orders/")) {
+        return "../../login/index.html";
+      } else if (
+        pathname.includes("/admin/") || 
+        pathname.includes("/my/") || 
+        pathname.includes("/orders/") || 
+        pathname.includes("/menus/") || 
+        pathname.includes("/basket/") ||
+        pathname.endsWith("/admin") ||
+        pathname.endsWith("/my") ||
+        pathname.endsWith("/orders") ||
+        pathname.endsWith("/menus") ||
+        pathname.endsWith("/basket")
+      ) {
+        return "../login/index.html";
+      } else {
+        return "login/index.html";
+      }
+    }
+
+    const loginPath = getRelativeLoginPath();
+
+    if (isAdminPage) {
+      if (!loggedInUser || loggedInUser.role !== "admin") {
+        alert("관리자 권한이 필요합니다. 로그인 페이지로 이동합니다.");
+        window.location.href = loginPath + "?redirect=" + encodeURIComponent(window.location.href);
+      }
+    } else if (isMyPage || isOrdersPage) {
+      if (!loggedInUser) {
+        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+        window.location.href = loginPath + "?redirect=" + encodeURIComponent(window.location.href);
+      }
+    }
+  }
+
+  // Run Auth Guard immediately (before DOM loads)
+  runAuthGuard();
   
   // DOMContentLoaded 시점에 body 클래스 조작 및 버튼 매핑
   document.addEventListener("DOMContentLoaded", () => {
     applyTheme(initialTheme);
     initThemeToggleButton();
+    initAuthUI();
   });
 
   // 5. 시스템 테마 변경 리스너 (사용자 커스텀 설정이 없을 때만 작동)
@@ -82,5 +134,73 @@
     window.addEventListener("themechange", (e) => {
       toggleInput.checked = (e.detail.theme === "dark");
     });
+  }
+
+  // 7. 동적 로그인/로그아웃 버튼 UI 구현
+  function initAuthUI() {
+    const pathname = window.location.pathname;
+    
+    // Do not inject button on login or admin pages
+    if (pathname.includes("/login/") || pathname.includes("/admin/")) {
+      return;
+    }
+
+    const headerContainer = document.querySelector(".header-actions") || document.querySelector(".header-controls");
+    if (!headerContainer) return;
+
+    // Prevent duplicate injections
+    if (document.getElementById("header-auth-action-btn")) return;
+
+    const rawUser = localStorage.getItem("cafe-app-logged-in-user");
+    const loggedInUser = rawUser ? JSON.parse(rawUser) : null;
+
+    function getRelativeLoginPath() {
+      if (
+        pathname.includes("/my/") || 
+        pathname.includes("/orders/") || 
+        pathname.includes("/menus/") || 
+        pathname.includes("/basket/") ||
+        pathname.endsWith("/my") ||
+        pathname.endsWith("/orders") ||
+        pathname.endsWith("/menus") ||
+        pathname.endsWith("/basket")
+      ) {
+        return "../login/index.html";
+      } else {
+        return "login/index.html";
+      }
+    }
+
+    const loginPath = getRelativeLoginPath();
+
+    if (loggedInUser) {
+      // Create Logout Button
+      const logoutBtn = document.createElement("button");
+      logoutBtn.id = "header-auth-action-btn";
+      logoutBtn.className = "auth-text-btn";
+      logoutBtn.setAttribute("aria-label", "로그아웃");
+      logoutBtn.setAttribute("title", "로그아웃");
+      logoutBtn.textContent = "로그아웃";
+      logoutBtn.addEventListener("click", () => {
+        if (confirm("로그아웃하시겠습니까?")) {
+          localStorage.removeItem("cafe-app-logged-in-user");
+          alert("성공적으로 로그아웃되었습니다.");
+          // Redirect to home page
+          let homePath = pathname.includes("/my/") || pathname.includes("/orders/") || pathname.includes("/menus/") || pathname.includes("/basket/") ? "../" : "";
+          window.location.href = homePath + "index.html";
+        }
+      });
+      headerContainer.appendChild(logoutBtn);
+    } else {
+      // Create Login Button
+      const loginBtn = document.createElement("a");
+      loginBtn.id = "header-auth-action-btn";
+      loginBtn.className = "auth-text-btn";
+      loginBtn.setAttribute("href", loginPath + "?redirect=" + encodeURIComponent(window.location.href));
+      loginBtn.setAttribute("aria-label", "로그인");
+      loginBtn.setAttribute("title", "로그인");
+      loginBtn.textContent = "로그인";
+      headerContainer.appendChild(loginBtn);
+    }
   }
 })();

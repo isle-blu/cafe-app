@@ -604,3 +604,30 @@ input:checked + .slider .handle .icon-moon {
   background: #1b7a43 !important; /* 짙고 산뜻한 포레스트 에메랄드 그린 컬러 (흰색 글씨 가독성 향상) */
 }
 
+/* 로그인/로그아웃 텍스트 버튼 스타일 */
+.auth-text-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 16px !important;
+  border-radius: var(--radius-full) !important;
+  background: #3e271a !important; /* 장바구니 버튼과 동일한 어두운 커피 원두 갈색 */
+  border: 1px solid #2b1a11 !important;
+  color: #faf3e8 !important; /* 장바구니 아이콘과 동일한 따뜻한 크림빛 흰색 */
+  font-size: var(--font-size-sm) !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all var(--transition-fast) !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  height: 38px !important; /* Align nicely with other header components */
+  box-sizing: border-box !important;
+}
+
+.auth-text-btn:hover {
+  background: #2b1a11 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+
