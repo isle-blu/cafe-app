@@ -363,7 +363,13 @@ async function checkoutCart(couponInfo, userId) {
   const { error: itemsError } = await supabaseClient
     .from("order_items")
     .insert(itemRows);
-  if (itemsError) console.error(itemsError);
+
+  if (itemsError) {
+    console.error(itemsError);
+    // 자식 아이템 적재 실패 시 빈 껍데기 주문이 DB에 남지 않도록 부모 주문을 롤백
+    await supabaseClient.from("orders").delete().eq("id", order.id);
+    return null;
+  }
 
   if (couponInfo && couponInfo.id) {
     await markCouponUsed(couponInfo.id);
