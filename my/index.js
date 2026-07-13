@@ -210,7 +210,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderCoupons(coupons) {
-    couponCountEl.textContent = coupons.length;
+    const validCount = coupons.filter(c => new Date(c.expiryDate) >= new Date()).length;
+    couponCountEl.textContent = validCount;
     couponsListEl.innerHTML = "";
 
     if (coupons.length === 0) {
@@ -374,7 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // 총 결제 금액 계산
-        const totalAmount = order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const totalAmount = order.finalPrice !== undefined ? order.finalPrice : order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
         // 상태값 별 뱃지 클래스
         let statusClass = "status-completed";

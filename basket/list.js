@@ -79,6 +79,7 @@ function renderBasket() {
   }
 
   if (cart.length === 0) {
+    selectedCouponId = ""; // clear stale coupon when cart empties
     if (contentCardEl) contentCardEl.style.display = "none";
     emptyEl.style.display = "flex";
     return;
@@ -248,7 +249,7 @@ function init() {
       let couponInfo = null;
       if (selectedCouponId) {
         const coupons = getCoupons();
-        const coupon = coupons.find(c => c.id === selectedCouponId);
+        const coupon = coupons.find(c => c.id === selectedCouponId && new Date(c.expiryDate) >= new Date());
         if (coupon) {
           const discountInfo = calculateDiscount(coupon, getCartTotal());
           couponInfo = {
@@ -257,6 +258,9 @@ function init() {
             discountAmount: discountInfo.discountAmount,
             finalPrice: discountInfo.finalPrice
           };
+        } else {
+          alert("선택하신 쿠폰이 만료되어 적용되지 않았습니다.");
+          selectedCouponId = "";
         }
       }
 
