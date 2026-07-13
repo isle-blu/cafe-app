@@ -215,7 +215,7 @@ function deleteMenu(id) {
   return filtered;
 }
 
-function checkoutCart() {
+function checkoutCart(couponInfo = null) {
   const cart = getCart();
   if (cart.length === 0) return null;
 
@@ -230,6 +230,13 @@ function checkoutCart() {
     status: "준비중",
     items: [...cart]
   };
+
+  if (couponInfo) {
+    newOrder.usedCouponId = couponInfo.id;
+    newOrder.usedCouponName = couponInfo.name;
+    newOrder.discountAmount = couponInfo.discountAmount;
+    newOrder.finalPrice = couponInfo.finalPrice;
+  }
 
   storedOrders.push(newOrder);
   localStorage.setItem("cafe-app-orders", JSON.stringify(storedOrders));

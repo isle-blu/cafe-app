@@ -576,3 +576,61 @@
     padding: calc(var(--spacing-2xl) * 2) var(--spacing-md);
   }
 }
+
+/* 쿠폰 적용 영역 */
+.coupon-select-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-xs);
+}
+
+.coupon-label {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.coupon-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.coupon-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.coupon-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(111, 78, 55, 0.1);
+}
+
+/* 화살표 아이콘 */
+.coupon-select-wrapper::after {
+  content: '\f107'; /* font-awesome angle-down */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-light);
+  pointer-events: none;
+}
+
+.discount-color {
+  color: var(--color-danger) !important;
+}

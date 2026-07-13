@@ -33,7 +33,7 @@ function renderOrderList() {
           <p class="order-summary">${buildOrderSummary(order)}</p>
           <div class="order-footer">
             <span class="item-count">${order.items.length}종 ${getOrderItemQuantity(order)}개</span>
-            <span class="order-total">${formatPrice(getOrderTotal(order))}</span>
+            <span class="order-total">${formatPrice(order.finalPrice !== undefined ? order.finalPrice : getOrderTotal(order))}</span>
           </div>
         </article>
       `;

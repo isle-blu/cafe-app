@@ -41,10 +41,31 @@ function renderOrderDetail() {
 
       <div class="item-list">${itemsHtml}</div>
 
-      <div class="total-bar glass">
-        <span class="label">총 결제금액</span>
-        <span class="amount">${formatPrice(getOrderTotal(order))}</span>
-      </div>
+      ${
+        order.discountAmount !== undefined && order.discountAmount > 0
+          ? `
+            <div class="price-summary-box glass" style="display: flex; flex-direction: column; gap: var(--spacing-sm); padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface); margin-top: var(--spacing-md);">
+              <div style="display: flex; justify-content: space-between; font-size: var(--font-size-sm); color: var(--color-text-light);">
+                <span>총 주문금액</span>
+                <span>${formatPrice(getOrderTotal(order))}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: var(--font-size-sm); color: var(--color-danger);">
+                <span>쿠폰 할인 (${order.usedCouponName})</span>
+                <span>-${formatPrice(order.discountAmount)}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: var(--font-size-md); font-weight: 800; border-top: 1px dashed var(--color-border); padding-top: var(--spacing-sm); color: var(--color-primary-dark);">
+                <span>최종 결제금액</span>
+                <span style="color: var(--color-primary); font-size: 1.4rem;">${formatPrice(order.finalPrice)}</span>
+              </div>
+            </div>
+            `
+          : `
+            <div class="total-bar glass">
+              <span class="label">총 결제금액</span>
+              <span class="amount">${formatPrice(getOrderTotal(order))}</span>
+            </div>
+            `
+      }
     </div>
   `;
 }
