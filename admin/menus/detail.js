@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function renderError(title, message) {
   detailCard.innerHTML = `
     <div class="error-message">
-      <h3>🚨 ${title}</h3>
+      <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--color-danger); margin-right: 6px;"></i> ${title}</h3>
       <p>${message}</p>
       <a href="list.html" class="btn btn-primary btn-sm" style="margin-top: 20px;">목록으로 돌아가기</a>
     </div>
@@ -93,23 +93,23 @@ function renderMenuDetail() {
         </div>
         <div class="meta-item">
           <span class="meta-label">인기 상품 설정</span>
-          <span class="meta-value">${currentMenu.isPopular ? "설정됨 🔥" : "일반"}</span>
+          <span class="meta-value">${currentMenu.isPopular ? `설정됨 <i class="fa-solid fa-fire" style="color: #e63946; margin-left: 4px;"></i>` : "일반"}</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">신규 상품 설정</span>
-          <span class="meta-value">${currentMenu.isNew ? "설정됨 ✨" : "일반"}</span>
+          <span class="meta-value">${currentMenu.isNew ? `설정됨 <i class="fa-solid fa-star" style="color: #fca311; margin-left: 4px;"></i>` : "일반"}</span>
         </div>
       </div>
 
       <div class="detail-actions-footer">
         <button class="btn btn-secondary" onclick="window.location.href='list.html'">
-          📋 목록으로
+          <i class="fa-solid fa-list" style="margin-right: 6px;"></i> 목록으로
         </button>
         <button class="btn btn-primary" onclick="goToEdit(${currentMenu.id})">
-          ✏️ 수정하기
+          <i class="fa-solid fa-pen-to-square" style="margin-right: 6px;"></i> 수정하기
         </button>
         <button class="btn btn-danger" onclick="openDeleteModal()">
-          🗑️ 삭제하기
+          <i class="fa-solid fa-trash" style="margin-right: 6px;"></i> 삭제하기
         </button>
       </div>
     </div>

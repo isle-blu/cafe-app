@@ -119,10 +119,10 @@ const MENUS_STORAGE_KEY = "cafe-app-menus";
 
 // 카테고리별 기본 이미지 매핑
 const DEFAULT_IMAGES = {
-  coffee: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=500&auto=format&fit=crop&q=60",
-  "non-coffee": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&auto=format&fit=crop&q=60",
+  coffee: "https://images.unsplash.com/photo-1517959105821-eaf2591984ca?q=80&w=2673&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "non-coffee": "https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   tea: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&auto=format&fit=crop&q=60",
-  dessert: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=500&auto=format&fit=crop&q=60"
+  dessert: "https://images.unsplash.com/photo-1714317589223-7d1a2372af3e?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 };
 
 function getStoredMenus() {
@@ -137,7 +137,24 @@ function getStoredMenus() {
     localStorage.setItem(MENUS_STORAGE_KEY, JSON.stringify(initialMenus));
     return initialMenus;
   }
-  return JSON.parse(raw);
+  
+  const menus = JSON.parse(raw);
+  // 마이그레이션: 로컬스토리지의 기본 메뉴(1~10번)의 이미지를 js/data.js의 최신 이미지 링크로 즉시 동기화
+  let updated = false;
+  
+  menus.forEach(menu => {
+    const defaultMenu = MENUS.find(m => m.id === menu.id);
+    if (defaultMenu && (menu.image !== defaultMenu.image || !menu.image)) {
+      menu.image = defaultMenu.image;
+      updated = true;
+    }
+  });
+  
+  if (updated) {
+    localStorage.setItem(MENUS_STORAGE_KEY, JSON.stringify(menus));
+  }
+  
+  return menus;
 }
 
 function saveMenus(menus) {

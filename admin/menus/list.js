@@ -169,9 +169,9 @@ function renderMenus() {
         </div>
       </div>
       <div class="menu-actions">
-        <div class="action-btn" onclick="goToDetail(${menu.id})">🔍 상세</div>
-        <div class="action-btn" onclick="goToEdit(${menu.id})">✏️ 수정</div>
-        <div class="action-btn btn-delete-hover" onclick="openDeleteModal(${menu.id}, '${menu.name}')">🗑️ 삭제</div>
+        <div class="action-btn" onclick="goToDetail(${menu.id})"><i class="fa-solid fa-circle-info" style="margin-right: 4px;"></i>상세</div>
+        <div class="action-btn" onclick="goToEdit(${menu.id})"><i class="fa-solid fa-pen-to-square" style="margin-right: 4px;"></i>수정</div>
+        <div class="action-btn btn-delete-hover" onclick="openDeleteModal(${menu.id}, '${menu.name}')"><i class="fa-solid fa-trash" style="margin-right: 4px;"></i>삭제</div>
       </div>
     `;
     
