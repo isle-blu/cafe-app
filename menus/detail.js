@@ -23,6 +23,7 @@ function renderDetail() {
   const badgesHtml = `
     ${menu.isPopular ? `<span class="badge badge-popular">인기</span>` : ""}
     ${menu.isNew ? `<span class="badge badge-new">신규</span>` : ""}
+    ${menu.isSeason ? `<span class="badge badge-season">시즌</span>` : ""}
   `;
 
   container.innerHTML = `
@@ -40,6 +41,11 @@ function renderDetail() {
         <p class="name">${menu.name}</p>
         <p class="price">${formatPrice(menu.price)}</p>
         <p class="description">${menu.description}</p>
+        ${menu.isSeason ? `
+          <div class="stamp-benefit-notice" style="font-size: var(--font-size-sm); color: #2b5c8f; margin-top: var(--spacing-sm); font-weight: 500; display: inline-flex; align-items: center; background: rgba(43, 92, 143, 0.1); padding: 6px 12px; border-radius: var(--radius-md);">
+            <i class="fa-solid fa-gift" style="margin-right: 6px;"></i>시즌 메뉴 구매 시 스탬프 2개 적립!
+          </div>
+        ` : ""}
       </section>
 
       ${

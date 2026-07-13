@@ -152,6 +152,9 @@ function renderMenus() {
     if (menu.isNew) {
       badgesHtml += `<span class="badge badge-new">신규</span>`;
     }
+    if (menu.isSeason) {
+      badgesHtml += `<span class="badge badge-season">시즌</span>`;
+    }
 
     card.innerHTML = `
       <div class="menu-image-container">

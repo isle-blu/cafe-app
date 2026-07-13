@@ -77,9 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const orders = getLocalData(ORDERS_KEY, []);
     
     let totalCups = 0;
+    let totalStamps = 0;
     let totalAmount = 0;
 
     orders.forEach(order => {
+      // 취소된 주문은 집계에서 제외
+      if (order.status === "주문취소") return;
+
       // 주문 내역 아이템 집계
       if (order.items && Array.isArray(order.items)) {
         order.items.forEach(item => {
@@ -87,13 +91,15 @@ document.addEventListener("DOMContentLoaded", () => {
           const price = Number(item.price) || 0;
           totalCups += qty;
           totalAmount += (price * qty);
+
+          // 시즌 메뉴 여부 확인하여 스탬프 적립 수 결정
+          const menu = getStoredMenuById(item.menuId);
+          const isSeason = menu && menu.isSeason;
+          const stampsPerUnit = isSeason ? 2 : 1;
+          totalStamps += (qty * stampsPerUnit);
         });
       }
     });
-
-
-
-
 
     // 2) 회원 등급 결정
     // 잔수 기준: 0-4 브론즈, 5-14 실버, 15이상 골드
@@ -112,9 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
     userGradeBadgeEl.className = `user-grade-badge ${gradeClass}`;
 
     // 3) 스탬프 및 쿠폰 발급 계산
-    // 10잔당 쿠폰 1장씩 자동 발급
-    const currentStamps = totalCups % 10;
-    const totalCouponRewardCount = Math.floor(totalCups / 10);
+    // 10개 스탬프당 쿠폰 1장씩 자동 발급
+    const currentStamps = totalStamps % 10;
+    const totalCouponRewardCount = Math.floor(totalStamps / 10);
 
     stampCountEl.textContent = currentStamps;
     renderStampGrid(currentStamps);

@@ -49,7 +49,8 @@ function setupEventListeners() {
       description: document.getElementById("description").value.trim(),
       hasTemperatureOption: document.getElementById("hasTemperatureOption").checked,
       isPopular: document.getElementById("isPopular").checked,
-      isNew: document.getElementById("isNew").checked
+      isNew: document.getElementById("isNew").checked,
+      isSeason: document.getElementById("isSeason").checked
     };
 
     // 로컬 스토리지에 새 메뉴 저장

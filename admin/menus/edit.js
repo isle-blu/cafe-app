@@ -16,6 +16,7 @@ const descInput = document.getElementById("description");
 const hasTempInput = document.getElementById("hasTemperatureOption");
 const isPopularInput = document.getElementById("isPopular");
 const isNewInput = document.getElementById("isNew");
+const isSeasonInput = document.getElementById("isSeason");
 
 // 에러 텍스트 요소
 const nameError = document.getElementById("nameError");
@@ -78,6 +79,7 @@ function fillFormValues() {
   hasTempInput.checked = currentMenu.hasTemperatureOption;
   isPopularInput.checked = currentMenu.isPopular;
   isNewInput.checked = currentMenu.isNew;
+  isSeasonInput.checked = currentMenu.isSeason || false;
   
   // 취소 경로 셋팅
   const backUrl = `detail.html?id=${currentMenu.id}`;
@@ -106,7 +108,8 @@ function setupEventListeners() {
       description: descInput.value.trim(),
       hasTemperatureOption: hasTempInput.checked,
       isPopular: isPopularInput.checked,
-      isNew: isNewInput.checked
+      isNew: isNewInput.checked,
+      isSeason: isSeasonInput.checked
     };
 
     // 로컬 스토리지 데이터 업데이트

@@ -76,6 +76,9 @@ function renderPopularMenus() {
     if (menu.isNew) {
       badgesHtml += `<span class="badge badge-new">신규</span>`;
     }
+    if (menu.isSeason) {
+      badgesHtml += `<span class="badge badge-season">시즌</span>`;
+    }
 
     // 가격 포맷팅
     const priceText = typeof formatPrice === "function" ? formatPrice(menu.price) : `${menu.price.toLocaleString()}원`;

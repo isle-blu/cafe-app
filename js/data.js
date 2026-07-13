@@ -20,6 +20,7 @@ const MENUS = [
     hasTemperatureOption: true,
     isPopular: true,
     isNew: false,
+    isSeason: false,
   },
   {
     id: 2,
@@ -31,6 +32,7 @@ const MENUS = [
     hasTemperatureOption: true,
     isPopular: true,
     isNew: false,
+    isSeason: false,
   },
   {
     id: 3,
@@ -42,6 +44,7 @@ const MENUS = [
     hasTemperatureOption: true,
     isPopular: false,
     isNew: false,
+    isSeason: false,
   },
   {
     id: 4,
@@ -53,6 +56,7 @@ const MENUS = [
     hasTemperatureOption: true,
     isPopular: false,
     isNew: false,
+    isSeason: false,
   },
   {
     id: 5,
@@ -64,6 +68,7 @@ const MENUS = [
     hasTemperatureOption: true,
     isPopular: false,
     isNew: false,
+    isSeason: false,
   },
   {
     id: 6,
@@ -75,6 +80,7 @@ const MENUS = [
     hasTemperatureOption: false,
     isPopular: true,
     isNew: true,
+    isSeason: true,
   },
   {
     id: 7,
@@ -86,6 +92,7 @@ const MENUS = [
     hasTemperatureOption: true,
     isPopular: false,
     isNew: false,
+    isSeason: false,
   },
   {
     id: 8,
@@ -97,6 +104,7 @@ const MENUS = [
     hasTemperatureOption: true,
     isPopular: false,
     isNew: false,
+    isSeason: false,
   },
   {
     id: 9,
@@ -108,6 +116,7 @@ const MENUS = [
     hasTemperatureOption: false,
     isPopular: true,
     isNew: false,
+    isSeason: true,
   },
   {
     id: 10,
@@ -119,6 +128,7 @@ const MENUS = [
     hasTemperatureOption: false,
     isPopular: false,
     isNew: true,
+    isSeason: false,
   },
 ];
 
