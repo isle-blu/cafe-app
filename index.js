@@ -71,10 +71,10 @@ function renderPopularMenus() {
     // 뱃지 HTML 생성
     let badgesHtml = "";
     if (menu.isPopular) {
-      badgesHtml += `<span class="badge badge-popular">Best</span>`;
+      badgesHtml += `<span class="badge badge-popular">인기</span>`;
     }
     if (menu.isNew) {
-      badgesHtml += `<span class="badge badge-new">New</span>`;
+      badgesHtml += `<span class="badge badge-new">신규</span>`;
     }
 
     // 가격 포맷팅

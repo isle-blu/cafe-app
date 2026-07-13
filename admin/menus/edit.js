@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function renderError(title, message) {
   formWrapper.innerHTML = `
     <div style="text-align: center; padding: var(--spacing-2xl); color: var(--color-text-light);">
-      <h3 style="color: var(--color-danger); font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);">🚨 ${title}</h3>
+      <h3 style="color: var(--color-danger); font-size: var(--font-size-lg); margin-bottom: var(--spacing-md);"><i class="fa-solid fa-triangle-exclamation" style="color: var(--color-danger); margin-right: 6px;"></i> ${title}</h3>
       <p>${message}</p>
       <a href="list.html" class="btn btn-primary btn-sm" style="margin-top: 20px;">목록으로 돌아가기</a>
     </div>

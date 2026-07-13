@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (i <= count) {
         slot.classList.add("stamped");
-        slot.textContent = "☕";
+        slot.innerHTML = `<i class="fa-solid fa-mug-hot" style="font-size: 1.25rem; color: white;"></i>`;
       } else {
         const numSpan = document.createElement("span");
         numSpan.className = "stamp-number";

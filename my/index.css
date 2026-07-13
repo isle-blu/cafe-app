@@ -31,7 +31,7 @@
 .mypage-container {
   max-width: var(--max-width-mobile);
   margin: 0 auto;
-  padding: var(--spacing-lg) var(--spacing-md) calc(var(--spacing-2xl) + 80px); /* 하단 바 영역 패딩 */
+  padding: var(--spacing-lg) var(--spacing-md);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
@@ -993,7 +993,7 @@ body.dark-mode .form-group input:focus {
   .mypage-container {
     max-width: 960px;
     display: block; /* 그리드를 해제하여 프로필이 100%를 차지하게 함 */
-    padding: var(--spacing-xl) var(--spacing-md) calc(var(--spacing-2xl) + 40px);
+    padding: var(--spacing-xl) var(--spacing-md);
   }
 
   .profile-section {

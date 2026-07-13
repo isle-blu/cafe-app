@@ -323,15 +323,15 @@ input:checked + .slider .handle .icon-moon {
   vertical-align: middle;
 }
 
-.bottom-tab .icon svg,
-.cart-icon svg,
-.nav-icon-box svg,
-.logo-icon svg,
-.stat-icon svg,
-.admin-link-btn .icon svg,
-.brand-emoji svg,
-.menu-icon svg,
-.bullet svg {
+.bottom-tab .icon svg, .bottom-tab .icon i,
+.cart-icon svg, .cart-icon i,
+.nav-icon-box svg, .nav-icon-box i,
+.logo-icon svg, .logo-icon i,
+.stat-icon svg, .stat-icon i,
+.admin-link-btn .icon svg, .admin-link-btn .icon i,
+.brand-emoji svg, .brand-emoji i,
+.menu-icon svg, .menu-icon i,
+.bullet svg, .bullet i {
   display: block;
 }
 
@@ -344,16 +344,7 @@ input:checked + .slider .handle .icon-moon {
     width: 100% !important;
     max-width: none !important;
     border-radius: 0 !important;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06) !important;
-    border: none !important;
     border-top: 1px solid var(--color-border) !important;
-    height: 72px !important;
-    padding: 0 20% !important; /* PC에서는 요소들이 너무 늘어지지 않게 좌우 패딩을 넓혀 정렬 */
-  }
-
-  .bottom-tab {
-    gap: 6px !important;
-    font-size: 12px !important;
   }
 }
 
@@ -406,7 +397,210 @@ input:checked + .slider .handle .icon-moon {
 .sidebar-brand-row .sun-icon,
 .sidebar-brand-row .moon-icon,
 .sidebar-brand-row .icon-sun svg,
-.sidebar-brand-row .icon-moon svg {
+.sidebar-brand-row .icon-moon svg,
+.sidebar-brand-row .icon-sun i,
+.sidebar-brand-row .icon-moon i {
   width: 10px !important;
   height: 10px !important;
+  font-size: 10px !important;
 }
+
+/* ==========================================================================
+   서브페이지 헤더 레이아웃 표준화 (장바구니 및 컨트롤 우측 상단 고정)
+   ========================================================================== */
+.page-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: var(--header-height) !important;
+  padding: 0 var(--spacing-lg) !important;
+  box-sizing: border-box !important;
+  border-radius: 0 !important; /* glass 클래스 상속으로 인한 둥근 모서리 무력화 */
+  border: none !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+}
+
+.page-header .back-link {
+  position: absolute !important;
+  left: var(--spacing-lg) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  margin: 0 !important;
+}
+.page-header .back-link:hover {
+  transform: translate(-2px, -50%) !important;
+}
+
+/* 헤더 텍스트 상자 및 제목/부제목 통일 */
+.page-header .header-text {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: 2px !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  max-width: calc(100% - 240px) !important;
+}
+
+.page-header h1,
+.page-header .header-text h1 {
+  font-family: "Outfit", sans-serif !important;
+  font-size: var(--font-size-lg) !important; /* index 페이지 로고 텍스트 크기와 일관되게 1.25rem/20px로 통일 */
+  font-weight: 700 !important;
+  color: var(--color-primary-dark) !important;
+  letter-spacing: -0.3px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  max-width: 100% !important;
+}
+
+.page-header p,
+.page-header .header-text p {
+  font-size: var(--font-size-xs) !important; /* 0.75rem/12px로 통일 */
+  color: var(--color-text-light) !important;
+  margin: 0 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 100% !important;
+}
+
+/* 헤더 타이틀 및 텍스트 겹침 방지 가이드 */
+.page-header h1 {
+  max-width: calc(100% - 240px) !important;
+}
+
+.page-header:has(.header-cart):has(.header-my) .header-text,
+.page-header:has(.header-cart):has(.header-my) h1 {
+  max-width: calc(100% - 380px) !important;
+}
+
+.page-header .header-controls {
+  position: absolute !important;
+  right: var(--spacing-lg) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--spacing-sm) !important; /* 8px 간격 */
+  z-index: 110 !important;
+}
+
+/* 개별 컨트롤들의 절대 위치 지정을 해제하고 Flex 흐름 적용 */
+.page-header .header-my,
+.page-header .header-cart,
+.page-header .theme-toggle-wrapper {
+  position: static !important;
+  transform: none !important;
+  margin: 0 !important;
+}
+.page-header .header-my:hover,
+.page-header .header-cart:hover {
+  transform: translateY(-2px) !important;
+}
+
+/* 글로벌 아이콘 버튼 규격 및 정렬 통일 (index 페이지 기준) */
+.icon-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: var(--radius-full) !important;
+  background: #3e271a !important; /* 주변 분위기와 조화를 이루는 어두운 커피 원두 갈색 */
+  border: 1px solid #2b1a11 !important;
+  transition: all var(--transition-fast) !important;
+  text-decoration: none !important;
+  position: relative !important;
+  color: #faf3e8 !important; /* 아이콘 색상을 따뜻한 크림빛 흰색으로 통일 */
+}
+
+.icon-btn:hover {
+  background: #2b1a11 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+.icon-btn .cart-icon,
+.icon-btn .my-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+/* 아이콘 크기 통일 (16px) 및 정중앙 정렬 */
+.icon-btn i,
+.icon-btn svg {
+  font-size: 16px !important;
+  line-height: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  color: #faf3e8 !important; /* 아이콘을 따뜻한 크림빛 흰색으로 통일 */
+}
+
+/* 장바구니 배지 전역 스타일 통일 */
+.header-cart .cart-badge {
+  position: absolute !important;
+  top: -4px !important;
+  right: -4px !important;
+  background: var(--color-danger) !important;
+  color: #fff !important;
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  border-radius: var(--radius-full) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 4px !important;
+  box-shadow: var(--shadow-sm) !important;
+  z-index: 10 !important;
+}
+
+/* 글로벌 메뉴 카드 뱃지 (인기/신규) 크기 확대 및 전 페이지 통일 */
+.badge,
+.menu-card .badge,
+.detail-badges-inline .badge {
+  font-size: 0.75rem !important; /* 기존 0.65rem에서 0.75rem (12px)로 확대 */
+  padding: 3px var(--spacing-sm) !important; /* 상하 여백을 약간 확대하여 가독성 강화 */
+  font-weight: 700 !important;
+  border-radius: var(--radius-sm) !important;
+  text-transform: uppercase !important;
+  color: #fff !important;
+  box-shadow: var(--shadow-sm) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.3px !important; /* 영문/한글 자간 간격을 넓혀 가독성 향상 */
+}
+
+/* 인기/신규 뱃지 배경색 채도 및 대조도 향상 (글씨 가독성 강화) */
+.badge-popular {
+  background: #c25e00 !important; /* 진하고 따뜻한 오렌지 앰버 컬러 (흰색 글씨 가독성 향상) */
+}
+
+.badge-new {
+  background: #1b7a43 !important; /* 짙고 산뜻한 포레스트 에메랄드 그린 컬러 (흰색 글씨 가독성 향상) */
+}
+

@@ -250,13 +250,13 @@ function renderTicketView(ordersList) {
     // 상태에 따른 간편 주방 제어 버튼 구성
     let actionBtnHtml = "";
     if (order.status === "준비중") {
-      actionBtnHtml = `<button class="btn-status-advance" data-order-id="${order.id}" data-next-status="제조중">☕ 제조시작</button>`;
+      actionBtnHtml = `<button class="btn-status-advance" data-order-id="${order.id}" data-next-status="제조중"><i class="fa-solid fa-mug-hot" style="margin-right: 6px;"></i>제조시작</button>`;
     } else if (order.status === "제조중") {
-      actionBtnHtml = `<button class="btn-status-advance completed" data-order-id="${order.id}" data-next-status="수령완료">✅ 제조완료 (수령대기)</button>`;
+      actionBtnHtml = `<button class="btn-status-advance completed" data-order-id="${order.id}" data-next-status="수령완료"><i class="fa-solid fa-check" style="margin-right: 6px;"></i>제조완료 (수령대기)</button>`;
     } else if (order.status === "수령완료") {
-      actionBtnHtml = `<button class="btn-status-advance done-display" disabled>👍 처리완료 (수령완료)</button>`;
+      actionBtnHtml = `<button class="btn-status-advance done-display" disabled><i class="fa-solid fa-thumbs-up" style="margin-right: 6px;"></i>처리완료 (수령완료)</button>`;
     } else {
-      actionBtnHtml = `<button class="btn-status-advance done-display" disabled>❌ 주문 취소됨</button>`;
+      actionBtnHtml = `<button class="btn-status-advance done-display" disabled><i class="fa-solid fa-xmark" style="margin-right: 6px;"></i>주문 취소됨</button>`;
     }
 
     return `
