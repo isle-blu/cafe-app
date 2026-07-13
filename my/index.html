@@ -123,7 +123,10 @@
 
         <!-- 4. 쿠폰함 섹션 -->
         <section class="coupons-section glass">
-          <h3 class="card-title">보유 쿠폰 <span class="coupon-count" id="coupon-count">0</span></h3>
+          <div class="coupons-header">
+            <h3 class="card-title">보유 쿠폰 <span class="coupon-count" id="coupon-count">0</span></h3>
+            <button type="button" class="all-coupons-link" id="open-coupons-modal-btn" style="display: none;">전체보기 &gt;</button>
+          </div>
           <div class="coupons-list" id="coupons-list">
             <!-- 동적으로 쿠폰 카드 렌더링 -->
           </div>
@@ -184,6 +187,21 @@
   </div>
 
 
+
+  <!-- 전체 쿠폰 보기 모달 -->
+  <div class="modal-overlay" id="all-coupons-modal">
+    <div class="modal-container glass coupons-modal">
+      <div class="modal-header">
+        <h3>보유 쿠폰 전체보기</h3>
+        <button class="close-modal-btn" id="close-coupons-modal-btn">&times;</button>
+      </div>
+      <div class="coupons-modal-body">
+        <div class="coupons-list" id="coupons-list-all">
+          <!-- 동적으로 모든 쿠폰 카드 렌더링 -->
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="../js/data.js"></script>
   <script src="../js/utils.js"></script>

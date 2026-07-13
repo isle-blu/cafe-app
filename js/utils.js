@@ -265,3 +265,59 @@ if (document.readyState === "loading") {
   updateCartBadge();
 }
 
+/* ---------------- 쿠폰 데이터 공통화 및 정렬 ---------------- */
+const COUPONS_STORAGE_KEY = "cafe-app-coupons";
+
+function getStoredCoupons() {
+  let coupons = localStorage.getItem(COUPONS_STORAGE_KEY);
+  if (!coupons) {
+    const expiry = new Date();
+    expiry.setMonth(expiry.getMonth() + 1); // 1달 후 만료
+    
+    const stampExpiry = new Date();
+    stampExpiry.setMonth(stampExpiry.getMonth() + 3); // 3달 후 만료
+
+    coupons = [
+      {
+        id: "welcome-10pct",
+        name: "신규 가입 감사 10% 할인 쿠폰",
+        valueText: "10% 할인",
+        isPercent: true,
+        expiryDate: expiry.toISOString(),
+        type: "welcome"
+      },
+      {
+        id: "stamp-free-drink-test",
+        name: "스탬프 완성! 무료 음료 쿠폰",
+        valueText: "FREE DRINK",
+        isPercent: false,
+        expiryDate: stampExpiry.toISOString(),
+        type: "stamp"
+      }
+    ];
+    localStorage.setItem(COUPONS_STORAGE_KEY, JSON.stringify(coupons));
+  } else {
+    coupons = JSON.parse(coupons);
+  }
+  return coupons;
+}
+
+function saveStoredCoupons(coupons) {
+  localStorage.setItem(COUPONS_STORAGE_KEY, JSON.stringify(coupons));
+}
+
+function sortCoupons(couponsList) {
+  const now = new Date();
+  return [...couponsList].sort((a, b) => {
+    const aExpired = new Date(a.expiryDate) < now;
+    const bExpired = new Date(b.expiryDate) < now;
+
+    if (aExpired !== bExpired) {
+      return aExpired ? 1 : -1; // 유효한 쿠폰 우선
+    }
+
+    // 둘 다 유효하거나 둘 다 만료되었을 때, 만료일 오름차순 (임박일 우선)
+    return new Date(a.expiryDate) - new Date(b.expiryDate);
+  });
+}
+
