@@ -74,10 +74,7 @@
 
 @media (min-width: 768px) {
   .order-list {
-    max-width: var(--max-width-desktop);
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--spacing-lg);
+    max-width: var(--max-width-tablet);
   }
 }
 
