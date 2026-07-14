@@ -70,11 +70,11 @@ async function renderDetail() {
           <button id="increase-btn">+</button>
         </div>
       </div>
-    </div>
 
-    <div class="add-to-cart-bar glass">
-      <span class="total-price">${formatPrice(totalPrice)}</span>
-      <button class="add-to-cart-btn" id="add-to-cart-btn">장바구니 담기</button>
+      <div class="add-to-cart-bar glass">
+        <span class="total-price">${formatPrice(totalPrice)}</span>
+        <button class="add-to-cart-btn" id="add-to-cart-btn">장바구니 담기</button>
+      </div>
     </div>
   `;
 

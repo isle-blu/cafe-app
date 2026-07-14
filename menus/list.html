@@ -52,11 +52,53 @@
     </div>
   </header>
 
-  <nav class="category-tabs" id="category-tabs"></nav>
+  <nav class="category-tabs glass" id="category-tabs"></nav>
 
   <div class="page-body">
-    <aside class="category-sidebar glass" id="category-sidebar"></aside>
-    <main class="menu-grid" id="menu-grid"></main>
+    <main id="menu-grid"></main>
+  </div>
+
+  <!-- 장바구니 옵션 선택 모달 -->
+  <div id="option-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content glass">
+      <button class="modal-close" id="modal-close-btn" aria-label="닫기">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="modal-header">
+        <h3 id="modal-menu-name">메뉴 이름</h3>
+        <p id="modal-menu-price">0원</p>
+      </div>
+      <div class="modal-body">
+        <!-- 온도 선택 (옵션이 있는 경우에만 노출) -->
+        <div class="option-section" id="modal-temp-section">
+          <span class="option-label">온도 선택</span>
+          <div class="temp-options">
+            <button type="button" class="temp-btn ice" data-temp="ICE">ICE</button>
+            <button type="button" class="temp-btn hot" data-temp="HOT">HOT</button>
+          </div>
+        </div>
+        <!-- 수량 선택 -->
+        <div class="option-section">
+          <span class="option-label">수량</span>
+          <div class="quantity-selector">
+            <button type="button" class="qty-btn minus" id="qty-minus-btn">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <span class="qty-number" id="qty-number">1</span>
+            <button type="button" class="qty-btn plus" id="qty-plus-btn">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="total-price-row">
+          <span>총 금액</span>
+          <span class="total-price" id="modal-total-price">0원</span>
+        </div>
+        <button type="button" class="btn-primary" id="modal-add-cart-btn">장바구니 담기</button>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
