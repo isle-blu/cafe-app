@@ -135,14 +135,6 @@
   color: #fff;
 }
 
-.badge-popular {
-  background: var(--color-accent);
-}
-
-.badge-new {
-  background: var(--color-success);
-}
-
 .detail-info .name {
   font-family: "Outfit", sans-serif;
   font-size: var(--font-size-xl);

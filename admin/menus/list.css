@@ -96,7 +96,7 @@
 }
 
 .btn-danger:hover {
-  background: #a0281b;
+  background: var(--color-danger-dark);
 }
 
 .btn-sm {
@@ -256,14 +256,6 @@
   text-transform: uppercase;
   color: #fff;
   box-shadow: none;
-}
-
-.badge-popular {
-  background: var(--color-accent);
-}
-
-.badge-new {
-  background: var(--color-success);
 }
 
 .badge-inactive {

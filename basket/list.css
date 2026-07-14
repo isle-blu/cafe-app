@@ -160,14 +160,14 @@
 }
 
 .item-option.ice {
-  background: rgba(41, 128, 185, 0.08);
-  color: #2980b9;
-  border: 1px solid rgba(41, 128, 185, 0.2);
+  background: rgba(43, 92, 143, 0.08);
+  color: var(--color-tag-season);
+  border: 1px solid rgba(43, 92, 143, 0.2);
 }
 
 .item-option.hot {
   background: rgba(192, 41, 43, 0.08);
-  color: #c0392b;
+  color: var(--color-danger);
   border: 1px solid rgba(192, 41, 43, 0.2);
 }
 

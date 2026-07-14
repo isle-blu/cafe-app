@@ -223,7 +223,7 @@
 
 .status-select-big.completed { background: rgba(107, 144, 128, 0.1); color: var(--color-success); border-color: rgba(107, 144, 128, 0.3); }
 .status-select-big.processing { background: rgba(224, 169, 109, 0.1); color: var(--color-accent); border-color: rgba(224, 169, 109, 0.3); }
-.status-select-big.cancelled { background: rgba(186, 45, 37, 0.08); color: #ba2d25; border-color: rgba(186, 45, 37, 0.15); }
+.status-select-big.cancelled { background: rgba(186, 45, 37, 0.08); color: var(--color-danger); border-color: rgba(186, 45, 37, 0.15); }
 
 .btn-update-status {
   height: 48px;

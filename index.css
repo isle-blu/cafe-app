@@ -249,11 +249,11 @@
 }
 
 .event-card.stamp-event .event-badge {
-  background: linear-gradient(135deg, #c25e00, var(--color-accent));
+  background: linear-gradient(135deg, var(--color-tag-popular), var(--color-accent));
 }
 
 .event-card.grade-event .event-badge {
-  background: linear-gradient(135deg, #2b5c8f, #4a77a8);
+  background: var(--color-tag-season);
 }
 
 .event-content {
@@ -282,7 +282,7 @@
 
 .grade-event .event-icon-box {
   background: rgba(43, 92, 143, 0.15);
-  color: #2b5c8f;
+  color: var(--color-tag-season);
 }
 
 /* 다크 모드에서의 아이콘 박스 배경 대비 개선 */
@@ -524,14 +524,6 @@ body.dark-mode .event-text strong {
   text-transform: uppercase;
   color: #fff;
   box-shadow: var(--shadow-sm);
-}
-
-.badge-popular {
-  background: var(--color-accent);
-}
-
-.badge-new {
-  background: var(--color-success);
 }
 
 .menu-info {

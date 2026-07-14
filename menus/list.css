@@ -135,15 +135,15 @@
 }
 
 .menu-section-title--popular {
-  background: #c25e00;
+  background: var(--color-tag-popular);
 }
 
 .menu-section-title--new {
-  background: #1b7a43;
+  background: var(--color-tag-new);
 }
 
 .menu-section-title--season {
-  background: #2b5c8f;
+  background: var(--color-tag-season);
 }
 
 @media (min-width: 768px) {
@@ -217,14 +217,6 @@
   text-transform: uppercase;
   color: #fff;
   box-shadow: var(--shadow-sm);
-}
-
-.badge-popular {
-  background: var(--color-accent);
-}
-
-.badge-new {
-  background: var(--color-success);
 }
 
 .menu-category-tag {
@@ -480,16 +472,16 @@
 
 .temp-btn.ice:hover,
 .temp-btn.ice.selected {
-  background: #2b5c8f;
+  background: var(--color-tag-season);
   color: #ffffff;
-  border-color: #2b5c8f;
+  border-color: var(--color-tag-season);
 }
 
 .temp-btn.hot:hover,
 .temp-btn.hot.selected {
-  background: #c25e00;
+  background: var(--color-tag-popular);
   color: #ffffff;
-  border-color: #c25e00;
+  border-color: var(--color-tag-popular);
 }
 
 .quantity-selector {
@@ -572,15 +564,14 @@ body.dark-mode .temp-btn {
 }
 
 body.dark-mode .temp-btn.ice.selected {
-  background: #79a6d2;
-  color: #1c1410;
-  border-color: #79a6d2;
+  /* 배경/테두리는 var(--color-tag-season)이 다크모드 값으로 이미 전환되므로 텍스트 색만 재정의 */
+  color: var(--color-text-inverse);
 }
 
 body.dark-mode .temp-btn.hot.selected {
-  background: #e5b07a;
-  color: #1c1410;
-  border-color: #e5b07a;
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  border-color: var(--color-accent);
 }
 
 body.dark-mode .qty-btn {
