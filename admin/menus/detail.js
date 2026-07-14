@@ -4,8 +4,6 @@ let currentMenu = null;
 
 // DOM 요소
 const detailCard = document.getElementById("detailCard");
-const deleteModal = document.getElementById("deleteModal");
-const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 
 // 초기화 실행
 document.addEventListener("DOMContentLoaded", async () => {
@@ -27,7 +25,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   await renderMenuDetail();
-  setupEventListeners();
 });
 
 // 에러 메시지 렌더링
@@ -41,16 +38,12 @@ function renderError(title, message) {
   `;
 }
 
-// 이벤트 리스너 설정
-function setupEventListeners() {
-  confirmDeleteBtn.addEventListener("click", async () => {
-    if (menuId) {
-      await deleteMenu(menuId);
-      closeDeleteModal();
-      // 삭제 성공 후 목록 페이지로 이동
-      window.location.href = "list.html";
-    }
-  });
+// 공개/비공개 즉시 전환
+async function toggleMenuActive() {
+  const nextActive = !currentMenu.isActive;
+  await setMenuActive(menuId, nextActive);
+  currentMenu.isActive = nextActive;
+  await renderMenuDetail();
 }
 
 // 상세 정보 렌더링
@@ -60,6 +53,9 @@ async function renderMenuDetail() {
 
   // 배지 HTML 생성
   let badgesHtml = "";
+  if (!currentMenu.isActive) {
+    badgesHtml += `<span class="badge badge-inactive">비공개</span>`;
+  }
   if (currentMenu.isPopular) {
     badgesHtml += `<span class="badge badge-popular">인기</span>`;
   }
@@ -106,6 +102,10 @@ async function renderMenuDetail() {
           <span class="meta-label">시즌 상품 설정</span>
           <span class="meta-value">${currentMenu.isSeason ? `설정됨 <i class="fa-solid fa-leaf" style="color: #2b5c8f; margin-left: 4px;"></i> (스탬프 2개 적립)` : "일반"}</span>
         </div>
+        <div class="meta-item">
+          <span class="meta-label">공개 여부</span>
+          <span class="meta-value">${currentMenu.isActive ? `공개 <i class="fa-solid fa-eye" style="color: var(--color-success); margin-left: 4px;"></i>` : `비공개 <i class="fa-solid fa-eye-slash" style="color: var(--color-text-light); margin-left: 4px;"></i>`}</span>
+        </div>
       </div>
 
       <div class="detail-actions-footer">
@@ -115,8 +115,10 @@ async function renderMenuDetail() {
         <button class="btn btn-primary" onclick="goToEdit(${currentMenu.id})">
           <i class="fa-solid fa-pen-to-square" style="margin-right: 6px;"></i> 수정하기
         </button>
-        <button class="btn btn-danger" onclick="openDeleteModal()">
-          <i class="fa-solid fa-trash" style="margin-right: 6px;"></i> 삭제하기
+        <button class="btn btn-secondary" onclick="toggleMenuActive()">
+          ${currentMenu.isActive
+            ? '<i class="fa-solid fa-eye-slash" style="margin-right: 6px;"></i> 비공개로 전환'
+            : '<i class="fa-solid fa-eye" style="margin-right: 6px;"></i> 공개로 전환'}
         </button>
       </div>
     </div>

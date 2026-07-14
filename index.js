@@ -10,6 +10,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 2. 추천 메뉴 동적 렌더링
   renderRecommendedMenus();
+
+  // 3. 관리자 대시보드 버튼 제어 (관리자 로그인 시에만 동적 생성 및 노출)
+  const rawUser = localStorage.getItem("cafe-app-logged-in-user");
+  const loggedInUser = rawUser ? JSON.parse(rawUser) : null;
+  if (loggedInUser && loggedInUser.role === "admin") {
+    const headerActions = document.querySelector(".header-actions");
+    if (headerActions && !document.getElementById("header-admin-btn")) {
+      const adminBtn = document.createElement("a");
+      adminBtn.id = "header-admin-btn";
+      adminBtn.href = "admin/index.html";
+      adminBtn.className = "icon-btn header-admin";
+      adminBtn.setAttribute("aria-label", "관리자 대시보드");
+      adminBtn.innerHTML = `
+        <span class="admin-icon">
+          <i class="fa-solid fa-gauge" style="font-size: 20px;"></i>
+        </span>
+      `;
+      // 마이페이지 버튼 뒤에 삽입
+      const mypageBtn = headerActions.querySelector(".header-my");
+      if (mypageBtn) {
+        mypageBtn.after(adminBtn);
+      } else {
+        headerActions.appendChild(adminBtn);
+      }
+    }
+  }
 });
 
 /**
@@ -19,7 +45,8 @@ async function renderRecommendedMenus() {
   const recommendedGrid = document.getElementById("recommended-menu-grid");
   if (!recommendedGrid) return;
 
-  const menus = await getStoredMenus();
+  const allMenus = await getStoredMenus();
+  const menus = allMenus.filter(menu => menu.isActive);
 
   // 추천 메뉴 필터링 (인기, 신규, 시즌 메뉴 중 하나라도 해당하는 메뉴)
   let recommendedItems = menus.filter(menu => menu.isPopular || menu.isNew || menu.isSeason);

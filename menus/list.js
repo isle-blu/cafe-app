@@ -81,7 +81,8 @@ const RECOMMENDED_SECTIONS = [
 
 async function renderMenuGrid() {
   const gridEl = document.getElementById("menu-grid");
-  const menus = await getMenusByCategory(activeCategoryId === "recommended" ? "all" : activeCategoryId);
+  const fetchedMenus = await getMenusByCategory(activeCategoryId === "recommended" ? "all" : activeCategoryId);
+  const menus = fetchedMenus.filter((menu) => menu.isActive);
   currentMenus = menus;
 
   if (menus.length === 0) {

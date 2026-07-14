@@ -275,6 +275,7 @@ function mapMenuFormToRow(menuData) {
     is_popular: !!menuData.isPopular,
     is_new: !!menuData.isNew,
     is_season: !!menuData.isSeason,
+    is_active: menuData.isActive !== false,
   };
 }
 
@@ -317,8 +318,11 @@ async function updateMenu(id, menuData) {
   return mapMenuRow(data);
 }
 
-async function deleteMenu(id) {
-  const { error } = await supabaseClient.from("menus").delete().eq("id", Number(id));
+async function setMenuActive(id, isActive) {
+  const { error } = await supabaseClient
+    .from("menus")
+    .update({ is_active: isActive })
+    .eq("id", Number(id));
   if (error) console.error(error);
 }
 

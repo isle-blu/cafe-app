@@ -125,24 +125,6 @@
     </main>
   </div>
 
-  <!-- 삭제 확인 커스텀 모달 -->
-  <div class="modal-overlay" id="deleteModal">
-    <div class="modal-content glass">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--color-danger); margin-right: 6px;"></i> 메뉴 삭제</h3>
-        <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p>정말로 '<span id="deleteTargetName"></span>' 메뉴를 삭제하시겠습니까?</p>
-        <p class="modal-warn">삭제된 메뉴는 복구할 수 없습니다.</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary btn-sm" onclick="closeDeleteModal()">취소</button>
-        <button class="btn btn-danger btn-sm" id="confirmDeleteBtn">삭제</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="../../js/supabase-client.js"></script>

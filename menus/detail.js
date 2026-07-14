@@ -49,6 +49,14 @@ async function renderDetail() {
       </section>
 
       ${
+        menu.isActive === false
+          ? `
+        <div class="empty-state" style="margin: 0 var(--spacing-md);">
+          <i class="fa-solid fa-circle-exclamation" style="margin-right: 6px;"></i>현재 판매하지 않는 메뉴입니다.
+        </div>
+      `
+          : `
+      ${
         menu.hasTemperatureOption
           ? `
         <div class="option-group">
@@ -75,6 +83,8 @@ async function renderDetail() {
         <span class="total-price">${formatPrice(totalPrice)}</span>
         <button class="add-to-cart-btn" id="add-to-cart-btn">장바구니 담기</button>
       </div>
+      `
+      }
     </div>
   `;
 

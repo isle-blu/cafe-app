@@ -2,7 +2,6 @@
 let currentMenus = [];
 let activeCategory = "all";
 let searchKeyword = "";
-let deleteTargetId = null;
 let currentViewMode = "grid";
 
 // DOM 요소
@@ -10,9 +9,6 @@ const menuGrid = document.getElementById("menuGrid");
 const emptyState = document.getElementById("emptyState");
 const categoryFilters = document.getElementById("categoryFilters");
 const searchInput = document.getElementById("searchInput");
-const deleteModal = document.getElementById("deleteModal");
-const deleteTargetNameSpan = document.getElementById("deleteTargetName");
-const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 const viewToggle = document.getElementById("viewToggle");
 
 // 초기화 실행
@@ -58,16 +54,6 @@ function setupEventListeners() {
   searchInput.addEventListener("input", (e) => {
     searchKeyword = e.target.value.trim().toLowerCase();
     renderMenus();
-  });
-
-  // 삭제 확정 버튼 클릭
-  confirmDeleteBtn.addEventListener("click", async () => {
-    if (deleteTargetId !== null) {
-      await deleteMenu(deleteTargetId);
-      currentMenus = await getStoredMenus(); // 데이터 갱신
-      closeDeleteModal();
-      renderMenus();
-    }
   });
 
   // 뷰 모드 토글 클릭
@@ -145,10 +131,13 @@ async function renderMenus() {
 
     // 카드 엘리먼트 생성
     const card = document.createElement("div");
-    card.className = "menu-card glass";
-    
+    card.className = "menu-card glass" + (menu.isActive === false ? " inactive" : "");
+
     // 배지 HTML 생성
     let badgesHtml = "";
+    if (menu.isActive === false) {
+      badgesHtml += `<span class="badge badge-inactive">비공개</span>`;
+    }
     if (menu.isPopular) {
       badgesHtml += `<span class="badge badge-popular">인기</span>`;
     }
@@ -177,10 +166,14 @@ async function renderMenus() {
       <div class="menu-actions">
         <div class="action-btn" onclick="goToDetail(${menu.id})"><i class="fa-solid fa-circle-info" style="margin-right: 4px;"></i>상세</div>
         <div class="action-btn" onclick="goToEdit(${menu.id})"><i class="fa-solid fa-pen-to-square" style="margin-right: 4px;"></i>수정</div>
-        <div class="action-btn btn-delete-hover" onclick="openDeleteModal(${menu.id}, '${menu.name}')"><i class="fa-solid fa-trash" style="margin-right: 4px;"></i>삭제</div>
+        <div class="action-btn" onclick="toggleMenuActive(${menu.id})">
+          ${menu.isActive === false
+            ? '<i class="fa-solid fa-eye" style="margin-right: 4px;"></i>공개 전환'
+            : '<i class="fa-solid fa-eye-slash" style="margin-right: 4px;"></i>비공개 전환'}
+        </div>
       </div>
     `;
-    
+
     menuGrid.appendChild(card);
   });
 }
@@ -194,14 +187,13 @@ function goToEdit(id) {
   window.location.href = `edit.html?id=${id}`;
 }
 
-// 모달 관리
-function openDeleteModal(id, name) {
-  deleteTargetId = id;
-  deleteTargetNameSpan.textContent = name;
-  deleteModal.classList.add("active");
-}
+// 공개/비공개 즉시 전환
+async function toggleMenuActive(id) {
+  const menu = currentMenus.find((m) => m.id === id);
+  if (!menu) return;
 
-function closeDeleteModal() {
-  deleteTargetId = null;
-  deleteModal.classList.remove("active");
+  const nextActive = !menu.isActive;
+  await setMenuActive(id, nextActive);
+  menu.isActive = nextActive;
+  renderMenus();
 }

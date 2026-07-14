@@ -32,6 +32,7 @@ function mapMenuRow(row) {
     isPopular: row.is_popular,
     isNew: row.is_new,
     isSeason: row.is_season,
+    isActive: row.is_active,
   };
 }
 
