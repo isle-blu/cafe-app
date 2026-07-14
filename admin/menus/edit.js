@@ -17,6 +17,7 @@ const hasTempInput = document.getElementById("hasTemperatureOption");
 const isPopularInput = document.getElementById("isPopular");
 const isNewInput = document.getElementById("isNew");
 const isSeasonInput = document.getElementById("isSeason");
+const isActiveInput = document.getElementById("isActive");
 
 // 에러 텍스트 요소
 const nameError = document.getElementById("nameError");
@@ -80,7 +81,8 @@ function fillFormValues() {
   isPopularInput.checked = currentMenu.isPopular;
   isNewInput.checked = currentMenu.isNew;
   isSeasonInput.checked = currentMenu.isSeason || false;
-  
+  isActiveInput.checked = currentMenu.isActive !== false;
+
   // 취소 경로 셋팅
   const backUrl = `detail.html?id=${currentMenu.id}`;
   cancelBtn.setAttribute("onclick", `window.location.href='${backUrl}'`);
@@ -109,7 +111,8 @@ function setupEventListeners() {
       hasTemperatureOption: hasTempInput.checked,
       isPopular: isPopularInput.checked,
       isNew: isNewInput.checked,
-      isSeason: isSeasonInput.checked
+      isSeason: isSeasonInput.checked,
+      isActive: isActiveInput.checked
     };
 
     // Supabase 데이터 업데이트

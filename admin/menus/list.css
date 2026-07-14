@@ -266,6 +266,14 @@
   background: var(--color-success);
 }
 
+.badge-inactive {
+  background: var(--color-text-light);
+}
+
+.menu-card.inactive {
+  opacity: 0.55;
+}
+
 /* 카드 콘텐츠 */
 .menu-info {
   padding: var(--spacing-md);

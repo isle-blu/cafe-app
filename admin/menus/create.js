@@ -50,7 +50,8 @@ function setupEventListeners() {
       hasTemperatureOption: document.getElementById("hasTemperatureOption").checked,
       isPopular: document.getElementById("isPopular").checked,
       isNew: document.getElementById("isNew").checked,
-      isSeason: document.getElementById("isSeason").checked
+      isSeason: document.getElementById("isSeason").checked,
+      isActive: document.getElementById("isActive").checked
     };
 
     // Supabase에 새 메뉴 저장

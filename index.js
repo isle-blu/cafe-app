@@ -45,7 +45,8 @@ async function renderRecommendedMenus() {
   const recommendedGrid = document.getElementById("recommended-menu-grid");
   if (!recommendedGrid) return;
 
-  const menus = await getStoredMenus();
+  const allMenus = await getStoredMenus();
+  const menus = allMenus.filter(menu => menu.isActive);
 
   // 추천 메뉴 필터링 (인기, 신규, 시즌 메뉴 중 하나라도 해당하는 메뉴)
   let recommendedItems = menus.filter(menu => menu.isPopular || menu.isNew || menu.isSeason);

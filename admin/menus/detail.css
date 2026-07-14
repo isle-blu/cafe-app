@@ -163,6 +163,10 @@
   background: var(--color-success);
 }
 
+.badge-inactive {
+  background: var(--color-text-light);
+}
+
 /* 상세 텍스트 정보 */
 .detail-info-box {
   flex-grow: 1;
