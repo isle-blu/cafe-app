@@ -298,11 +298,11 @@
 
 .menu-options {
   font-size: var(--font-size-xs);
-  color: var(--color-text-light);
-  background: var(--color-bg-secondary);
+  color: var(--color-text);
+  background: rgba(111, 78, 55, 0.06);
   padding: 2px var(--spacing-sm);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(111, 78, 55, 0.1);
+  border: 1px solid rgba(111, 78, 55, 0.15);
 }
 
 /* 카드 하단 액션 */
