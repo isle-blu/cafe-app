@@ -316,7 +316,7 @@
 /* 취소 상태 */
 .status-badge-recent.status-cancelled {
   background: rgba(186, 45, 37, 0.08);
-  color: #ba2d25;
+  color: var(--color-danger);
   border: 1px solid rgba(186, 45, 37, 0.15);
 }
 

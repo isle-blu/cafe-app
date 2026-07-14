@@ -23,7 +23,17 @@
   /* Color - State */
   --color-success: #6b9080;
   --color-danger: #c0392b;
+  --color-danger-dark: #a0281b;
   --color-border: rgba(111, 78, 55, 0.15);
+
+  /* Color - Tag (뱃지 등에서 재사용하는 강조색) */
+  --color-tag-popular: #c25e00;
+  --color-tag-new: #1b7a43;
+  --color-tag-season: #2b5c8f;
+
+  /* Color - Ink (진한 커피브라운 버튼류) */
+  --color-ink: #3e271a;
+  --color-ink-dark: #2b1a11;
 
   /* Glass morphism */
   --glass-bg: rgba(255, 255, 255, 0.55);
@@ -162,6 +172,9 @@ body.dark-mode {
 
   /* Color - State */
   --color-border: rgba(255, 255, 255, 0.12);
+
+  /* Color - Tag */
+  --color-tag-season: #79a6d2;
 
   /* Glass morphism */
   --glass-bg: rgba(45, 35, 30, 0.7);
@@ -523,8 +536,8 @@ input:checked + .slider .handle .icon-moon {
   width: 40px !important;
   height: 40px !important;
   border-radius: var(--radius-full) !important;
-  background: #3e271a !important; /* 주변 분위기와 조화를 이루는 어두운 커피 원두 갈색 */
-  border: 1px solid #2b1a11 !important;
+  background: var(--color-ink) !important; /* 주변 분위기와 조화를 이루는 어두운 커피 원두 갈색 */
+  border: 1px solid var(--color-ink-dark) !important;
   transition: all var(--transition-fast) !important;
   text-decoration: none !important;
   position: relative !important;
@@ -532,7 +545,7 @@ input:checked + .slider .handle .icon-moon {
 }
 
 .icon-btn:hover {
-  background: #2b1a11 !important;
+  background: var(--color-ink-dark) !important;
   color: #ffffff !important;
   transform: translateY(-1px) !important;
 }
@@ -604,15 +617,15 @@ input:checked + .slider .handle .icon-moon {
 
 /* 인기/신규 뱃지 배경색 채도 및 대조도 향상 (글씨 가독성 강화) */
 .badge-popular {
-  background: #c25e00 !important; /* 진하고 따뜻한 오렌지 앰버 컬러 (흰색 글씨 가독성 향상) */
+  background: var(--color-tag-popular) !important; /* 진하고 따뜻한 오렌지 앰버 컬러 (흰색 글씨 가독성 향상) */
 }
 
 .badge-new {
-  background: #1b7a43 !important; /* 짙고 산뜻한 포레스트 에메랄드 그린 컬러 (흰색 글씨 가독성 향상) */
+  background: var(--color-tag-new) !important; /* 짙고 산뜻한 포레스트 에메랄드 그린 컬러 (흰색 글씨 가독성 향상) */
 }
 
 .badge-season {
-  background: #2b5c8f !important; /* 차분하고 고급스러운 클래식 딥 블루 (시즌용) */
+  background: var(--color-tag-season) !important; /* 차분하고 고급스러운 클래식 딥 블루 (시즌용) */
 }
 
 /* 로그인/로그아웃 텍스트 버튼 스타일 */
@@ -636,7 +649,7 @@ input:checked + .slider .handle .icon-moon {
 }
 
 .auth-text-btn:hover {
-  background: #2b1a11 !important;
+  background: var(--color-ink-dark) !important;
   color: #ffffff !important;
   transform: translateY(-1px) !important;
 }
