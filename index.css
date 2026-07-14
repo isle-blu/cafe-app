@@ -161,7 +161,7 @@
   position: relative;
   z-index: 2;
   max-width: 480px;
-  color: var(--color-text-inverse);
+  color: #fffaf3; /* 히어로 배너는 항상 어두운 오버레이가 깔리므로 라이트모드와 동일한 연한 텍스트 색상 유지 */
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
@@ -188,7 +188,7 @@
   align-self: flex-start;
   padding: 12px 28px;
   background: var(--color-accent);
-  color: var(--color-text);
+  color: #3b2a1e; /* 히어로 배너의 골드/오렌지 버튼은 다크모드에서도 가독성을 위해 어두운 텍스트 색상 유지 */
   font-weight: 600;
   border-radius: var(--radius-full);
   box-shadow: 0 4px 14px rgba(217, 160, 91, 0.4);
