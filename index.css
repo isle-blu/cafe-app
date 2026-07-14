@@ -161,7 +161,7 @@
   position: relative;
   z-index: 2;
   max-width: 480px;
-  color: var(--color-text-inverse);
+  color: #fffaf3; /* 히어로 배너는 항상 어두운 오버레이가 깔리므로 라이트모드와 동일한 연한 텍스트 색상 유지 */
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
@@ -188,7 +188,7 @@
   align-self: flex-start;
   padding: 12px 28px;
   background: var(--color-accent);
-  color: var(--color-text);
+  color: #3b2a1e; /* 히어로 배너의 골드/오렌지 버튼은 다크모드에서도 가독성을 위해 어두운 텍스트 색상 유지 */
   font-weight: 600;
   border-radius: var(--radius-full);
   box-shadow: 0 4px 14px rgba(217, 160, 91, 0.4);
@@ -199,6 +199,155 @@
   background: var(--color-accent-light);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(217, 160, 91, 0.6);
+}
+
+/* ---------------- 이벤트 배너 ---------------- */
+
+.events-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+.event-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  min-height: 160px;
+  gap: var(--spacing-md);
+  text-decoration: none;
+  color: inherit;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-accent);
+}
+
+.event-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.event-card.stamp-event .event-badge {
+  background: linear-gradient(135deg, #c25e00, var(--color-accent));
+}
+
+.event-card.grade-event .event-badge {
+  background: linear-gradient(135deg, #2b5c8f, #4a77a8);
+}
+
+.event-content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  margin-top: 8px;
+}
+
+.event-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.stamp-event .event-icon-box {
+  background: rgba(217, 160, 91, 0.15);
+  color: var(--color-accent);
+}
+
+.grade-event .event-icon-box {
+  background: rgba(43, 92, 143, 0.15);
+  color: #2b5c8f;
+}
+
+/* 다크 모드에서의 아이콘 박스 배경 대비 개선 */
+:root[data-theme="dark"] .stamp-event .event-icon-box,
+body.dark-mode .stamp-event .event-icon-box {
+  background: rgba(217, 160, 91, 0.25);
+  color: #f5d4a7;
+}
+
+:root[data-theme="dark"] .grade-event .event-icon-box,
+body.dark-mode .grade-event .event-icon-box {
+  background: rgba(74, 119, 168, 0.25);
+  color: #8bb5e3;
+}
+
+.event-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.event-text h4 {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.event-text p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  line-height: 1.45;
+}
+
+.event-text strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+:root[data-theme="dark"] .event-text strong,
+body.dark-mode .event-text strong {
+  color: var(--color-accent-light);
+}
+
+.event-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-primary);
+  align-self: flex-start;
+  transition: color var(--transition-fast);
+}
+
+.event-link i {
+  font-size: 10px;
+  transition: transform var(--transition-fast);
+}
+
+.event-card:hover .event-link {
+  color: var(--color-accent);
+}
+
+.event-card:hover .event-link i {
+  transform: translateX(4px);
 }
 
 /* ---------------- 퀵 네비게이션 ---------------- */
@@ -297,9 +446,9 @@
   color: var(--color-primary);
 }
 
-/* ---------------- 인기 메뉴 쇼케이스 ---------------- */
+/* ---------------- 추천 메뉴 쇼케이스 ---------------- */
 
-.popular-section {
+.recommended-section {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
@@ -318,7 +467,7 @@
   color: var(--color-primary);
 }
 
-.popular-grid {
+.recommended-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-md);
@@ -605,11 +754,15 @@
     font-size: 2.5rem;
   }
   
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .quick-nav-grid {
     grid-template-columns: repeat(4, 1fr);
   }
   
-  .popular-grid {
+  .recommended-grid {
     grid-template-columns: repeat(4, 1fr);
   }
   
