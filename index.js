@@ -8,35 +8,35 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCartBadge();
   }
 
-  // 2. 인기 메뉴 동적 렌더링
-  renderPopularMenus();
+  // 2. 추천 메뉴 동적 렌더링
+  renderRecommendedMenus();
 });
 
 /**
- * Supabase에서 메뉴 데이터를 가져와 인기 메뉴 목록을 렌더링합니다.
+ * Supabase에서 메뉴 데이터를 가져와 추천 메뉴 목록을 렌더링합니다.
  */
-async function renderPopularMenus() {
-  const popularGrid = document.getElementById("popular-menu-grid");
-  if (!popularGrid) return;
+async function renderRecommendedMenus() {
+  const recommendedGrid = document.getElementById("recommended-menu-grid");
+  if (!recommendedGrid) return;
 
   const menus = await getStoredMenus();
 
-  // 인기 메뉴 필터링 (isPopular === true)
-  let popularItems = menus.filter(menu => menu.isPopular);
+  // 추천 메뉴 필터링 (인기, 신규, 시즌 메뉴 중 하나라도 해당하는 메뉴)
+  let recommendedItems = menus.filter(menu => menu.isPopular || menu.isNew || menu.isSeason);
 
-  // 만약 인기 메뉴로 등록된 항목이 없으면, 전체 메뉴 중 처음 4개를 표시
-  if (popularItems.length === 0) {
-    popularItems = menus.slice(0, 4);
+  // 만약 추천 메뉴로 등록된 항목이 없으면, 전체 메뉴 중 처음 4개를 표시
+  if (recommendedItems.length === 0) {
+    recommendedItems = menus.slice(0, 4);
   } else {
     // 최대 4개까지만 홈에 노출
-    popularItems = popularItems.slice(0, 4);
+    recommendedItems = recommendedItems.slice(0, 4);
   }
 
   // 그리드 초기화
-  popularGrid.innerHTML = "";
+  recommendedGrid.innerHTML = "";
 
-  if (popularItems.length === 0) {
-    popularGrid.innerHTML = `<div class="loading-state">등록된 메뉴가 없습니다.</div>`;
+  if (recommendedItems.length === 0) {
+    recommendedGrid.innerHTML = `<div class="loading-state">등록된 메뉴가 없습니다.</div>`;
     return;
   }
 
@@ -44,7 +44,7 @@ async function renderPopularMenus() {
   const categoryById = new Map(categories.map((c) => [c.id, c]));
 
   // 메뉴 카드 엘리먼트 생성 및 추가
-  popularItems.forEach(menu => {
+  recommendedItems.forEach(menu => {
     const card = document.createElement("div");
     card.className = "menu-card glass";
 
@@ -90,6 +90,6 @@ async function renderPopularMenus() {
       window.location.href = `menus/detail.html?id=${menu.id}`;
     });
 
-    popularGrid.appendChild(card);
+    recommendedGrid.appendChild(card);
   });
 }

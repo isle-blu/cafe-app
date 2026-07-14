@@ -278,6 +278,12 @@ function showToast(message) {
 }
 
 async function init() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const catParam = urlParams.get("category");
+  if (catParam) {
+    activeCategoryId = catParam;
+  }
+
   categoriesForNav = await getCategories();
   initModalListeners();
   await renderCategoryNavs();
