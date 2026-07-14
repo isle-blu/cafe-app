@@ -128,7 +128,7 @@
   font-weight: 500;
   background: rgba(255, 255, 255, 0.45);
   border: 1px solid var(--glass-border);
-  color: var(--color-text-light);
+  color: var(--color-text);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   transition: all var(--transition-fast);
@@ -168,8 +168,8 @@
 }
 
 .search-bar input::placeholder {
-  color: var(--color-text-light);
-  opacity: 0.8;
+  color: var(--color-text);
+  opacity: 0.65;
 }
 
 .search-bar input:focus {
@@ -538,7 +538,7 @@
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: 600;
-  color: var(--color-text-light);
+  color: var(--color-text);
   background: transparent;
   border: none;
   cursor: pointer;
