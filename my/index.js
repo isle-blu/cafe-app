@@ -257,10 +257,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const now = new Date();
     const currentYearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-    const lastIssuedMonth = await getLastGradeCouponMonth(userId);
+    const { month: lastIssuedMonth, grade: lastIssuedGrade } = await getLastGradeCouponState(userId);
 
-    // 이미 이번 달에 등급 쿠폰을 받았다면 패스
-    if (lastIssuedMonth === currentYearMonth) {
+    // 이번 달에 "지금과 같은 등급"으로 이미 받았다면 패스. 등급이 바뀌었으면 재평가해서 새 등급 쿠폰을 발급한다.
+    if (lastIssuedMonth === currentYearMonth && lastIssuedGrade === currentGrade) {
       return;
     }
 
@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (newIssuedCoupons.length > 0) {
       await issueCoupons(userId, newIssuedCoupons);
-      await setLastGradeCouponMonth(userId, currentYearMonth);
+      await setLastGradeCouponState(userId, currentYearMonth, currentGrade);
 
       // 알림 배너 노출
       if (couponAlertEl) {

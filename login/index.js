@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const credential = loginCredentialInput.value.trim();
 
     if (!id || !credential) {
-      alert("아이디(이름)와 비밀번호(이메일)를 입력해 주세요.");
+      alert("아이디와 비밀번호를 입력해 주세요.");
       return;
     }
 

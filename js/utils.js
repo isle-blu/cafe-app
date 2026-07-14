@@ -226,20 +226,20 @@ async function ensureProfileId() {
   return profile ? profile.id : null;
 }
 
-async function getLastGradeCouponMonth(userId) {
+async function getLastGradeCouponState(userId) {
   const { data, error } = await supabaseClient
     .from("profiles")
-    .select("last_grade_coupon_month")
+    .select("last_grade_coupon_month, last_grade_coupon_grade")
     .eq("id", userId)
     .maybeSingle();
-  if (error || !data) return null;
-  return data.last_grade_coupon_month;
+  if (error || !data) return { month: null, grade: null };
+  return { month: data.last_grade_coupon_month, grade: data.last_grade_coupon_grade };
 }
 
-async function setLastGradeCouponMonth(userId, yearMonth) {
+async function setLastGradeCouponState(userId, yearMonth, grade) {
   const { error } = await supabaseClient
     .from("profiles")
-    .update({ last_grade_coupon_month: yearMonth })
+    .update({ last_grade_coupon_month: yearMonth, last_grade_coupon_grade: grade })
     .eq("id", userId);
   if (error) console.error(error);
 }
