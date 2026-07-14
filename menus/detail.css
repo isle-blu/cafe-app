@@ -293,10 +293,6 @@
     grid-column: 2;
   }
 
-  .qty-selector {
-    grid-column: 2;
-  }
-
   .add-to-cart-bar {
     grid-column: 2;
     position: static !important;

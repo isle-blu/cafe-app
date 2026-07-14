@@ -208,6 +208,12 @@ function initModalListeners() {
     }
   });
 
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && document.getElementById("option-modal").classList.contains("show")) {
+      closeOptionModal();
+    }
+  });
+
   document.querySelector(".temp-btn.ice").addEventListener("click", () => {
     updateTempSelection("ICE");
     updateTotalPrice();
