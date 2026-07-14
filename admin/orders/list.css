@@ -70,15 +70,29 @@
   font-size: var(--font-size-xs);
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: rgba(255, 255, 255, 0.2);
   color: var(--color-text);
   outline: none;
-  transition: border-color var(--transition-fast);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all var(--transition-base);
+}
+
+.filter-group select option {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.filter-group input::placeholder {
+  color: var(--color-text-light);
+  opacity: 1;
 }
 
 .filter-group input:focus,
 .filter-group select:focus {
-  border-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+  background: rgba(111, 78, 55, 0.08);
+  box-shadow: none;
 }
 
 /* 주문 리스트 테이블 */
@@ -244,13 +258,15 @@
 /* 뷰 전환 버튼 (메뉴 관리와 동일한 알약형 스타일) */
 .view-toggle {
   display: flex;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.2);
   padding: 3px;
   border-radius: var(--radius-full);
   border: 1px solid var(--color-border);
   height: 40px;
   box-sizing: border-box;
   align-items: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 /* 다크모드 시 뷰 토글 배경 대응 */
@@ -283,6 +299,7 @@
 .toggle-btn.active {
   background: var(--color-primary);
   color: var(--color-text-inverse);
+  box-shadow: var(--shadow-sm);
 }
 
 /* 주문서 티켓 보드 뷰 */
