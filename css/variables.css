@@ -64,6 +64,7 @@
 
   /* Layout */
   --max-width-mobile: 480px;
+  --max-width-tablet: 600px;
   --max-width-desktop: 1200px;
   --header-height: 60px;
 }
