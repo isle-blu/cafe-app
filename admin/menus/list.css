@@ -126,9 +126,9 @@
   border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.45);
-  border: 1px solid var(--glass-border);
-  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-light);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   transition: all var(--transition-fast);
@@ -142,10 +142,9 @@
 }
 
 .filter-btn.active {
-  background: var(--color-primary);
+  background: rgba(111, 78, 55, 0.08);
   border-color: var(--color-primary);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-sm);
+  color: var(--color-primary);
 }
 
 .search-bar {
@@ -157,10 +156,10 @@
   width: 100%;
   padding: var(--spacing-sm) var(--spacing-lg);
   padding-right: var(--spacing-2xl);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
   outline: none;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.2);
   color: var(--color-text);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -168,14 +167,14 @@
 }
 
 .search-bar input::placeholder {
-  color: var(--color-text);
-  opacity: 0.65;
+  color: var(--color-text-light);
+  opacity: 1;
 }
 
 .search-bar input:focus {
-  border-color: var(--color-primary-light);
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 3px rgba(166, 123, 91, 0.15);
+  border-color: var(--color-primary);
+  background: rgba(111, 78, 55, 0.08);
+  box-shadow: none;
 }
 
 .search-icon {
@@ -525,10 +524,10 @@
 /* 뷰 전환 버튼 */
 .view-toggle {
   display: flex;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
   padding: 3px;
   border-radius: var(--radius-full);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--color-border);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
@@ -538,7 +537,7 @@
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: 600;
-  color: var(--color-text);
+  color: var(--color-text-light);
   background: transparent;
   border: none;
   cursor: pointer;
