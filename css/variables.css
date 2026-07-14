@@ -497,15 +497,17 @@ input:checked + .slider .handle .icon-moon {
 
 /* 개별 컨트롤들의 절대 위치 지정을 해제하고 Flex 흐름 적용 */
 .page-header .header-my,
+.page-header .header-cart,
 .page-header .theme-toggle-wrapper {
-  position: static !important;
   transform: none !important;
   margin: 0 !important;
 }
+.page-header .header-my,
+.page-header .theme-toggle-wrapper {
+  position: static !important;
+}
 .page-header .header-cart {
   position: relative !important;
-  transform: none !important;
-  margin: 0 !important;
 }
 .page-header .header-my:hover,
 .page-header .header-cart:hover {
